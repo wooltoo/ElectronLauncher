@@ -90,5 +90,8 @@
   },
   "engines": {
     "node": ">=10.13.0"
+  },
+  "dependencies": {
+    "@fortawesome/angular-fontawesome": "^0.6.1"
   }
 }

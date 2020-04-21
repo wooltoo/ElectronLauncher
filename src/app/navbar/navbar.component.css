@@ -1,0 +1,22 @@
+.app-navbar {
+    background-color: rgb(33, 19, 50);
+}
+
+.app-navbar-btn-margin {
+    margin-right: 2%;
+}
+
+.app-navbar-btn {
+    height: 100%;
+    color: white;
+}
+
+.right-menu {
+    margin-left:4%;
+}
+
+.navbar-separator {
+    height: 3px;
+    width: 100%;
+    background-color: rgb(91, 57, 132);
+}
