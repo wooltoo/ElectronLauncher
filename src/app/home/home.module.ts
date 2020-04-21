@@ -6,8 +6,10 @@ import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 import { SharedModule } from '../shared/shared.module';
 
+import { NavbarComponent } from '../navbar/navbar.component';
+
 @NgModule({
-  declarations: [HomeComponent],
+  declarations: [HomeComponent, NavbarComponent],
   imports: [CommonModule, SharedModule, HomeRoutingModule]
 })
 export class HomeModule {}
