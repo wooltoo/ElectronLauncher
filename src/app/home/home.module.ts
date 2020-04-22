@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { HomeRoutingModule } from './home-routing.module';
@@ -12,6 +12,9 @@ import { NewsEntryComponent } from '../newsentry/newsentry.component';
 
 @NgModule({
   declarations: [HomeComponent, NavbarComponent, InfoComponent, NewsEntryComponent],
-  imports: [CommonModule, SharedModule, HomeRoutingModule]
+  imports: [CommonModule, SharedModule, HomeRoutingModule],
+  schemas: [
+    NO_ERRORS_SCHEMA
+  ]
 })
 export class HomeModule {}
