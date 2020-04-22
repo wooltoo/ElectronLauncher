@@ -29,3 +29,9 @@
     top: 25px;
     left: 25px;
 }
+
+@media (max-width: 768px) {
+    #news-top {
+        margin-top: 25px;
+    }
+}
