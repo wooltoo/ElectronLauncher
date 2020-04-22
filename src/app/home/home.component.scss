@@ -1,5 +1,4 @@
 #primary-container {
-    background-color: rgb(59, 37, 86) !important;
     height: 720px;
 }
 
@@ -10,4 +9,53 @@ video {
     position: fixed;
     top: 51px;
     left: 0;
+    z-index:-100;
+}
+
+.no-padding {
+    padding: 0 !important;
+}
+
+.bottom-bar-container {
+    margin-top:75px;
+}
+
+.purple-border {
+    border-style:solid;
+    border-color: rgb(89, 61, 125);
+}
+
+#start-button {
+    background-color: rgb(22, 22, 22);
+    color: rgb(62, 62, 62);
+}
+
+.download-bar {
+    background-color: rgb(37, 27, 58);
+    border-radius:15px;
+    margin-left:2%;
+    width:64.665%;
+}
+.progress {
+    margin-top: 13px;
+    margin-left: 3%;
+    margin-right: 10%;
+    max-width:80%;
+}
+
+.download-bar > .progress > .bg-success {
+    background-color: rgb(170, 251, 113) !important;
+}
+
+#download-progress {
+    position: absolute;
+    top: 620px;
+    right: 150px;
+    color:rgb(170, 251, 113);
+}
+
+#download-speed {
+    position: absolute;
+    right: 50px;
+    color: rgb(191, 146, 218);
 }

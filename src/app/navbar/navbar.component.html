@@ -1,67 +1,83 @@
-<div class="app-navbar">
-  <nav id="app-bootstrap-navbar" class="navbar navbar-expand-lg navbar-dark">
-    <div class="logo_container">
-      <img src="assets/logo_top.png" class="vertical-center logo_top"/>
-      <img src="assets/logo_next_to.png" class="vertical-center logo_next_to"/>
-    </div>
-  
+<nav class="navbar navbar-dark navbar-expand-lg bg-faded justify-content-center app-navbar">
+  <img src="assets/logo_top.png"/>
+  <div class="navbar-collapse collapse order-0 order-md-0 dual-collapse2">
     <ul class="navbar-nav mr-auto">
-      
-      <li class="nav-item" style="margin-left:25px;">
-        <a class="nav-link" href="#"><i class="fab fa-youtube fa-lg"></i></a>
-      </li>
-
       <li class="nav-item">
-        <a class="nav-link" href="#"><i class="fab fa-discord fa-lg"></i><span class="sr-only">(current)</span></a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" href="#"><i class="fab fa-twitter fa-lg"></i></a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" href="#"><i class="fab fa-facebook fa-lg"></i></a>
       </li>
     </ul>
+  </div>
 
-    <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0" type="submit">
-      <i class="fas fa-home fa-sm"></i>
-      Home
-    </button>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="navbar-collapse collapse w-100" id="collapsingNavbar">
+      <ul class="navbar-nav w-100 justify-content-center social-container" id="leftNavbar">
+          <li class="nav-item">
+            <a href="#"><i class="fab fa-youtube fa-lg"></i></a>
+          </li>
+          <li class="nav-item">
+            <a href="#"><i class="fab fa-discord fa-lg"></i><span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a href="#"><i class="fab fa-twitter fa-lg"></i></a>
+          </li>
+          <li class="nav-item">
+            <a href="#"><i class="fab fa-facebook fa-lg"></i></a>
+          </li>
+      </ul>
+      <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+        <li class="nav-item">
+          <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0" type="submit">
+            <i class="fas fa-home fa-sm"></i>
+            Home
+          </button>
+        </li>
 
-    <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0" type="submit" (click)="openWebsite('')">
-      <i class="fas fa-globe-americas fa-sm"></i>
-      Website
-    </button>
+        <li class="nav-item">
+          <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0" type="submit" (click)="openWebsite('')">
+            <i class="fas fa-globe-americas fa-sm"></i>
+            Website
+          </button>
+        </li>
 
-    <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0" type="submit" (click)="openWebsite('/changelog')">
-      <i class="fas fa-align-justify fa-sm"></i>
-      Changelog
-    </button>
+        <li class="nav-item">
+          <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0" type="submit" (click)="openWebsite('/changelog')">
+            <i class="fas fa-align-justify fa-sm"></i>
+            Changelog
+          </button>
+        </li>
 
-    <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0" type="submit">
-      <i class="fas fa-puzzle-piece fa-sm"></i>
-      Addons
-    </button>
+        <li class="nav-item">
+          <button class="app-navbar-btn btn my-2 my-sm-0" type="submit" (click)="openWebsite('/forums')">
+            <i class="fas fa-comment-alt fa-sm"></i>
+            Forums
+          </button>
+        </li>
 
-    <button class="app-navbar-btn btn my-2 my-sm-0" type="submit" (click)="openWebsite('/forums')">
-      <i class="fas fa-comment-alt fa-sm"></i>
-      Forums
-    </button>
+        <li class="nav-item">
+          <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0" type="submit">
+            <i class="fas fa-puzzle-piece fa-sm"></i>
+            Addons
+          </button>
+        </li>  
+        
+        <li class="nav-item">
+            <button class="app-navbar-btn btn my-2 my-sm-0" type="submit">
+              <i class="fas fa-cogs fa-sm"></i>
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="app-navbar-btn btn my-2 my-sm-0" type="submit">
+              <i class="far fa-window-minimize fa-sm"></i>
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="app-navbar-btn btn my-2 my-sm-0" type="submit">
+              <i class="fas fa-times fa-sm"></i>
+            </button>
+          </li>
+      </ul>
+  </div>
+</nav>
 
-    <div class="right-menu">
-      <button class="app-navbar-btn btn my-2 my-sm-0" type="submit">
-        <i class="fas fa-cogs fa-sm"></i>
-      </button>
-
-      <button class="app-navbar-btn btn my-2 my-sm-0" type="submit">
-        <i class="far fa-window-minimize fa-sm"></i>
-      </button>
-
-      <button class="app-navbar-btn btn my-2 my-sm-0" type="submit">
-        <i class="fas fa-times fa-sm"></i>
-      </button>
-    </div>
-  </nav>
-</div>
 <div class="navbar-separator"></div>
