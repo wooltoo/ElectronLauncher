@@ -50,13 +50,33 @@ video {
 
 #download-progress {
     position: absolute;
-    top: 620px;
-    right: 150px;
-    color:rgb(170, 251, 113);
+    font-size: 16px !important;
+    top: 608px;
+    right: 140px;
+    color: rgb(170, 251, 113);
 }
 
 #download-speed {
     position: absolute;
-    right: 50px;
+    right: 125px;
+    top: 625px;
     color: rgb(191, 146, 218);
+}
+
+#download-pause-button {
+    position: absolute;
+    right: 105px;
+    top: 623.5px;
+    color: rgb(124, 67, 175);
+}
+
+#download-exit-button {
+    position: absolute;
+    right: 85px;
+    top: 623.5px;
+    color: rgb(124, 67, 175);
+}
+
+#progress-dl {
+    background-color: rgb(18, 18, 18);
 }
