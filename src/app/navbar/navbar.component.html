@@ -2,69 +2,65 @@
   <nav id="app-bootstrap-navbar" class="navbar navbar-expand-lg navbar-dark">
     <div class="logo_container">
       <img src="assets/logo_top.png" class="vertical-center logo_top"/>
+      <img src="assets/logo_next_to.png" class="vertical-center logo_next_to"/>
     </div>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
   
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        
-        <li class="nav-item">
-          <a class="nav-link" href="#"><i class="fab fa-youtube fa-lg"></i></a>
-        </li>
+    <ul class="navbar-nav mr-auto">
+      
+      <li class="nav-item" style="margin-left:25px;">
+        <a class="nav-link" href="#"><i class="fab fa-youtube fa-lg"></i></a>
+      </li>
 
-        <li class="nav-item active">
-          <a class="nav-link" href="#"><i class="fab fa-discord fa-lg"></i><span class="sr-only">(current)</span></a>
-        </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#"><i class="fab fa-discord fa-lg"></i><span class="sr-only">(current)</span></a>
+      </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="#"><i class="fab fa-twitter fa-lg"></i></a>
-        </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#"><i class="fab fa-twitter fa-lg"></i></a>
+      </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="#"><i class="fab fa-facebook fa-lg"></i></a>
-        </li>
-      </ul>
+      <li class="nav-item">
+        <a class="nav-link" href="#"><i class="fab fa-facebook fa-lg"></i></a>
+      </li>
+    </ul>
 
-      <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0" type="submit">
-        <i class="fas fa-home fa-sm"></i>
-        Home
+    <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0" type="submit">
+      <i class="fas fa-home fa-sm"></i>
+      Home
+    </button>
+
+    <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0" type="submit" (click)="openWebsite('')">
+      <i class="fas fa-globe-americas fa-sm"></i>
+      Website
+    </button>
+
+    <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0" type="submit" (click)="openWebsite('/changelog')">
+      <i class="fas fa-align-justify fa-sm"></i>
+      Changelog
+    </button>
+
+    <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0" type="submit">
+      <i class="fas fa-puzzle-piece fa-sm"></i>
+      Addons
+    </button>
+
+    <button class="app-navbar-btn btn my-2 my-sm-0" type="submit" (click)="openWebsite('/forums')">
+      <i class="fas fa-comment-alt fa-sm"></i>
+      Forums
+    </button>
+
+    <div class="right-menu">
+      <button class="app-navbar-btn btn my-2 my-sm-0" type="submit">
+        <i class="fas fa-cogs fa-sm"></i>
       </button>
 
-      <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0" type="submit" (click)="openWebsite('')">
-        <i class="fas fa-globe-americas fa-sm"></i>
-        Website
+      <button class="app-navbar-btn btn my-2 my-sm-0" type="submit">
+        <i class="far fa-window-minimize fa-sm"></i>
       </button>
 
-      <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0" type="submit" (click)="openWebsite('/changelog')">
-        <i class="fas fa-align-justify fa-sm"></i>
-        Changelog
+      <button class="app-navbar-btn btn my-2 my-sm-0" type="submit">
+        <i class="fas fa-times fa-sm"></i>
       </button>
-
-      <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0" type="submit">
-        <i class="fas fa-puzzle-piece fa-sm"></i>
-        Addons
-      </button>
-
-      <button class="app-navbar-btn btn my-2 my-sm-0" type="submit" (click)="openWebsite('/forums')">
-        <i class="fas fa-comment-alt fa-sm"></i>
-        Forums
-      </button>
-
-      <div class="right-menu">
-        <button class="app-navbar-btn btn my-2 my-sm-0" type="submit">
-          <i class="fas fa-cogs fa-sm"></i>
-        </button>
-
-        <button class="app-navbar-btn btn my-2 my-sm-0" type="submit">
-          <i class="far fa-window-minimize fa-sm"></i>
-        </button>
-
-        <button class="app-navbar-btn btn my-2 my-sm-0" type="submit">
-          <i class="fas fa-times fa-sm"></i>
-        </button>
-      </div>
     </div>
   </nav>
 </div>

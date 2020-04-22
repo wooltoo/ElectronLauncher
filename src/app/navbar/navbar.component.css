@@ -37,6 +37,10 @@
     margin-right: 1%;
 }
 
+.logo_next_to {
+    margin-left:11.8%;
+}
+
 .vertical-center {
     position: absolute;
     top: 50%;
