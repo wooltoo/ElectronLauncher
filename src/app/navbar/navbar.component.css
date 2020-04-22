@@ -1,5 +1,6 @@
 .app-navbar {
     background-color: rgb(33, 19, 50);
+    -webkit-app-region: drag;
 }
 
 .nav-item > a {color:white;}
@@ -32,6 +33,7 @@
 .app-navbar-btn {
     height: 49px;
     color: white;
+    -webkit-app-region: no-drag;
     transition: background-color 0.3s linear;
     border-radius: 0;
 }
@@ -62,6 +64,7 @@
 .social-container > li > a {
     margin-right: 8%;
     color: rgb(74, 44, 108);
+    -webkit-app-region: no-drag;
 }
 
 #leftNavbar {
