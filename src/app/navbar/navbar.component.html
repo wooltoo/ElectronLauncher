@@ -13,49 +13,49 @@
   <div class="navbar-collapse collapse w-100" id="collapsingNavbar">
       <ul class="navbar-nav w-100 justify-content-center social-container" id="leftNavbar">
           <li class="nav-item">
-            <a href="#"><i class="fab fa-youtube fa-lg"></i></a>
+            <a href="#"><i class="fab fa-youtube fa-lg" (click)="openWebsite('/youtube')"></i></a>
           </li>
           <li class="nav-item">
-            <a href="#"><i class="fab fa-discord fa-lg"></i><span class="sr-only">(current)</span></a>
+            <a href="#"><i class="fab fa-discord fa-lg" (click)="openWebsite('/discord')"></i><span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a href="#"><i class="fab fa-twitter fa-lg"></i></a>
+            <a href="#"><i class="fab fa-twitter fa-lg" (click)="openWebsite('/twitter')"></i></a>
           </li>
           <li class="nav-item">
-            <a href="#"><i class="fab fa-facebook fa-lg"></i></a>
+            <a href="#"><i class="fab fa-facebook fa-lg" (click)="openWebsite('/facebook')"></i></a>
           </li>
       </ul>
       <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
         <li class="nav-item">
-          <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0" type="submit">
+          <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0 navbar-button" type="submit">
             <i class="fas fa-home fa-sm"></i>
             Home
           </button>
         </li>
 
         <li class="nav-item">
-          <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0" type="submit" (click)="openWebsite('')">
+          <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0 navbar-button" type="submit" (click)="openWebsite('')">
             <i class="fas fa-globe-americas fa-sm"></i>
             Website
           </button>
         </li>
 
         <li class="nav-item">
-          <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0" type="submit" (click)="openWebsite('/changelog')">
+          <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0 navbar-button" type="submit" (click)="openWebsite('/changelog')">
             <i class="fas fa-align-justify fa-sm"></i>
             Changelog
           </button>
         </li>
 
         <li class="nav-item">
-          <button class="app-navbar-btn btn my-2 my-sm-0" type="submit" (click)="openWebsite('/forums')">
+          <button class="app-navbar-btn btn my-2 my-sm-0 navbar-button" type="submit" (click)="openWebsite('/forums')">
             <i class="fas fa-comment-alt fa-sm"></i>
             Forums
           </button>
         </li>
 
         <li class="nav-item">
-          <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0" type="submit">
+          <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0 navbar-button" type="submit">
             <i class="fas fa-puzzle-piece fa-sm"></i>
             Addons
           </button>

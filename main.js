@@ -12,8 +12,10 @@ function createWindow() {
     win = new electron_1.BrowserWindow({
         width: 1280,
         height: 720,
-        minWidth: 200,
+        minWidth: 582,
         minHeight: 112.5,
+        resizable: false,
+        frame: false,
         webPreferences: {
             nodeIntegration: true,
             allowRunningInsecureContent: (serve) ? true : false,

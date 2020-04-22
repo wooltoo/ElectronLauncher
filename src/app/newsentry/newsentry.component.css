@@ -14,25 +14,20 @@
 .datetime {
     color: rgb(125, 107, 159);
     height: 50%;
-    font-size:6px;
+    font-size:7px;
     margin-bottom:0;
     margin-left:5px;
-    position:relative;
-    top:+2px;
-    left:-15.55%;
 }
 
 .title {
     height: 50%;
     margin-bottom:0;
-    font-size:6px;
+    font-size:7px;
     margin-left:5px;
-    position:relative;
-    top:-7px;
 }
 
 .text {
-    font-size:8.07px;
+    font-size:9.07px;
     margin-bottom: 0;
     margin-left:15px;
 }

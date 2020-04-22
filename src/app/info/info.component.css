@@ -26,12 +26,33 @@
 
 #news-avatar {
     position: absolute;
-    top: 25px;
-    left: 25px;
+    top: 7%;
+    left: 7%;
 }
 
 @media (max-width: 768px) {
     #news-top {
         margin-top: 25px;
+    }
+}
+
+@media(max-width: 1200px) {
+    #news-avatar {
+        top: 5.5%;
+        left: 7.5%;
+    }
+}
+
+@media(max-width: 991px) {
+    #news-avatar {
+        top: 2%;
+        left: 11%;
+    }
+}
+
+@media(max-width: 768px) {
+    #news-avatar {
+        top: 6vh;
+        left: 6%;
     }
 }
