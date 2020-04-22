@@ -7,8 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
+  website = "http://www.website.com";
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  openWebsite(suburl) {
+    window.open(this.website + suburl);
   }
 }
