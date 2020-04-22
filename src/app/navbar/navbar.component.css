@@ -4,15 +4,25 @@
 
 .nav-item > a {color:white;}
 
-@media (min-width: 768px) {
-.navbar-brand.abs
-    {
-        position: absolute;
-        width: 100%;
-        left: 0;
-        text-align: center;
+@media (max-width: 991px) {
+    .logo {
+        margin-right:15%;
+    }
+
+    .right-menu-item {
+        display:none !important;
+    }
+
+    .social-container > li {
+        display:none !important;
     }
 }    
+
+@media (min-width: 991px) {
+    #navbar {
+        height: 50px;
+    }
+}
 
 #app-bootstrap-navbar {
     padding: 0 !important;
@@ -34,10 +44,12 @@
     background-color: rgb(91, 57, 132);
 }
 
-.logo_container {
-    height:100%;
-    width:12%;
-    background-color: rgb(20, 12, 31);
+.logo {
+    margin-right:5%;
+}
+
+.social-container > li > a:hover {
+    color: white !important;
 }
 
 .social-container > li > a {
@@ -45,10 +57,16 @@
     color: rgb(74, 44, 108);
 }
 
-.social-container > a:hover {
-    color: white !important;
+#leftNavbar {
+    width: 20% !important;
 }
 
-#leftNavbar {
-    width: 25% !important;
+#leftNavbar > li {
+    padding-top:35px;
+    margin-right:10%;
+}
+
+#leftNavbar > li.nav-item {
+    height: 50%;
+    padding-top: 30px;
 }
