@@ -9,9 +9,16 @@ import { SharedModule } from '../shared/shared.module';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { InfoComponent } from '../info/info.component';
 import { NewsEntryComponent } from '../newsentry/newsentry.component';
+import { StatusBarComponent } from '../statusbar/statusbar.component'
 
 @NgModule({
-  declarations: [HomeComponent, NavbarComponent, InfoComponent, NewsEntryComponent],
+  declarations: [
+    HomeComponent, 
+    NavbarComponent, 
+    InfoComponent, 
+    NewsEntryComponent, 
+    StatusBarComponent
+  ],
   imports: [CommonModule, SharedModule, HomeRoutingModule],
   schemas: [
     NO_ERRORS_SCHEMA

@@ -1,0 +1,14 @@
+#statusbar {
+    background-color: #1c1c1c;
+    height:49px;
+    position:relative;
+    top:-22px;
+}
+
+.right-fade {
+    float:right;
+}
+
+.no-padding {
+    padding: 0;
+}
