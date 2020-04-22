@@ -2,3 +2,12 @@
     background-color: rgb(59, 37, 86) !important;
     height: 720px;
 }
+
+video {
+    object-fit: cover;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 51px;
+    left: 0;
+}
