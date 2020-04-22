@@ -1,0 +1,31 @@
+.container {
+    margin-top: 120px;
+}
+
+.video-container {
+    padding: 0;
+    height: 356px;
+}
+
+.purple-border {
+    border-style:solid;
+    border-color: rgb(89, 61, 125);
+}
+
+#news-top {
+    background-color: rgb(64, 43, 93);
+}
+
+#news-top-banner {
+    width: 100%;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+#news-avatar {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+}

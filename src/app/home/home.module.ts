@@ -7,9 +7,10 @@ import { HomeComponent } from './home.component';
 import { SharedModule } from '../shared/shared.module';
 
 import { NavbarComponent } from '../navbar/navbar.component';
+import { InfoComponent } from '../info/info.component';
 
 @NgModule({
-  declarations: [HomeComponent, NavbarComponent],
+  declarations: [HomeComponent, NavbarComponent, InfoComponent],
   imports: [CommonModule, SharedModule, HomeRoutingModule]
 })
 export class HomeModule {}
