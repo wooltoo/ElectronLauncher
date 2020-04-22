@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NewsEntryService } from '../news-entry.service';
+import { NewsEntry } from '../news-entry';
 
 @Component({
   selector: 'app-info',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InfoComponent implements OnInit {
 
-  constructor() { }
+  newsEntries : NewsEntry[];
 
-  ngOnInit(): void {
+  constructor(private newsEntryService : NewsEntryService) {
+
   }
 
+  ngOnInit(): void {
+    this.getEntries();
+  }
+
+  getEntries() : void {
+    this.newsEntries = this.newsEntryService.getNews();
+  }
 }

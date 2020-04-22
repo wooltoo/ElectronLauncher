@@ -8,9 +8,10 @@ import { SharedModule } from '../shared/shared.module';
 
 import { NavbarComponent } from '../navbar/navbar.component';
 import { InfoComponent } from '../info/info.component';
+import { NewsEntryComponent } from '../newsentry/newsentry.component';
 
 @NgModule({
-  declarations: [HomeComponent, NavbarComponent, InfoComponent],
+  declarations: [HomeComponent, NavbarComponent, InfoComponent, NewsEntryComponent],
   imports: [CommonModule, SharedModule, HomeRoutingModule]
 })
 export class HomeModule {}
