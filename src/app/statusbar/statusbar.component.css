@@ -2,7 +2,7 @@
     background-color: #1c1c1c;
     height:49px;
     position:relative;
-    top:-24px;
+    top:-22px;
 }
 
 .right-fade {
@@ -54,28 +54,28 @@
 
 .server-name-first {
     position:absolute;
-    top: 5px;
+    top: 6px;
     left: 40px;
     font-size:15px;
 }
 
 .server-name-second {
     position:absolute;
-    top: 5px;
+    top: 6px;
     left: 215px;
     font-size:15px;
 }
 
 .text-status-first {
     position: absolute;
-    top: 20px;
+    top: 21px;
     left: 40px;
     font-size:14px;
 }
 
 .text-status-second {
     position: absolute;
-    top: 20px;
+    top: 21px;
     left: 215px;
     font-size:14px;
 }
@@ -86,4 +86,9 @@
 
 .green {
     color: rgb(51, 255, 128);
+}
+
+.divider {
+    position:relative;
+    top:-36px;
 }

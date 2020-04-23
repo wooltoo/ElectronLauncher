@@ -15,7 +15,6 @@ export class NewsEntryService {
       new NewsEntry("TALES OF TIMES", "AUGUST 29, 2018", this.placeHolderText),
       new NewsEntry("TALES OF TIMES", "AUGUST 28, 2018", this.placeHolderText),
       new NewsEntry("TALES OF TIMES", "AUGUST 27, 2018", this.placeHolderText),
-      new NewsEntry("TALES OF TIMES", "AUGUST 26, 2018", this.placeHolderText),
     ];
   }
 }

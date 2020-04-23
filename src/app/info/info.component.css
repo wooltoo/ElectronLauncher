@@ -4,12 +4,13 @@
 
 .video-container {
     padding: 0;
-    height: 356px;
+    height: 352px;
 }
 
 .purple-border {
     border-style:solid;
     border-color: rgb(89, 61, 125);
+    border-width:1px;
 }
 
 #news-top {

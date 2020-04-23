@@ -32,19 +32,40 @@
 
 .app-navbar-btn {
     height: 49px;
+    width: 105px;
     color: white;
     -webkit-app-region: no-drag;
     transition: background-color 0.3s linear;
     border-radius: 0;
-    background: url("assets/navbar-button-dark.png");
+    font-size:14px;
+    padding:0;
+    background: url("assets/navbar/navbar-button-dark.png");
 }
 
+.app-navbar-btn-active {
+    background: url("assets/navbar/navbar-button-light.png")
+}
 .app-navbar-li-margin {
     margin-right:20px;
 }
 
 .app-navbar-btn:hover {
     background-color: #7947a4;
+}
+
+.btn-text {
+    margin-top:15px;
+    display:inline-block;
+    margin-left:5px;
+}
+
+.btn-icon {
+    position:relative;
+    top:-1px;
+}
+
+.btn-content-wrapper {
+    margin:auto;   
 }
 
 .right-menu {
@@ -87,12 +108,12 @@
 
 .divider {
     position:relative;
-    top:-13px;
+    top:-12px;
 }
 
 .right-menu-item {
     width: 4%;
-    background: url("assets/navbar-button-dark.png");
+    background: url("assets/navbar/navbar-button-dark.png");
 }
 
 .fa-window-minimize {

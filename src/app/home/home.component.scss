@@ -1,11 +1,14 @@
 @font-face {
     font-family: frizQuadraStd;
-    src: url("assets/fonts/friz_quadra_std_regular.otf");
+    src: url("assets/fonts/friz-quadrata-std-medium.otf");
 }
 
 #primary-container {
     height: 720px;
     font-family: frizQuadraStd;
+    overflow-x:hidden;
+    overflow-y:hidden;
+    background-color: rgba(63,34,89,0.5);
 }
 
 video {
@@ -15,7 +18,11 @@ video {
     position: fixed;
     top: 50px;
     left: 0;
-    z-index:-100;
+    z-index: -1;
+}
+
+input, button, textarea, :focus {
+    outline: none; 
 }
 
 .no-padding {
@@ -61,7 +68,7 @@ video {
 #download-progress {
     position: absolute;
     font-size: 16px !important;
-    top: 630px;
+    top: 650px;
     right: 140px;
     color: rgb(170, 251, 113);
 }
@@ -69,21 +76,21 @@ video {
 #download-speed {
     position: absolute;
     right: 125px;
-    top: 647px;
+    top: 667px;
     color: rgb(191, 146, 218);
 }
 
 #download-pause-button {
     position: absolute;
     right: 105px;
-    top: 643.5px;
+    top: 663.5px;
     color: rgb(124, 67, 175);
 }
 
 #download-exit-button {
     position: absolute;
     right: 85px;
-    top: 643.5px;
+    top: 663.5px;
     color: rgb(124, 67, 175);
 }
 

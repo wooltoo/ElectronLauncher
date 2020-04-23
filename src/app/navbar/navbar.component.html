@@ -28,37 +28,47 @@
 
       <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
         <li class="nav-item app-navbar-li-margin">
-          <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0 navbar-button" type="submit">
-            <i class="fas fa-home fa-sm"></i>
-            Home
+          <button class="app-navbar-btn app-navbar-btn-active app-navbar-btn-margin btn my-2 my-sm-0 navbar-button" type="submit">
+            <div class="btn-content-wrapper">
+              <i class="fas fa-home fa-sm btn-icon"></i>
+              <p class="btn-text">Home</p>
+            </div>
           </button>
         </li>
 
         <li class="nav-item app-navbar-li-margin">
           <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0 navbar-button" type="submit" (click)="openWebsite('')">
-            <i class="fas fa-globe-americas fa-sm"></i>
-            Website
+            <div class="btn-content-wrapper">
+            <i class="fas fa-globe-americas fa-sm btn-icon"></i>
+            <p class="btn-text">Website</p>
+            </div>
           </button>
         </li>
 
         <li class="nav-item app-navbar-li-margin">
           <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0 navbar-button" type="submit" (click)="openWebsite('/changelog')">
-            <i class="fas fa-align-justify fa-sm"></i>
-            Changelog
+            <div class="btn-content-wrapper">
+              <i class="fas fa-align-justify fa-sm btn-icon"></i>
+              <p class="btn-text">Changelog</p>
+            </div>
           </button>
         </li>
 
         <li class="nav-item app-navbar-li-margin">
-          <button class="app-navbar-btn btn my-2 my-sm-0 navbar-button" type="submit" (click)="openWebsite('/forums')">
-            <i class="fas fa-comment-alt fa-sm"></i>
-            Forums
+          <button class="app-navbar-btn btn my-2 my-sm-0 navbar-button" type="submit">
+            <div class="btn-content-wrapper">
+              <i class="fas fa-puzzle-piece fa-sm btn-icon"></i>
+              <p class="btn-text">Addons</p>
+            </div>
           </button>
         </li>
 
         <li class="nav-item app-navbar-li-margin">
-          <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0 navbar-button" type="submit">
-            <i class="fas fa-puzzle-piece fa-sm"></i>
-            Addons
+          <button class="app-navbar-btn app-navbar-btn-margin btn my-2 my-sm-0 navbar-button" type="submit" (click)="openWebsite('/forum')">
+            <div class="btn-content-wrapper">
+              <i class="fas fa-comment-alt fa-sm btn-icon"></i>
+              <p class="btn-text">Forums</p>
+            </div>
           </button>
         </li>  
         
