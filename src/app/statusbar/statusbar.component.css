@@ -12,3 +12,78 @@
 .no-padding {
     padding: 0;
 }
+
+.server-status {
+    color: rgb(91, 91, 91);
+    display:inline-block;
+    height:49px;
+    width:150px;
+}
+
+.server-status > p {
+    display:inline-block;
+    margin-left:20px;
+}
+
+.server-status > .fa-globe-americas {
+    color: rgb(91, 91, 91);
+    margin-top:8px;
+}
+
+.first-server {
+    margin-left:20px;
+}
+
+.server-separator {
+    margin-top:0;
+    margin-left:10px;
+    margin-right:10px;
+    position:relative;
+    top:-7px;
+}
+
+.online-server {
+    background: url("assets/statusbar/online-glow.png");
+    background-size:cover;
+}
+
+.offline-server {
+    background: url("assets/statusbar/offline-glow.png");
+    background-size:cover;
+}
+
+.server-name-first {
+    position:absolute;
+    top: 5px;
+    left: 40px;
+    font-size:15px;
+}
+
+.server-name-second {
+    position:absolute;
+    top: 5px;
+    left: 215px;
+    font-size:15px;
+}
+
+.text-status-first {
+    position: absolute;
+    top: 20px;
+    left: 40px;
+    font-size:14px;
+}
+
+.text-status-second {
+    position: absolute;
+    top: 20px;
+    left: 215px;
+    font-size:14px;
+}
+
+.red {
+    color: rgb(255, 51, 51);
+}
+
+.green {
+    color: rgb(51, 255, 128);
+}
