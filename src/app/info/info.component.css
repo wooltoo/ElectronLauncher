@@ -58,3 +58,9 @@
         left: 6%;
     }
 }
+
+#news-top-banner-separator {
+    position: absolute;
+    top:46px;
+    right:50px; 
+}

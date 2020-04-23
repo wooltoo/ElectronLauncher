@@ -1,5 +1,11 @@
+@font-face {
+    font-family: frizQuadraStd;
+    src: url("assets/fonts/friz_quadra_std_regular.otf");
+}
+
 #primary-container {
     height: 720px;
+    font-family: frizQuadraStd;
 }
 
 video {

@@ -12,7 +12,10 @@
 }
 
 .datetime {
-    color: rgb(125, 107, 159);
+    position:relative;
+    left:-61px;
+    top:3px;
+    color: rgb(209, 186, 255);
     height: 50%;
     font-size:7px;
     margin-bottom:0;
@@ -20,6 +23,8 @@
 }
 
 .title {
+    position:relative;
+    top:-6px;
     height: 50%;
     margin-bottom:0;
     font-size:7px;
@@ -29,5 +34,9 @@
 .text {
     font-size:9.07px;
     margin-bottom: 0;
+    margin-left:15px;
+}
+
+.separator {
     margin-left:15px;
 }
