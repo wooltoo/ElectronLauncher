@@ -14,6 +14,8 @@
 
 #news-top {
     background-color: rgb(64, 43, 93);
+    background: url("assets/news/news-background.png");
+    background-size:cover;
 }
 
 #news-top-banner {

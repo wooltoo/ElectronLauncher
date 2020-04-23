@@ -26,19 +26,23 @@ video {
 }
 
 #start-button {
-    background-color: rgb(22, 22, 22);
-    color: rgb(62, 62, 62);
-    border-radius:15px;
+    background: url("assets/info/startgamebutton.png");
+    max-width:328px;
+    height:53px;
+    border-radius: 0 !important;
+    border-color: rgba(0,0,0,0);
+    outline:none;
+    color: rgb(62,62,62);
 }
 
 .download-bar {
-    background-color: rgb(37, 27, 58);
-    border-radius:15px;
-    margin-left:2%;
-    width:64.665%;
+    height:48px;
+    margin-left:4%;
+    width:62.665%;
+    background: url("assets/info/download-background.png");
 }
 .progress {
-    margin-top: 13px;
+    margin-top: 16px;
     margin-left: 3%;
     margin-right: 10%;
     max-width:80%;
@@ -51,7 +55,7 @@ video {
 #download-progress {
     position: absolute;
     font-size: 16px !important;
-    top: 608px;
+    top: 630px;
     right: 140px;
     color: rgb(170, 251, 113);
 }
@@ -59,21 +63,21 @@ video {
 #download-speed {
     position: absolute;
     right: 125px;
-    top: 625px;
+    top: 647px;
     color: rgb(191, 146, 218);
 }
 
 #download-pause-button {
     position: absolute;
     right: 105px;
-    top: 623.5px;
+    top: 643.5px;
     color: rgb(124, 67, 175);
 }
 
 #download-exit-button {
     position: absolute;
     right: 85px;
-    top: 623.5px;
+    top: 643.5px;
     color: rgb(124, 67, 175);
 }
 
