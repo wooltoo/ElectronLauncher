@@ -49,10 +49,6 @@
     margin-right:20px;
 }
 
-.app-navbar-btn:hover {
-    background-color: #7947a4;
-}
-
 .btn-text {
     margin-top:15px;
     display:inline-block;
@@ -111,11 +107,19 @@
     top:-12px;
 }
 
+.right-menu-container {
+    width: auto;
+}
+
 .right-menu-item {
-    width: 4%;
-    background: url("assets/navbar/navbar-button-dark.png");
+    width: 25px;
+    background: none;
 }
 
 .fa-window-minimize {
     margin-bottom:10px;
+}
+
+.right-menu-item-last {
+    margin-right:15px;
 }
