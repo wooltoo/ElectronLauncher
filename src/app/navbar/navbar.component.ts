@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
-//const { shell } = require('electron')
+//const { remote } = require("electron");
+//const { shell } = require('electron') //Uncomment when building
 
 @Component({
   selector: 'app-navbar',
@@ -17,5 +17,13 @@ export class NavbarComponent implements OnInit {
 
   openWebsite(suburl) {
     //shell.openExternal(this.website + suburl);
+  }
+
+  minimizeWindow() {
+    //remote.BrowserWindow.getFocusedWindow().minimize();
+  }
+
+  quitWindow() {
+    //remote.BrowserWindow.getFocusedWindow().close();
   }
 }
