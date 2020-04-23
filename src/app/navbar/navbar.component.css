@@ -36,6 +36,11 @@
     -webkit-app-region: no-drag;
     transition: background-color 0.3s linear;
     border-radius: 0;
+    background: url("assets/navbar-button-dark.png");
+}
+
+.app-navbar-li-margin {
+    margin-right:20px;
 }
 
 .app-navbar-btn:hover {
@@ -46,14 +51,8 @@
     margin-left:4%;
 }
 
-.navbar-separator {
-    height: 3px;
-    width: 100%;
-    background-color: rgb(91, 57, 132);
-}
-
 .logo {
-    margin-right:1%;
+    margin-right:2%;
 }
 
 .social-container > li > a:hover {
@@ -83,9 +82,19 @@
 
 #navbar {
     padding-left: 0;
+    padding-right: 0%;
 }
 
 .divider {
     position:relative;
     top:-13px;
+}
+
+.right-menu-item {
+    width: 4%;
+    background: url("assets/navbar-button-dark.png");
+}
+
+.fa-window-minimize {
+    margin-bottom:10px;
 }
