@@ -109,6 +109,7 @@
 
 .right-menu-container {
     width: auto;
+    margin-left:-10px;
 }
 
 .right-menu-item {
@@ -121,10 +122,15 @@
 }
 
 .right-menu-item-last {
-    margin-right:15px;
+    margin-right:10px;
 }
 
 .app-navbar-btn:focus, .app-navbar-btn:active {
     outline: none !important;
     box-shadow: none !important;
 }  
+
+.fa-window-minimize {
+    position:relative;
+    top:-2px;
+}
