@@ -15,7 +15,7 @@
       <div class="row">
         <div class="col-4 no-padding">
           <button id="start-button" type="button" class="btn btn-secondary btn-lg btn-block" (click)="download()">
-            START GAME
+            {{buttonText}}
           </button>
         </div>
 
@@ -23,21 +23,21 @@
           <div class="progress" id="progress-dl">
             <div class="progress-bar bg-success" role="progressbar" [style.width.%]="progressBarWidth" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
             
-            <div *ngIf="hasBegunDownloading">
+            <div *ngIf="showDownloadStats">
               <p id="download-progress">{{progress}}</p>
               <p id="download-speed">{{downloadSpeed}}</p>
             </div>
-            <div *ngIf="isDownloading; else elseBlock">
-              <i id="download-pause-button" class="fas fa-pause" (click)="onPauseDownload()"></i>
+            <div *ngIf="showPauseButton; else elseBlock">
+              <i id="download-pause-button" class="fas fa-pause" (click)="OnPressPauseDownload()"></i>
             </div>
             <ng-template #elseBlock>
-              <div *ngIf="hasBegunDownloading">
-                <i id="download-pause-button" class="fas fa-play" (click)="onResumeDownload()"></i>
+              <div *ngIf="showPlayButton">
+                <i id="download-pause-button" class="fas fa-play" (click)="OnPressResumeDownload()"></i>
               </div>
             </ng-template>
             
-            <div *ngIf="hasBegunDownloading">
-              <i id="download-exit-button" class="far fa-window-close" (click)="onCancelDownload()"></i>
+            <div *ngIf="showInterruptButton">
+              <i id="download-exit-button" class="far fa-window-close" (click)="OnPressCancelDownload()"></i>
             </div>
           </div>
         </div>

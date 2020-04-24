@@ -1,13 +1,19 @@
 import { Component, OnInit, NgZone, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { DownloadItem } from 'electron';
+import { DownloadState } from '../general/downloadstate';
+import { DownloadHelper } from '../general/downloadhelper';
+import { DownloadCallback } from '../general/downloadcallback';
+
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, DownloadCallback {
+
+  state : DownloadState = DownloadState.WAITING_FOR_DOWNLOAD;
 
   zone : NgZone;
   cd : ChangeDetectorRef;
@@ -17,8 +23,13 @@ export class HomeComponent implements OnInit {
   progress : string = "10%";
   progressBarWidth : number = 100;
 
-  hasBegunDownloading : boolean = false;
-  isDownloading : boolean = false;
+  buttonText : string = "DOWNLOAD";
+  downloadHelper : DownloadHelper;
+
+  showPauseButton : boolean = false;
+  showPlayButton : boolean = false;
+  showInterruptButton : boolean = false;
+  showDownloadStats : boolean = false;
 
   constructor(private router: Router, 
               private cdI: ChangeDetectorRef,
@@ -26,71 +37,85 @@ export class HomeComponent implements OnInit {
   {
     this.cd = cdI;
     this.zone = zoneI;
+    this.downloadHelper = new DownloadHelper(this);
   }
 
   ngOnInit(): void { }
 
+  OnDownloadStart() : void {
+    this.state = DownloadState.DOWNLOADING;
+    this.downloadSpeed = "0.00 MB/s"
+    this.progress = "0.00%";
+    this.progressBarWidth = 0;
+    this.showPauseButton = true;
+    this.showInterruptButton = true;
+    this.showPlayButton = false;
+    this.showDownloadStats = true;
+    this.buttonText = "DOWNLOADING";
+  }
+
+  OnDownloadSpeedUpdate(downloadSpeed: any): void {
+    this.downloadSpeed = downloadSpeed;
+  }
+
+  OnDownloadProgressUpdate(downloadProgress: any): void {
+    this.progress = this.formatProgress(downloadProgress);
+    this.cd.detectChanges(); 
+  }
+
+  OnDownloadPause(): void {
+    this.state = DownloadState.PAUSED;
+    this.showPauseButton = false;
+    this.showPlayButton = true;
+    this.showInterruptButton = true;
+    this.showDownloadStats = true;
+    this.buttonText = "RESUME DOWNLOAD";
+  }
+
+  OnDownloadInterrupt(): void {
+    this.state = DownloadState.INTERRUPTED;
+    this.showPauseButton = false;
+    this.showPlayButton = false;
+    this.showDownloadStats = false;
+    this.showInterruptButton = false;
+    this.buttonText = "DOWNLOAD";
+  }
+
+  OnDownloadResume() : void {
+    this.state = DownloadState.DOWNLOADING;
+    this.showPauseButton = true;
+    this.showPlayButton = false;
+    this.showDownloadStats = true;
+    this.showInterruptButton = true;
+    this.buttonText = "DOWNLOADING";
+  }
+
   download()
   {
-    const { remote } = require('electron');
-    const asset = "https://dl.paragon-servers.com/Paragon_3.3.5a_Win.zip";
-    const target = "/Users/fredrik/Desktop/DownloadTest";
-    
-    this.downloadSpeed = "0 MB/s";
-    this.progress = "0.00%";
-    this.progressBarWidth = 0;
-    this.hasBegunDownloading = true;
-    this.isDownloading = true;
-
-    remote.require("electron-download-manager").download({
-      url: asset,
-      downloadFolder: target,
-      onProgress: (progress, item) => {
-        this.onProgress(progress, item);
-      }
-    }, function(error, info) {
-      if (error) {
-        console.log("Error: " + error);
-      }
-      console.log(info);
-    });
+    ///Users/fredrik/Desktop/DownloadTest
+    if (this.state == DownloadState.WAITING_FOR_DOWNLOAD || this.state == DownloadState.INTERRUPTED)
+    {
+      this.downloadHelper.prepare(
+        "https://dl.paragon-servers.com/Paragon_3.3.5a_Win.zip", 
+        "D:/DownloadTest"
+      );
+      this.downloadHelper.download();
+    } else if (this.state == DownloadState.PAUSED)
+    {
+      this.OnPressResumeDownload();
+    }
   }
 
-  onPauseDownload() {
-    if (this.downloadItem == null) 
-      return;
-
-    this.downloadItem.pause();
-    this.isDownloading = false;
+  OnPressPauseDownload() {
+    this.downloadHelper.pause();
   }
 
-  onResumeDownload() {
-    if (this.downloadItem == null)
-      return;
-
-    this.downloadItem.resume();
-    this.isDownloading = true;
+  OnPressResumeDownload() {
+    this.downloadHelper.resume();
   }
 
-  onCancelDownload() {
-    if (this.downloadItem == null)
-      return;
-
-    this.downloadItem.cancel();
-    this.downloadSpeed = "0.0 MB/s";
-    this.progress = "0.00%";
-    this.downloadItem = null;
-    this.isDownloading = false;
-    this.hasBegunDownloading = false;
-    this.progressBarWidth = 0;
-  }
-
-  onProgress(progress, item) {
-    this.downloadItem = item;
-    this.downloadSpeed = progress.speed;
-    this.progressBarWidth = progress.progress;
-    this.progress = this.formatProgress(progress.progress);
-    this.cd.detectChanges(); // this line causes the obnoxious terminal output of rendering thread
+  OnPressCancelDownload() {
+    this.downloadHelper.interrupt();
   }
 
   formatProgress(progress : string) : string {
