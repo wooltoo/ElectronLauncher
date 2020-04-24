@@ -30,6 +30,7 @@ export class HomeComponent implements OnInit, DownloadCallback {
   showPlayButton : boolean = false;
   showInterruptButton : boolean = false;
   showDownloadStats : boolean = false;
+  showDownloadBar : boolean = false;
 
   constructor(private router: Router, 
               private cdI: ChangeDetectorRef,
@@ -51,7 +52,9 @@ export class HomeComponent implements OnInit, DownloadCallback {
     this.showInterruptButton = true;
     this.showPlayButton = false;
     this.showDownloadStats = true;
+    this.showDownloadBar = true;
     this.buttonText = "DOWNLOADING";
+    
   }
 
   OnDownloadSpeedUpdate(downloadSpeed: any): void {
@@ -69,6 +72,7 @@ export class HomeComponent implements OnInit, DownloadCallback {
     this.showPlayButton = true;
     this.showInterruptButton = true;
     this.showDownloadStats = true;
+    this.showDownloadBar = true;
     this.buttonText = "RESUME DOWNLOAD";
   }
 
@@ -78,6 +82,7 @@ export class HomeComponent implements OnInit, DownloadCallback {
     this.showPlayButton = false;
     this.showDownloadStats = false;
     this.showInterruptButton = false;
+    this.showDownloadBar = false;
     this.buttonText = "DOWNLOAD";
   }
 
@@ -87,6 +92,7 @@ export class HomeComponent implements OnInit, DownloadCallback {
     this.showPlayButton = false;
     this.showDownloadStats = true;
     this.showInterruptButton = true;
+    this.showDownloadBar = true;
     this.buttonText = "DOWNLOADING";
   }
 

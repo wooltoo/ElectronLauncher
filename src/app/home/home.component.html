@@ -18,29 +18,30 @@
             {{buttonText}}
           </button>
         </div>
-
-        <div class="download-bar">
-          <div class="progress" id="progress-dl">
-            <div class="progress-bar bg-success" role="progressbar" [style.width.%]="progressBarWidth" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-            
-            <div *ngIf="showDownloadStats">
-              <p id="download-progress">{{progress}}</p>
-              <p id="download-speed">{{downloadSpeed}}</p>
-            </div>
-            <div *ngIf="showPauseButton; else elseBlock">
-              <i id="download-pause-button" class="fas fa-pause" (click)="OnPressPauseDownload()"></i>
-            </div>
-            <ng-template #elseBlock>
-              <div *ngIf="showPlayButton">
-                <i id="download-pause-button" class="fas fa-play" (click)="OnPressResumeDownload()"></i>
+        
+          <div *ngIf="showDownloadBar" class="download-bar">
+            <div class="progress" id="progress-dl">
+              <div class="progress-bar bg-success" role="progressbar" [style.width.%]="progressBarWidth" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              
+              <div *ngIf="showDownloadStats">
+                <p id="download-progress">{{progress}}</p>
+                <p id="download-speed">{{downloadSpeed}}</p>
               </div>
-            </ng-template>
-            
-            <div *ngIf="showInterruptButton">
-              <i id="download-exit-button" class="far fa-window-close" (click)="OnPressCancelDownload()"></i>
+              <div *ngIf="showPauseButton; else elseBlock">
+                <i id="download-pause-button" class="fas fa-pause" (click)="OnPressPauseDownload()"></i>
+              </div>
+              <ng-template #elseBlock>
+                <div *ngIf="showPlayButton">
+                  <i id="download-pause-button" class="fas fa-play" (click)="OnPressResumeDownload()"></i>
+                </div>
+              </ng-template>
+              
+              <div *ngIf="showInterruptButton">
+                <i id="download-exit-button" class="far fa-window-close" (click)="OnPressCancelDownload()"></i>
+              </div>
             </div>
           </div>
-        </div>
+
       </div>
     </div>
   </div>
