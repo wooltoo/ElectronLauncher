@@ -21,11 +21,24 @@
 
         <div class="download-bar">
           <div class="progress" id="progress-dl">
-            <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-            <p id="download-progress">63%</p>
-            <p id="download-speed">9.63 MB/S</p>
-            <i id="download-pause-button" class="fas fa-pause"></i>
-            <i id="download-exit-button" class="far fa-window-close"></i>
+            <div class="progress-bar bg-success" role="progressbar" [style.width.%]="progressBarWidth" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            a
+            <div *ngIf="hasBegunDownloading">
+              <p id="download-progress">{{progress}}</p>
+              <p id="download-speed">{{downloadSpeed}}</p>
+            </div>
+            <div *ngIf="isDownloading; else elseBlock">
+              <i id="download-pause-button" class="fas fa-pause" (click)="onPauseDownload()"></i>
+            </div>
+            <ng-template #elseBlock>
+              <div *ngIf="hasBegunDownloading">
+                <i id="download-pause-button" class="fas fa-play" (click)="onResumeDownload()"></i>
+              </div>
+            </ng-template>
+            
+            <div *ngIf="hasBegunDownloading">
+              <i id="download-exit-button" class="far fa-window-close" (click)="onCancelDownload()"></i>
+            </div>
           </div>
         </div>
       </div>

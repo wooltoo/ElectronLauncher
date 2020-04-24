@@ -5,6 +5,8 @@ var path = require("path");
 var url = require("url");
 var win = null;
 var args = process.argv.slice(1), serve = args.some(function (val) { return val === '--serve'; });
+var DownloadManager = require("electron-download-manager");
+DownloadManager.register();
 function createWindow() {
     var electronScreen = electron_1.screen;
     var size = electronScreen.getPrimaryDisplay().workAreaSize;

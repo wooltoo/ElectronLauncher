@@ -6,6 +6,9 @@ let win: BrowserWindow = null;
 const args = process.argv.slice(1),
   serve = args.some(val => val === '--serve');
 
+const DownloadManager = require("electron-download-manager"); 
+DownloadManager.register();
+
 function createWindow(): BrowserWindow {
 
   const electronScreen = screen;
