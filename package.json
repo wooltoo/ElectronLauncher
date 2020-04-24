@@ -92,6 +92,8 @@
     "node": ">=10.13.0"
   },
   "dependencies": {
-    "@fortawesome/angular-fontawesome": "^0.6.1"
+    "@fortawesome/angular-fontawesome": "^0.6.1",
+    "electron-dl": "^3.0.0",
+    "electron-download-manager": "^2.1.2"
   }
 }

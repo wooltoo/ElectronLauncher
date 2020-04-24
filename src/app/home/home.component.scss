@@ -97,3 +97,8 @@ input, button, textarea, :focus {
 #progress-dl {
     background-color: rgb(18, 18, 18);
 }
+
+.btn:focus, .btn:active {
+    outline: none !important;
+    box-shadow: none !important;
+}  
