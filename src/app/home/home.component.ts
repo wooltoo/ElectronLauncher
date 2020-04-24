@@ -28,9 +28,7 @@ export class HomeComponent implements OnInit {
     this.zone = zoneI;
   }
 
-  ngOnInit(): void {
-    console.log("init");
-   }
+  ngOnInit(): void { }
 
   download()
   {
