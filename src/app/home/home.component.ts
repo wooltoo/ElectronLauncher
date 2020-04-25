@@ -2,7 +2,7 @@ import { Component, OnInit, NgZone, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { DownloadItem } from 'electron';
 import { DownloadState } from '../general/downloadstate';
-import { DownloadHelper } from '../general/downloadhelper';
+//import { DownloadHelper } from '../general/downloadhelper';
 import { DownloadCallback } from '../general/downloadcallback';
 
 
@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit, DownloadCallback {
   progressBarWidth : number = 100;
 
   buttonText : string = "DOWNLOAD";
-  downloadHelper : DownloadHelper;
+  //downloadHelper : DownloadHelper;
 
   showPauseButton : boolean = false;
   showPlayButton : boolean = false;
@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit, DownloadCallback {
   {
     this.cd = cdI;
     this.zone = zoneI;
-    this.downloadHelper = new DownloadHelper(this);
+    //this.downloadHelper = new DownloadHelper(this);
   }
 
   ngOnInit(): void { }
@@ -101,11 +101,11 @@ export class HomeComponent implements OnInit, DownloadCallback {
     ///Users/fredrik/Desktop/DownloadTest
     if (this.state == DownloadState.WAITING_FOR_DOWNLOAD || this.state == DownloadState.INTERRUPTED)
     {
-      this.downloadHelper.prepare(
+      /*this.downloadHelper.prepare(
         "https://dl.paragon-servers.com/Paragon_3.3.5a_Win.zip", 
         "D:/DownloadTest"
       );
-      this.downloadHelper.download();
+      this.downloadHelper.download();*/
     } else if (this.state == DownloadState.PAUSED)
     {
       this.OnPressResumeDownload();
@@ -113,15 +113,15 @@ export class HomeComponent implements OnInit, DownloadCallback {
   }
 
   OnPressPauseDownload() {
-    this.downloadHelper.pause();
+    //this.downloadHelper.pause();
   }
 
   OnPressResumeDownload() {
-    this.downloadHelper.resume();
+    //this.downloadHelper.resume();
   }
 
   OnPressCancelDownload() {
-    this.downloadHelper.interrupt();
+    //this.downloadHelper.interrupt();
   }
 
   formatProgress(progress : string) : string {

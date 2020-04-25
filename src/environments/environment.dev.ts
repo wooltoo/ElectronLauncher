@@ -5,5 +5,6 @@
 
 export const AppConfig = {
   production: false,
-  environment: 'DEV'
+  environment: 'DEV',
+  backend_url: 'http://localhost:3000',
 };

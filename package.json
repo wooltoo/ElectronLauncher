@@ -94,6 +94,7 @@
   "dependencies": {
     "@fortawesome/angular-fontawesome": "^0.6.1",
     "electron-dl": "^3.0.0",
-    "electron-download-manager": "^2.1.2"
+    "electron-download-manager": "^2.1.2",
+    "request": "^2.88.2"
   }
 }
