@@ -16,7 +16,7 @@ video {
     width: 100vw;
     height: 100vh;
     position: fixed;
-    top: 50px;
+    top: 35px;
     left: 0;
     z-index: -1;
 }
@@ -31,6 +31,7 @@ input, button, textarea, :focus {
 
 .bottom-bar-container {
     margin-top:75px;
+    margin-left:100px;
 }
 
 .purple-border {
@@ -50,8 +51,8 @@ input, button, textarea, :focus {
 
 .download-bar {
     height:48px;
-    margin-left:4%;
-    width:62.665%;
+    margin-left:0%;
+    width:62.5%;
     background: url("assets/info/download-background.png");
 }
 .progress {
@@ -69,27 +70,27 @@ input, button, textarea, :focus {
     position: absolute;
     font-size: 16px !important;
     top: 605px;
-    right: 134px;
+    right: 144px;
     color: rgb(170, 251, 113);
 }
 
 #download-speed {
     position: absolute;
-    right: 128px;
+    right: 138px;
     top: 622px;
     color: rgb(191, 146, 218);
 }
 
 #download-pause-button {
     position: absolute;
-    right: 105px;
+    right: 117px;
     top: 620.5px;
     color: rgb(124, 67, 175);
 }
 
 #download-exit-button {
     position: absolute;
-    right: 85px;
+    right: 97px;
     top: 620.5px;
     color: rgb(124, 67, 175);
 }
@@ -102,3 +103,4 @@ input, button, textarea, :focus {
     outline: none !important;
     box-shadow: none !important;
 }  
+

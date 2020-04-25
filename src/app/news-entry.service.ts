@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { NewsEntry } from './news-entry';
 import { AppConfig } from '../environments/environment';
 
-const request = require("request"); // Need to uncomment when running web
+// const request = require("request"); // Need to uncomment when running web
 
 @Injectable({
   providedIn: 'root'
 })
 export class NewsEntryService {
 
-  news : NewsEntry[];
+  news : NewsEntry[] = [];
 
   constructor() {
     this.fetchNews();
@@ -17,7 +17,7 @@ export class NewsEntryService {
   }
 
   fetchNews() : void {
-    request.get(AppConfig.backend_url + '/news', (error, response, body) => {
+    /*request.get(AppConfig.backend_url + '/news', (error, response, body) => {
       this.news = [];
       let json = JSON.parse(body);
 
@@ -26,7 +26,7 @@ export class NewsEntryService {
           new NewsEntry(obj["title"], obj["date"], obj["text"])
         );
       });
-    });
+    });*/
   }
 
   getNews() : NewsEntry[] {

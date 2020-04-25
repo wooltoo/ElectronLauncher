@@ -3,7 +3,7 @@ import { AppConfig } from '../environments/environment';
 import { Realm } from './general/realm';
 import { RealmStatus } from './general/realmstatus';
 
-const request = require("request"); // Need to uncomment when running web
+//const request = require("request"); // Need to uncomment when running web
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,7 @@ export class RealmService {
   }
 
   fetchRealms() {
-    request.get(AppConfig.backend_url + '/realms', (error, response, body) => {
+    /*request.get(AppConfig.backend_url + '/realms', (error, response, body) => {
       this.realms = [];
       let json = JSON.parse(body);
 
@@ -36,7 +36,7 @@ export class RealmService {
           new Realm(obj["name"], status)
         );
       });
-    });
+    });*/
   }
 
   getRealms() : Realm[] {

@@ -15,8 +15,6 @@ export class HomeComponent implements OnInit, DownloadCallback {
 
   state : DownloadState = DownloadState.WAITING_FOR_DOWNLOAD;
 
-  zone : NgZone;
-  cd : ChangeDetectorRef;
   downloadItem : DownloadItem;
 
   downloadSpeed : string = "9.67 MB/s"
@@ -33,11 +31,9 @@ export class HomeComponent implements OnInit, DownloadCallback {
   showDownloadBar : boolean = false;
 
   constructor(private router: Router, 
-              private cdI: ChangeDetectorRef,
-              private zoneI: NgZone) 
+              private cd: ChangeDetectorRef,
+              private zone: NgZone) 
   {
-    this.cd = cdI;
-    this.zone = zoneI;
     //this.downloadHelper = new DownloadHelper(this);
   }
 
