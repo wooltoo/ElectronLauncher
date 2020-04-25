@@ -3,16 +3,16 @@
 <div id="statusbar" class="no-padding">
     <div class="server-status first-server online-server">
         <i class="fas fa-globe-americas fa-2x"></i>
-        <p class="server-name-first">Server Name</p>
-        <p class="text-status-first">IS <span class="green">ONLINE</span></p>
+        <p class="server-name-first">{{realmOneName}}</p>
+        <p class="text-status-first">IS <span [class]="realmOneStatusClass">{{realmOneStatus}}</span></p>
     </div>
 
     <img class="server-separator" src="assets/statusbar/status-separator.png"/>
 
     <div class="server-status offline-server">
         <i class="fas fa-globe-americas fa-2x"></i>
-        <p class="server-name-second">Server Name</p>
-        <p class="text-status-second">IS <span class="red">OFFLINE</span></p>
+        <p class="server-name-second">{{realmTwoName}}</p>
+        <p class="text-status-second">IS <span [class]="realmTwoStatusClass">{{realmTwoStatus}}</span></p>
     </div>
 
     <img class="server-separator" src="assets/statusbar/status-separator.png"/>
