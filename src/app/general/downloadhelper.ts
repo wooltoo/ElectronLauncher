@@ -64,7 +64,7 @@ export class DownloadHelper
     onProgress(progress, item) : void
     {
         this.downloadItem = item;
-        this.onDownloadSpeedUpdate(progress.speed);
+        this.onDownloadSpeedUpdate(progress.speedBytes);
         this.onDownloadProgressUpdate(progress.progress)
     }
 
