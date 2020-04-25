@@ -2,8 +2,9 @@ import { Component, OnInit, NgZone, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { DownloadItem } from 'electron';
 import { DownloadState } from '../general/downloadstate';
-//import { DownloadHelper } from '../general/downloadhelper';
+import { DownloadHelper } from '../general/downloadhelper';
 import { DownloadCallback } from '../general/downloadcallback';
+import { DownloadListService } from '../download-list.service';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class HomeComponent implements OnInit, DownloadCallback {
   progressBarWidth : number = 100;
 
   buttonText : string = "DOWNLOAD";
-  //downloadHelper : DownloadHelper;
+  downloadHelper : DownloadHelper;
 
   showPauseButton : boolean = false;
   showPlayButton : boolean = false;
@@ -32,9 +33,10 @@ export class HomeComponent implements OnInit, DownloadCallback {
 
   constructor(private router: Router, 
               private cd: ChangeDetectorRef,
-              private zone: NgZone) 
+              private zone: NgZone,
+              private downloadListService : DownloadListService) 
   {
-    //this.downloadHelper = new DownloadHelper(this);
+    this.downloadHelper = new DownloadHelper(this);
   }
 
   ngOnInit(): void { }
@@ -50,7 +52,6 @@ export class HomeComponent implements OnInit, DownloadCallback {
     this.showDownloadStats = true;
     this.showDownloadBar = true;
     this.buttonText = "DOWNLOADING";
-    
   }
 
   OnDownloadSpeedUpdate(downloadSpeed: any): void {
@@ -93,16 +94,27 @@ export class HomeComponent implements OnInit, DownloadCallback {
     this.buttonText = "DOWNLOADING";
   }
 
+  OnDownloadFinished() : void {
+    this.state = DownloadState.COMPLETED;
+    this.showPauseButton = false;
+    this.showPlayButton = false;
+    this.showDownloadStats = false;
+    this.showInterruptButton = false;
+    this.showDownloadBar = false;
+    this.buttonText = "START GAME";
+  }
+
   download()
   {
     ///Users/fredrik/Desktop/DownloadTest
     if (this.state == DownloadState.WAITING_FOR_DOWNLOAD || this.state == DownloadState.INTERRUPTED)
     {
-      /*this.downloadHelper.prepare(
-        "https://dl.paragon-servers.com/Paragon_3.3.5a_Win.zip", 
+      console.log("got this faR!");
+      this.downloadHelper.prepare(
+        this.downloadListService.getPatches(), 
         "D:/DownloadTest"
-      );*/
-      //this.downloadHelper.download();
+      );
+      this.downloadHelper.download();
     } else if (this.state == DownloadState.PAUSED)
     {
       this.OnPressResumeDownload();
@@ -110,15 +122,15 @@ export class HomeComponent implements OnInit, DownloadCallback {
   }
 
   OnPressPauseDownload() {
-    //this.downloadHelper.pause();
+    this.downloadHelper.pause();
   }
 
   OnPressResumeDownload() {
-    //this.downloadHelper.resume();
+    this.downloadHelper.resume();
   }
 
   OnPressCancelDownload() {
-    //this.downloadHelper.interrupt();
+    this.downloadHelper.interrupt();
   }
 
   formatProgress(progress : string) : string {

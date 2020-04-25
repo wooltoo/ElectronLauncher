@@ -6,4 +6,5 @@ export interface DownloadCallback
     OnDownloadPause() : void;
     OnDownloadInterrupt() : void;
     OnDownloadResume() : void;
+    OnDownloadFinished() : void;
 }

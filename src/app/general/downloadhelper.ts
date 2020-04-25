@@ -1,8 +1,11 @@
-import { DownloadItem } from 'electron';
+import { DownloadItem, webContents } from 'electron';
 import { DownloadCallback } from '../general/downloadcallback';
+import { DownloadFile } from '../general/downloadfile';
 
 export class DownloadHelper
 {
+    downloading : boolean = false;
+
     downloadConfig : any = {
         url: "",
         downloadFolder: "",
@@ -12,29 +15,39 @@ export class DownloadHelper
     }
 
     downloadItem : DownloadItem;
-    callback : DownloadCallback;
+    downloadFiles : DownloadFile[] = [];
 
-    constructor(callbackI : DownloadCallback) {
-        this.callback = callbackI;
-    }
+    constructor(private callback : DownloadCallback) { }
 
-    prepare(asset : string, downloadFolder : string) : void
+    prepare(items : DownloadFile[], downloadFolder : string) : void
     {
-        this.downloadConfig.url = asset;
+        this.downloadFiles = items;
         this.downloadConfig.downloadFolder = downloadFolder;
     }
 
     download() : void {
+        this.downloadNext();
+    }
+
+    downloadNext() : void {
         const { remote } = require('electron');
 
-        remote.require("electron-download-manager").download(this.downloadConfig, function(error, info) {
-            if (error) {
-                console.log("Error: " + error);
-            }
-            console.log(info);
-        });
+        let item : DownloadFile = this.downloadFiles.pop();
+        if (item == null && this.downloading)
+        {
+            this.onFinished();
+            return;  
+        } 
+
+        let cDownloadConfig = Object.assign({}, this.downloadConfig);
+        cDownloadConfig.url = item.getResource();
 
         this.onStart();
+        remote.require("electron-download-manager").download(cDownloadConfig, (error, info) => {
+            if (error) console.log("Error: " + error);
+            
+            this.downloadNext();
+        });
     }
 
     interrupt() : void {
@@ -89,6 +102,12 @@ export class DownloadHelper
     }
 
     onStart() : void {
+        this.downloading = true;
         this.callback.OnDownloadStart();
+    }
+
+    onFinished() : void {
+        this.downloading = false;
+        this.callback.OnDownloadFinished();
     }
 }

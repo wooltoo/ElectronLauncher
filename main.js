@@ -19,9 +19,6 @@ var createLoadingScreen = function () {
         transparent: true
     }));
     loadingScreen.resizable = true;
-    /*loadingScreen.loadURL(
-      "assets/loading.html"
-    );*/
     loadingScreen.loadURL(url.format({
         pathname: path.join(__dirname, 'src/assets/loading.html'),
         protocol: 'file:',
@@ -65,11 +62,7 @@ function createWindow() {
     if (serve) {
         win.webContents.openDevTools();
     }
-    // Emitted when the window is closed.
     win.on('closed', function () {
-        // Dereference the window object, usually you would store window
-        // in an array if your app supports multi windows, this is the time
-        // when you should delete the corresponding element.
         win = null;
     });
     win.webContents.on('did-finish-load', function () {
