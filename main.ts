@@ -9,6 +9,36 @@ const args = process.argv.slice(1),
 const DownloadManager = require("electron-download-manager"); 
 DownloadManager.register();
 
+let loadingScreen : BrowserWindow = null;
+const createLoadingScreen = () => {
+  loadingScreen = new BrowserWindow(
+    Object.assign({
+      /// define width and height for the window
+      width: 1280,
+      height: 720,
+      /// remove the window frame, so it will become a frameless window
+      frame: false,
+      /// and set the transparency, to remove any window background color
+      transparent: true
+    })
+  );
+
+  loadingScreen.resizable = true;
+
+  /*loadingScreen.loadURL(
+    "assets/loading.html"
+  );*/
+  loadingScreen.loadURL(url.format({
+    pathname: path.join(__dirname, 'src/assets/loading.html'),
+    protocol: 'file:',
+    slashes: true
+  }));
+  loadingScreen.on('closed', () => (loadingScreen = null));
+  loadingScreen.webContents.on('did-finish-load', () => {
+    loadingScreen.show();
+  });
+}
+
 function createWindow(): BrowserWindow {
 
   const electronScreen = screen;
@@ -26,6 +56,7 @@ function createWindow(): BrowserWindow {
       nodeIntegration: true,
       allowRunningInsecureContent: (serve) ? true : false,
     },
+    show: false
   });
 
   if (serve) {
@@ -42,7 +73,7 @@ function createWindow(): BrowserWindow {
   }
 
   if (serve) {
-    win.webContents.openDevTools();
+    //win.webContents.openDevTools();
   }
 
   // Emitted when the window is closed.
@@ -51,6 +82,13 @@ function createWindow(): BrowserWindow {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     win = null;
+  });
+
+  win.webContents.on('did-finish-load', () => {
+    if (loadingScreen)
+      loadingScreen.close();
+
+    win.show();
   });
 
   return win;
@@ -64,7 +102,11 @@ try {
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
   // Added 400 ms to fix the black background issue while using transparent window. More detais at https://github.com/electron/electron/issues/15947
-  app.on('ready', () => setTimeout(createWindow, 400));
+  app.on('ready', () => {
+    createLoadingScreen();
+    createWindow();
+    //setTimeout(createLoadingScreen, 400)
+  });
 
   // Quit when all windows are closed.
   app.on('window-all-closed', () => {
