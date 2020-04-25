@@ -1,5 +1,10 @@
 .container {
-    margin-top: 20px;
+    margin-top: 28px;
+}
+
+.news-container {
+    margin-top:75px;
+    margin-left:16px;
 }
 
 .video-container {
@@ -15,7 +20,8 @@
 
 #news-top {
     background-color: rgb(64, 43, 93);
-    background: url("assets/news/news-background.png");
+    background: url("assets/news/news-background-r.png");
+    max-width:349px;
     background-size:cover;
 }
 
@@ -30,7 +36,7 @@
 #news-avatar {
     position: absolute;
     top: 7%;
-    left: 7%;
+    left: 5.7%;
 }
 
 @media (max-width: 768px) {
@@ -62,6 +68,6 @@
 
 #news-top-banner-separator {
     position: absolute;
-    top:46px;
+    top:45px;
     right:50px; 
 }

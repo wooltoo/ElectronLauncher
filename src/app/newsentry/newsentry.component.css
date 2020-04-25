@@ -1,4 +1,5 @@
 .news-entry {
+    min-height:92px;
     color: white;
 }
 
@@ -8,7 +9,7 @@
 
 .avatar {
     width:6%;
-    margin-left:15px;
+    margin-left:5px;
 }
 
 .datetime {
@@ -28,16 +29,20 @@
     height: 50%;
     margin-bottom:0;
     font-size:9px;
-    margin-left:11px;
+    margin-left:6px;
 }
 
 .text {
     margin-top:2px;
     font-size:11.07px;
     margin-bottom: 0;
-    margin-left:48px;
+    margin-left:31px;
+    min-height:64px;
+    max-width:290px;
 }
 
 .separator {
-    margin-left:0px;
+    position:relative;
+    left:-7px;
+    margin-left:-10px;
 }

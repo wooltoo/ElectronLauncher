@@ -3,12 +3,11 @@
       <div class="col-md-7 video-container purple-border">
         <iframe width="100%" height="350" src="https://www.youtube-nocookie.com/embed/IBHL_-biMrQ?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
-      <div id="news-top" class="col-md-4 offset-md-1 purple-border no-padding">
-        <img id="news-top-banner" src="assets/news/news-top.png"/>
+      <div id="news-top" class="col-md-4 offset-md-1 no-padding">
         <img id="news-top-banner-separator" src="assets/news/news-top-separator.png"/>
         <img id="news-avatar" src="assets/news/news-avatar.png"/>
 
-        <div class="container" style="margin-top:35px;">
+        <div class="news-container">
             <app-newsentry *ngFor="let newsEntry of newsEntries"
             [title]="newsEntry.getTitle()"
             [datetime]="newsEntry.getDateTime()"
