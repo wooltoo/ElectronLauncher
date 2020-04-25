@@ -72,12 +72,12 @@
     margin-right:2%;
 }
 
-.social-container > li > a:hover {
+.social-container > li > img:hover {
     color: white !important;
     transition: color 0.3s linear;
 }
 
-.social-container > li > a {
+.social-container > li > img {
     margin-right: 8%;
     color: rgb(74, 44, 108);
     -webkit-app-region: no-drag;
@@ -88,13 +88,8 @@
 }
 
 #leftNavbar > li {
-    padding-top:35px;
     margin-right:10%;
-}
-
-#leftNavbar > li.nav-item {
     height: 50%;
-    padding-top: 30px;
 }
 
 #navbar {
