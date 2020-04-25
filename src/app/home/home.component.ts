@@ -58,6 +58,7 @@ export class HomeComponent implements OnInit, DownloadCallback {
   }
 
   OnDownloadProgressUpdate(downloadProgress: any): void {
+    this.progressBarWidth = downloadProgress;
     this.progress = this.formatProgress(downloadProgress);
     this.cd.detectChanges(); 
   }
@@ -100,8 +101,8 @@ export class HomeComponent implements OnInit, DownloadCallback {
       /*this.downloadHelper.prepare(
         "https://dl.paragon-servers.com/Paragon_3.3.5a_Win.zip", 
         "D:/DownloadTest"
-      );
-      this.downloadHelper.download();*/
+      );*/
+      //this.downloadHelper.download();
     } else if (this.state == DownloadState.PAUSED)
     {
       this.OnPressResumeDownload();

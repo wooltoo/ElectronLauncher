@@ -13,9 +13,14 @@ export class StatusBarComponent implements OnInit {
   realmOneName : string = "SERVER ONE";
   realmOneStatus : string = "OFFLINE";
   realmOneStatusClass : string = "red";
+  realmOneEllipse : string = "offline-ellipse";
+  realmOneGlow : string = "offline-server";
+
   realmTwoName : string = "SERVER TWO";
   realmTwoStatus : string = "OFFLINE";
   realmTwoStatusClass : string = "red";
+  realmTwoEllipse : string = "offline-ellipse";
+  realmTwoGlow : string = "offline-server";
 
   constructor(private realmService : RealmService,
               private changeDetectorRef : ChangeDetectorRef) {
@@ -36,9 +41,13 @@ export class StatusBarComponent implements OnInit {
       if (realms[0].getStatus() == RealmStatus.ONLINE) {
         this.realmOneStatus = "ONLINE";
         this.realmOneStatusClass = "green";
+        this.realmOneEllipse = "online-ellipse";
+        this.realmOneGlow = "online-server";
       } else {
         this.realmOneStatus = "OFFLINE";
         this.realmOneStatusClass = "red";
+        this.realmOneEllipse = "offline-ellipse";
+        this.realmOneGlow = "offline-server";
       }
     }
 
@@ -48,9 +57,13 @@ export class StatusBarComponent implements OnInit {
       if (realms[1].getStatus() == RealmStatus.ONLINE) {
         this.realmTwoStatus = "ONLINE";
         this.realmTwoStatusClass = "green";
+        this.realmTwoEllipse = "online-ellipse";
+        this.realmTwoGlow = "online-server";
       } else {
         this.realmTwoStatus = "OFFLINE",
         this.realmTwoStatusClass = "red";
+        this.realmTwoEllipse = "offline-ellipse";
+        this.realmTwoGlow = "offline-server";
       }
     }
 

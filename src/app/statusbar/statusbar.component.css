@@ -92,3 +92,18 @@
     position:relative;
     top:-36px;
 }
+
+.status-ellipse {
+    width: 12px;
+    height: 11px;
+    margin-left:5px;
+    display: inline-block;
+}
+
+.offline-ellipse {
+    background: url("assets/statusbar/ellipse-red.png");
+}
+
+.online-ellipse {
+    background: url("assets/statusbar/ellipse-green.png");
+}

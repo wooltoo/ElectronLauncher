@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { NewsEntry } from './news-entry';
 import { AppConfig } from '../environments/environment';
 
-// const request = require("request"); // Need to uncomment when running web
+//const request = require("request"); // Need to uncomment when running web
 
 @Injectable({
   providedIn: 'root'

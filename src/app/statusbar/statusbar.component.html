@@ -1,18 +1,26 @@
 
 
 <div id="statusbar" class="no-padding">
-    <div class="server-status first-server online-server">
+    <div class="server-status first-server" [class]="realmOneGlow">
         <i class="fas fa-globe-americas fa-2x"></i>
         <p class="server-name-first">{{realmOneName}}</p>
-        <p class="text-status-first">IS <span [class]="realmOneStatusClass">{{realmOneStatus}}</span></p>
+        <p class="text-status-first">
+            IS 
+            <span [class]="realmOneStatusClass">{{realmOneStatus}}</span>
+            <span class="status-ellipse" [class]="realmOneEllipse"></span>
+        </p>
     </div>
 
     <img class="server-separator" src="assets/statusbar/status-separator.png"/>
 
-    <div class="server-status offline-server">
+    <div class="server-status" [class]="realmTwoGlow">
         <i class="fas fa-globe-americas fa-2x"></i>
         <p class="server-name-second">{{realmTwoName}}</p>
-        <p class="text-status-second">IS <span [class]="realmTwoStatusClass">{{realmTwoStatus}}</span></p>
+        <p class="text-status-second">
+            IS 
+            <span [class]="realmTwoStatusClass">{{realmTwoStatus}}</span>
+            <span class="status-ellipse" [class]="realmTwoEllipse"></span>
+        </p>
     </div>
 
     <img class="server-separator" src="assets/statusbar/status-separator.png"/>
