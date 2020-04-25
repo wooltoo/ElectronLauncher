@@ -42,6 +42,15 @@
     background: url("assets/navbar/navbar-button-dark.png");
 }
 
+.social-button {
+    -webkit-app-region: no-drag;
+    height:49px;
+}
+
+.social-button:hover {
+    color:white;
+}
+
 .app-navbar-btn-active {
     background: url("assets/navbar/navbar-button-light.png")
 }
@@ -120,7 +129,7 @@
     margin-right:10px;
 }
 
-.app-navbar-btn:focus, .app-navbar-btn:active {
+.app-navbar-btn:focus, .app-navbar-btn:active, .social-button:focus, .social-button:active {
     outline: none !important;
     box-shadow: none !important;
 }  

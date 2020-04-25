@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 /*const { remote } = require("electron");
-const { shell } = require('electron') //Uncomment when building
-*/
+const { shell } = require('electron')*/ //Uncomment when building
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',

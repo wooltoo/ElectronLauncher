@@ -12,18 +12,29 @@
   </button>
   <div class="navbar-collapse collapse w-100" id="collapsingNavbar">
       <ul class="navbar-nav w-100 justify-content-center social-container" id="leftNavbar">
-          <li class="nav-item">
-            <a href="#"><img src="assets/icons/youtube-icon.png" (click)="openWebsite('/youtube')"/></a>
-          </li>
-          <li class="nav-item">
-            <a href="#"><img src="assets/icons/discord-icon.png" (click)="openWebsite('/discord')"/><span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a href="#"><img src="assets/icons/twitter-icon.png" (click)="openWebsite('/twitter')"/></a>
-          </li>
-          <li class="nav-item">
-            <a href="#"><img src="assets/icons/facebook-icon.png" (click)="openWebsite('/facebook')"/></a>
-          </li>
+        <button class="social-button btn my-2 my-sm-0" type="submit" (click)="openWebsite('/youtube')">
+          <div class="btn-content-wrapper">
+            <img src="assets/icons/youtube-icon.png"/>
+          </div>
+        </button>
+
+        <button class="social-button btn my-2 my-sm-0" type="submit" (click)="openWebsite('/dioscord')">
+          <div class="btn-content-wrapper">
+            <img src="assets/icons/discord-icon.png"/>
+          </div>
+        </button>
+
+        <button class="social-button btn my-2 my-sm-0" type="submit" (click)="openWebsite('/twitter')">
+          <div class="btn-content-wrapper">
+            <img src="assets/icons/twitter-icon.png"/>
+          </div>
+        </button>
+
+        <button class="social-button btn my-2 my-sm-0" type="submit" (click)="openWebsite('/facebook')">
+          <div class="btn-content-wrapper">
+            <img src="assets/icons/facebook-icon.png"/>
+          </div>
+        </button>
       </ul>
 
       <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
