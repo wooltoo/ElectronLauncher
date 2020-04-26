@@ -54,7 +54,7 @@ export class DownloadHelper
         const { remote } = require('electron');
 
         let item : DownloadFile = this.downloadFiles.pop();
-        if (item == null && this.downloading)
+        if (item == undefined || item == null && this.downloading)
         {
             this.onFinished();
             return;  
@@ -66,7 +66,8 @@ export class DownloadHelper
         this.onStart();
         remote.require("electron-download-manager").download(cDownloadConfig, (error, info) => {
             if (error) console.log("Error: " + error);
-
+            
+            this.callback.OnDownloadItemFinished(this.downloadItemName);
             this.downloadItemName = null;
             this.downloadNext();
         });

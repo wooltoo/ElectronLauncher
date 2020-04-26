@@ -3,10 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var electron_1 = require("electron");
 var path = require("path");
 var url = require("url");
+var contextMenu = require('electron-context-menu');
+contextMenu(); // adds right click inspect in dev mode
 var win = null;
 var args = process.argv.slice(1), serve = args.some(function (val) { return val === '--serve'; });
 var DownloadManager = require("electron-download-manager");
 DownloadManager.register();
+require('dotenv').config();
 var loadingScreen = null;
 var createLoadingScreen = function () {
     loadingScreen = new electron_1.BrowserWindow(Object.assign({
@@ -20,7 +23,7 @@ var createLoadingScreen = function () {
     }));
     loadingScreen.resizable = true;
     loadingScreen.loadURL(url.format({
-        pathname: path.join(__dirname, 'src/assets/loading.html'),
+        pathname: path.join(__dirname, 'dist/assets/loading.html'),
         protocol: 'file:',
         slashes: true
     }));
@@ -35,10 +38,11 @@ function createWindow() {
     // Create the browser window.
     win = new electron_1.BrowserWindow({
         width: 1280,
+        //width: 1800,
         height: 720,
         minWidth: 582,
         minHeight: 112.5,
-        resizable: false,
+        resizable: true,
         frame: false,
         webPreferences: {
             nodeIntegration: true,

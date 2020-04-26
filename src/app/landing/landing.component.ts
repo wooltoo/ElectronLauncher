@@ -35,7 +35,7 @@ export class LandingComponent implements OnInit {
     const {dialog} = require('electron').remote;
     let dir = dialog.showOpenDialogSync({ properties: ['openDirectory']});
 
-    if (dir.length == 0) return;
+    if (dir == undefined || dir.length == 0) return;
     return dir[0];
   }
 }

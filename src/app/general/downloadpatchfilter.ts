@@ -8,26 +8,26 @@ export class DownloadPatchFilter
 {
     constructor(private downloadListService : DownloadListService) { }
 
-    public filterFromInstalled(patches : DownloadFile[]) : DownloadFile[] {
+    public filterFromInstalled(clientDirectory : string, patches : DownloadFile[]) : DownloadFile[] {
         let uninstalledPatches : DownloadFile[] = [] ;
 
         patches.forEach((patch : DownloadFile) => {
-            if (!this.isInstalled(patch))
+            if (!this.isInstalled(clientDirectory, patch))
                 uninstalledPatches.push(patch);
         });
 
         return uninstalledPatches;
     }
 
-    public getPatchesToInstall() : DownloadFile[] {
+    public getPatchesToInstall(clientDirectory : string) : DownloadFile[] {
         return this.filterFromInstalled(
+            clientDirectory, 
             this.downloadListService.getPatches()
         );
     }
 
-    private isInstalled(patch : DownloadFile) : boolean {
-        let installDir = "D:/DownloadTest";
-        let fullDir = installDir + '/' + patch.getName();
+    private isInstalled(clientDirectory : string, patch : DownloadFile) : boolean {
+        let fullDir = clientDirectory + '/' + patch.getName();
 
         const fs = require('fs');
         if(!fs.existsSync(fullDir)) {

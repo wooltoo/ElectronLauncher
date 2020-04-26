@@ -1,7 +1,8 @@
 import { app, BrowserWindow, screen } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
-import { LauncherConfig } from './src/app/general/launcherconfig';
+const contextMenu = require('electron-context-menu');
+contextMenu(); // adds right click inspect in dev mode
 
 let win: BrowserWindow = null;
 const args = process.argv.slice(1),
@@ -9,6 +10,7 @@ const args = process.argv.slice(1),
 
 const DownloadManager = require("electron-download-manager"); 
 DownloadManager.register();
+require('dotenv').config();
 
 let loadingScreen : BrowserWindow = null;
 const createLoadingScreen = () => {
@@ -26,7 +28,7 @@ const createLoadingScreen = () => {
   loadingScreen.resizable = true;
 
   loadingScreen.loadURL(url.format({
-    pathname: path.join(__dirname, 'src/assets/loading.html'),
+    pathname: path.join(__dirname, 'dist/assets/loading.html'),
     protocol: 'file:',
     slashes: true
   }));
@@ -44,10 +46,11 @@ function createWindow(): BrowserWindow {
   // Create the browser window.
   win = new BrowserWindow({
     width: 1280,
+    //width: 1800,
     height: 720,
     minWidth: 582,
     minHeight: 112.5,
-    resizable: false,
+    resizable: true,
     frame: false,
     webPreferences: {
       nodeIntegration: true,

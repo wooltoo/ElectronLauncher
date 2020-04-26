@@ -4,7 +4,7 @@ import { AppConfig } from '../environments/environment';
 import { DownloadListServiceState } from './general/downloadlistservicestate';
 import { LauncherConfig } from './general/launcherconfig';
 
-//const request = require('request');
+const request = require('request');
 
 @Injectable({
   providedIn: 'root'
@@ -60,13 +60,19 @@ export class DownloadListService {
   }
 
   private fetchPatches(fetchPatchesId : any) : void {
-    /*request.get({
-      url: AppConfig.backend_url + '/patches',
+    request.get({
+      url: LauncherConfig.BACKEND_HOST + '/patches',
       json: true
     }, (error, response, json) => {
+
       if(this.patches != null && this.patches.length == json.length) 
         return;
 
+      console.log("#####");
+      console.log(error);
+      console.log(response);
+      console.log("PATCHES:");
+      console.log(JSON.stringify(json));
       this.patches = [];
       json.forEach(obj => {
         this.patches.push(
@@ -77,12 +83,12 @@ export class DownloadListService {
       console.log("GOT PATCHES!");
       clearInterval(fetchPatchesId); 
       this.updateState();
-    });*/
+    });
   }
 
   private fetchClient(fetchClientId : any) : void {
-    /*request.get({
-      url: AppConfig.backend_url + '/client',
+    request.get({
+      url: LauncherConfig.BACKEND_HOST + '/client',
       json: true,
     }, (error, response, json) => {
       if (this.client != null) 
@@ -93,7 +99,7 @@ export class DownloadListService {
       console.log("GOT CLIENT!");
       clearInterval(fetchClientId);
       this.updateState();
-    });*/
+    });
   }
 
   private updateState() : void {

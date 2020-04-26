@@ -2,11 +2,11 @@ import { Component, OnInit, NgZone, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { DownloadItem } from 'electron';
 import { DownloadState } from '../general/downloadstate';
-//import { DownloadHelper } from '../general/downloadhelper';
+import { DownloadHelper } from '../general/downloadhelper';
 import { DownloadCallback } from '../general/downloadcallback';
 import { DownloadListService } from '../download-list.service';
-//import { DownloadPatchFilter } from '../general/downloadpatchfilter'
-
+import { DownloadPatchFilter } from '../general/downloadpatchfilter'
+import { LocalStorageService } from 'ngx-webstorage';
 
 @Component({
   selector: 'app-home',
@@ -23,30 +23,37 @@ export class HomeComponent implements OnInit, DownloadCallback {
   progressBarWidth : number = 100;
 
   buttonText : string = "LOADING...";
-  //downloadHelper : DownloadHelper;
-  //downloadPatchFilter : DownloadPatchFilter;
+  downloadHelper : DownloadHelper;
+  downloadPatchFilter : DownloadPatchFilter;
+  hasFilesToDownload : boolean = false;
+  isInstalling : boolean = false;
 
   showPauseButton : boolean = false;
   showPlayButton : boolean = false;
   showInterruptButton : boolean = false;
   showDownloadStats : boolean = false;
   showDownloadBar : boolean = false;
-
-  hasFilesToDownload : boolean = false;
-  
   showLanding : boolean = true;
   showInfo : boolean = false;
 
   constructor(private router: Router, 
               private cd: ChangeDetectorRef,
               private zone: NgZone,
-              private downloadListService : DownloadListService) 
+              private downloadListService : DownloadListService,
+              private localSt : LocalStorageService) 
   {
-    //this.downloadHelper = new DownloadHelper(this, this.downloadListService);
-    //this.downloadPatchFilter = new DownloadPatchFilter(this.downloadListService);
+    this.downloadHelper = new DownloadHelper(this, this.downloadListService);
+    this.downloadPatchFilter = new DownloadPatchFilter(this.downloadListService);
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.localSt.clear('clientDirectory');
+    //if (this.hasClientInstalled()) 
+    //  this.hideLanding();
+
+    console.log("HELLO: " + process.env.backend_host);
+    console.log("HELLO 2" + 'http://' + process.env.backend_host + '/status');
+  }
 
   OnFilesToDownloadResult(hasFilesToCheckForDownload: boolean): void {
     if (this.hasFilesToDownload)
@@ -54,12 +61,11 @@ export class HomeComponent implements OnInit, DownloadCallback {
 
     if (hasFilesToCheckForDownload)
     {
-      /*if (this.downloadPatchFilter.getPatchesToInstall().length > 0 ) {
-        this.state = DownloadState.WAITING_FOR_DOWNLOAD;
-        this.buttonText = "UPDATE";
-        this.hasFilesToDownload = true;
+      let clientDir = this.localSt.retrieve('clientDirectory');
+      if (this.downloadPatchFilter.getPatchesToInstall(clientDir).length > 0) {
+        this.scheduleDownload();
         return;
-      }*/
+      }
     }
 
     this.buttonText = "START GAME";
@@ -105,7 +111,11 @@ export class HomeComponent implements OnInit, DownloadCallback {
     this.showDownloadStats = false;
     this.showInterruptButton = false;
     this.showDownloadBar = false;
-    this.buttonText = "UPDATE";
+
+    if (this.isInstalling)
+      this.buttonText = "INSTALL";
+    else
+      this.buttonText = "UPDATE";
   }
 
   OnDownloadResume() : void {
@@ -118,6 +128,10 @@ export class HomeComponent implements OnInit, DownloadCallback {
     this.buttonText = "DOWNLOADING";
   }
 
+  OnDownloadItemFinished(name : string) : void {
+    console.log("finished dl" + name);
+  }
+
   OnDownloadFinished() : void {
     this.state = DownloadState.COMPLETED;
     this.showPauseButton = false;
@@ -127,17 +141,39 @@ export class HomeComponent implements OnInit, DownloadCallback {
     this.showDownloadBar = false;
     this.hasFilesToDownload = false;
     this.buttonText = "START GAME";
+    this.isInstalling = false;
   }
 
   download()
   {
-    /*this.downloadHelper.prepare(
+    if (this.hasClientInstalled()) {
+      this.downloadPatches();
+    } else {
+      this.downloadClient();
+    }
+  }
+
+  downloadPatches() : void {
+    let clientDir = this.localSt.retrieve('clientDirectory');
+    console.log("ClientDir: " + clientDir);
+    this.downloadHelper.prepare(
       //this.downloadListService.getPatches().concat(this.downloadListService.getClient()), 
-      this.downloadPatchFilter.getPatchesToInstall(),
-      "D:/DownloadTest"
+      this.downloadPatchFilter.getPatchesToInstall(clientDir),
+      clientDir
     );
 
-    this.downloadHelper.download();*/
+    this.downloadHelper.download();
+    this.state = DownloadState.DOWNLOADING;
+  }
+
+  downloadClient() : void {
+    let clientTargetDir = this.localSt.retrieve('requestedClientDirectory');
+    this.downloadHelper.prepare(
+      [this.downloadListService.getClient()],
+      clientTargetDir,
+    );
+
+    this.downloadHelper.download();
     this.state = DownloadState.DOWNLOADING;
   }
 
@@ -146,13 +182,20 @@ export class HomeComponent implements OnInit, DownloadCallback {
   }
 
   public OnPickGamePath(path : string) : void {
+    this.isInstalling = true;
     this.hideLanding();
+    this.buttonText = "INSTALL";
+    this.localSt.store('clientDirectory', path);
   }
 
   // Called when the landing component requests the client to be downloaded.
   // path = selected client directory.
   public OnSelectClientDownload(path : string) : void {
-
+    this.isInstalling = true;
+    this.localSt.store('requestedClientDirectory', path);
+    this.scheduleDownload();
+    this.buttonText = "INSTALL";
+    this.hideLanding();
   }
 
   OnPressStartButton() {
@@ -168,18 +211,18 @@ export class HomeComponent implements OnInit, DownloadCallback {
 
   OnPressPauseDownload() {
     this.state = DownloadState.PAUSED;
-    //this.downloadHelper.pause();
+    this.downloadHelper.pause();
   }
 
   OnPressResumeDownload() {
     console.log("RESUME PRESSED");
     this.state = DownloadState.DOWNLOADING;
-    //this.downloadHelper.resume();
+    this.downloadHelper.resume();
   }
 
   OnPressCancelDownload() {
     this.state = DownloadState.WAITING_FOR_DOWNLOAD;
-    //this.downloadHelper.interrupt();
+    this.downloadHelper.interrupt();
   }
 
   formatProgress(progress : string) : string {
@@ -195,5 +238,20 @@ export class HomeComponent implements OnInit, DownloadCallback {
   private hideLanding() : void {
     this.showLanding = false;
     this.showInfo = true;
+  }
+
+  private scheduleDownload() : void {
+    this.state = DownloadState.WAITING_FOR_DOWNLOAD;
+
+    if (this.isInstalling)
+      this.buttonText = "INSTALL";
+    else 
+      this.buttonText = "UPDATE";
+    
+    this.hasFilesToDownload = true;
+  }
+  
+  private hasClientInstalled() : boolean {
+    return this.localSt.retrieve('clientDirectory') != null
   }
 }

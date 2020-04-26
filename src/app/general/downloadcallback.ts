@@ -8,6 +8,7 @@ export interface DownloadCallback
     OnDownloadPause() : void;
     OnDownloadInterrupt() : void;
     OnDownloadResume() : void;
+    OnDownloadItemFinished(name : string);
     OnDownloadFinished() : void;
     OnFilesToDownloadResult(hasFilesToCheckForDownload : boolean) : void;
 }
