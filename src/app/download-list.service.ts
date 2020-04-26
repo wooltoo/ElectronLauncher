@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DownloadFile } from './general/downloadfile';
 import { AppConfig } from '../environments/environment';
+import { DownloadListServiceState } from './general/downloadlistservicestate';
 
 const request = require('request');
 
@@ -9,13 +10,30 @@ const request = require('request');
 })
 export class DownloadListService {
 
-  patches : DownloadFile[] = [];
+  patches : DownloadFile[] = null;
   client : DownloadFile = null;
+  state : DownloadListServiceState = DownloadListServiceState.RETRIEVING_INFORMATION;
 
   constructor()
   { 
-    this.fetchPatches();
-    this.fetchClient();
+    this.fetchRemoteFiles();
+  }
+
+  public fetchRemoteFiles() : void {
+    console.log("fetching remote files");
+    let fetchPatchesId = setInterval(
+      () => { 
+        this.fetchPatches(fetchPatchesId);
+      }, 
+      1000
+    );
+
+    let fetchClientId = setInterval(
+      () => {
+        this.fetchClient(fetchClientId);
+      }, 
+      1000
+    );
   }
 
   public getPatches() : DownloadFile[] {
@@ -26,10 +44,19 @@ export class DownloadListService {
     return this.client;
   }
 
-  private fetchPatches() : void {
-    request.get(AppConfig.backend_url + '/patches', (error, response, body) => {
-      let json = JSON.parse(body);
+  public getState() : DownloadListServiceState {
+    return this.state;
+  }
 
+  private fetchPatches(fetchPatchesId : any) : void {
+    request.get({
+      url: AppConfig.backend_url + '/patches',
+      json: true
+    }, (error, response, json) => {
+      if(this.patches != null && this.patches.length == json.length) 
+        return;
+
+      this.patches = [];
       json.forEach(obj => {
         this.patches.push(
           new DownloadFile(obj['name'], obj['md5-checksum'], obj['resource'])
@@ -37,17 +64,31 @@ export class DownloadListService {
       });
 
       console.log("GOT PATCHES!");
-      console.log(this.patches);
+      clearInterval(fetchPatchesId); 
+      this.updateState();
     });
   }
 
-  private fetchClient() : void {
-    request.get(AppConfig.backend_url + '/client', (error, response, body) => {
-      let json = JSON.parse(body);
+  private fetchClient(fetchClientId : any) : void {
+    request.get({
+      url: AppConfig.backend_url + '/client',
+      json: true,
+    }, (error, response, json) => {
+      if (this.client != null) 
+        return;
+
       this.client = new DownloadFile(json['name'], '', json['resource']);
 
       console.log("GOT CLIENT!");
-      console.log(this.client);
+      clearInterval(fetchClientId);
+      this.updateState();
     });
+  }
+
+  private updateState() : void {
+    if (this.patches != null && this.client != null)
+      this.state = DownloadListServiceState.READY;
+    else
+      this.state = DownloadListServiceState.RETRIEVING_INFORMATION;
   }
 }

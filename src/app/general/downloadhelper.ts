@@ -1,6 +1,8 @@
 import { DownloadItem, webContents } from 'electron';
 import { DownloadCallback } from '../general/downloadcallback';
 import { DownloadFile } from '../general/downloadfile';
+import { DownloadListService } from '../download-list.service';
+import { DownloadListServiceState } from './downloadlistservicestate';
 
 export class DownloadHelper
 {
@@ -15,21 +17,37 @@ export class DownloadHelper
     }
 
     downloadItem : DownloadItem;
+    downloadItemName : string;
+
     downloadFiles : DownloadFile[] = [];
 
-    constructor(private callback : DownloadCallback) { }
+    constructor(private callback : DownloadCallback, private downloadListService : DownloadListService) { }
 
-    prepare(items : DownloadFile[], downloadFolder : string) : void
+    public prepare(items : DownloadFile[], downloadFolder : string) : void
     {
+        console.log("### PREPARE BEGIN");
         this.downloadFiles = items;
         this.downloadConfig.downloadFolder = downloadFolder;
+        console.log(this.downloadFiles);
+        console.log("### PREPARE END");
     }
 
-    download() : void {
+    public download() : void {
         this.downloadNext();
     }
 
-    downloadNext() : void {
+    public checkForFilesToDownload() : void {
+        let handle = setInterval(() => {
+            if (this.downloadListService.getState() == DownloadListServiceState.READY) {
+                this.callback.OnFilesToDownloadResult(
+                    this.downloadListService.getPatches().length > 0
+                );
+                clearInterval(handle);
+            }
+        }, 100);
+    }
+
+    private downloadNext() : void {
         const { remote } = require('electron');
 
         let item : DownloadFile = this.downloadFiles.pop();
@@ -45,12 +63,13 @@ export class DownloadHelper
         this.onStart();
         remote.require("electron-download-manager").download(cDownloadConfig, (error, info) => {
             if (error) console.log("Error: " + error);
-            
+
+            this.downloadItemName = null;
             this.downloadNext();
         });
     }
 
-    interrupt() : void {
+    public interrupt() : void {
         if (this.downloadItem == null)
             return;
 
@@ -58,7 +77,7 @@ export class DownloadHelper
         this.onInterrupt();
     }
 
-    pause() : void {
+    public pause() : void {
         if (this.downloadItem == null)
             return;
 
@@ -66,7 +85,7 @@ export class DownloadHelper
         this.onPause();
     }
 
-    resume() : void {
+    public resume() : void {
         if (this.downloadItem == null)
             return;
 
@@ -74,39 +93,40 @@ export class DownloadHelper
         this.onResume();
     }
 
-    onProgress(progress, item) : void
+    private onProgress(progress, item) : void
     {
         this.downloadItem = item;
+        this.downloadItemName = this.downloadItem.getFilename();
         this.onDownloadSpeedUpdate(progress.speedBytes);
         this.onDownloadProgressUpdate(progress.progress)
     }
 
-    onDownloadSpeedUpdate(downloadSpeed) : void {
+    private onDownloadSpeedUpdate(downloadSpeed) : void {
         this.callback.OnDownloadSpeedUpdate(downloadSpeed);
     }
 
-    onDownloadProgressUpdate(progress) : void {
+    private onDownloadProgressUpdate(progress) : void {
         this.callback.OnDownloadProgressUpdate(progress);
     }
 
-    onPause() : void {
+    private onPause() : void {
         this.callback.OnDownloadPause();
     }
 
-    onInterrupt() : void {
+    private onInterrupt() : void {
         this.callback.OnDownloadInterrupt();
     }
 
-    onResume() : void {
+    private onResume() : void {
         this.callback.OnDownloadResume();
     }
 
-    onStart() : void {
+    private onStart() : void {
         this.downloading = true;
         this.callback.OnDownloadStart();
     }
 
-    onFinished() : void {
+    private onFinished() : void {
         this.downloading = false;
         this.callback.OnDownloadFinished();
     }

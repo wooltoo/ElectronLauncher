@@ -5,6 +5,8 @@ import { DownloadState } from '../general/downloadstate';
 import { DownloadHelper } from '../general/downloadhelper';
 import { DownloadCallback } from '../general/downloadcallback';
 import { DownloadListService } from '../download-list.service';
+import { DownloadListServiceState } from '../general/downloadlistservicestate';
+import { DownloadFile } from '../general/downloadfile';
 
 
 @Component({
@@ -22,7 +24,7 @@ export class HomeComponent implements OnInit, DownloadCallback {
   progress : string = "10%";
   progressBarWidth : number = 100;
 
-  buttonText : string = "DOWNLOAD";
+  buttonText : string = "LOADING...";
   downloadHelper : DownloadHelper;
 
   showPauseButton : boolean = false;
@@ -36,10 +38,19 @@ export class HomeComponent implements OnInit, DownloadCallback {
               private zone: NgZone,
               private downloadListService : DownloadListService) 
   {
-    this.downloadHelper = new DownloadHelper(this);
+    this.downloadHelper = new DownloadHelper(this, this.downloadListService);
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void { 
+    this.downloadHelper.checkForFilesToDownload();
+  }
+
+  OnFilesToDownloadResult(hasFilesToDownload: boolean): void {
+    if (hasFilesToDownload)
+      this.buttonText = "DOWNLOAD";
+    else
+      this.buttonText = "START GAME";
+  }
 
   OnDownloadStart() : void {
     this.state = DownloadState.DOWNLOADING;
@@ -106,12 +117,16 @@ export class HomeComponent implements OnInit, DownloadCallback {
 
   download()
   {
+    if (this.downloadListService.getState() == DownloadListServiceState.RETRIEVING_INFORMATION)
+      return;
+
     ///Users/fredrik/Desktop/DownloadTest
     if (this.state == DownloadState.WAITING_FOR_DOWNLOAD || this.state == DownloadState.INTERRUPTED)
     {
       console.log("got this faR!");
       this.downloadHelper.prepare(
-        this.downloadListService.getPatches(), 
+        //this.downloadListService.getPatches().concat(this.downloadListService.getClient()), 
+        this.downloadListService.getPatches(),
         "D:/DownloadTest"
       );
       this.downloadHelper.download();

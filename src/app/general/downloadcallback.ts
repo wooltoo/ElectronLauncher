@@ -1,3 +1,5 @@
+import { DownloadFile } from "./downloadfile";
+
 export interface DownloadCallback
 {
     OnDownloadStart() : void;
@@ -7,4 +9,5 @@ export interface DownloadCallback
     OnDownloadInterrupt() : void;
     OnDownloadResume() : void;
     OnDownloadFinished() : void;
+    OnFilesToDownloadResult(hasFilesToDownload : boolean) : void;
 }
