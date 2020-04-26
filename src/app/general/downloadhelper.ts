@@ -3,6 +3,7 @@ import { DownloadCallback } from '../general/downloadcallback';
 import { DownloadFile } from '../general/downloadfile';
 import { DownloadListService } from '../download-list.service';
 import { DownloadListServiceState } from './downloadlistservicestate';
+import { LauncherConfig } from './launcherconfig'
 
 export class DownloadHelper
 {
@@ -18,33 +19,35 @@ export class DownloadHelper
 
     downloadItem : DownloadItem;
     downloadItemName : string;
-
     downloadFiles : DownloadFile[] = [];
 
-    constructor(private callback : DownloadCallback, private downloadListService : DownloadListService) { }
+    constructor(private callback : DownloadCallback, private downloadListService : DownloadListService) { 
+        this.checkForFilesToDownload();
+        this.checkForFilesToDownloadWrapper();
+    }
 
     public prepare(items : DownloadFile[], downloadFolder : string) : void
     {
-        console.log("### PREPARE BEGIN");
         this.downloadFiles = items;
         this.downloadConfig.downloadFolder = downloadFolder;
-        console.log(this.downloadFiles);
-        console.log("### PREPARE END");
     }
 
     public download() : void {
         this.downloadNext();
     }
 
-    public checkForFilesToDownload() : void {
-        let handle = setInterval(() => {
-            if (this.downloadListService.getState() == DownloadListServiceState.READY) {
-                this.callback.OnFilesToDownloadResult(
-                    this.downloadListService.getPatches().length > 0
-                );
-                clearInterval(handle);
-            }
-        }, 100);
+    private checkForFilesToDownload() : void {
+        if (this.downloadListService.getState() == DownloadListServiceState.READY) {
+            this.callback.OnFilesToDownloadResult(
+                this.downloadListService.getPatches().length > 0
+            );
+        }
+    }
+
+    private checkForFilesToDownloadWrapper() : void {
+        setInterval(() => {
+            this.checkForFilesToDownload();
+        }, LauncherConfig.INTERVAL_CHECK_FOR_PATCH_TO_DL);
     }
 
     private downloadNext() : void {

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { DownloadFile } from './general/downloadfile';
 import { AppConfig } from '../environments/environment';
 import { DownloadListServiceState } from './general/downloadlistservicestate';
+import { LauncherConfig } from './general/launcherconfig';
 
 const request = require('request');
 
@@ -17,10 +18,20 @@ export class DownloadListService {
   constructor()
   { 
     this.fetchRemoteFiles();
+
+    if (LauncherConfig.SHOULD_CHECK_FOR_NEW_REMOTE_PATCHES) 
+      this.checkForRemotePatches();
+  }
+
+  private checkForRemotePatches() : void {
+    setInterval(
+      () => {
+        this.fetchRemoteFiles()
+      }, LauncherConfig.INTERVAL_CHECK_FOR_NEW_REMOTE_PATCHES
+    );
   }
 
   public fetchRemoteFiles() : void {
-    console.log("fetching remote files");
     let fetchPatchesId = setInterval(
       () => { 
         this.fetchPatches(fetchPatchesId);

@@ -9,5 +9,5 @@ export interface DownloadCallback
     OnDownloadInterrupt() : void;
     OnDownloadResume() : void;
     OnDownloadFinished() : void;
-    OnFilesToDownloadResult(hasFilesToDownload : boolean) : void;
+    OnFilesToDownloadResult(hasFilesToCheckForDownload : boolean) : void;
 }

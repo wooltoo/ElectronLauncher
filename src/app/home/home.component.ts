@@ -5,8 +5,8 @@ import { DownloadState } from '../general/downloadstate';
 import { DownloadHelper } from '../general/downloadhelper';
 import { DownloadCallback } from '../general/downloadcallback';
 import { DownloadListService } from '../download-list.service';
-import { DownloadListServiceState } from '../general/downloadlistservicestate';
 import { DownloadFile } from '../general/downloadfile';
+import { DownloadPatchFilter } from '../general/downloadpatchfilter'
 
 
 @Component({
@@ -16,16 +16,16 @@ import { DownloadFile } from '../general/downloadfile';
 })
 export class HomeComponent implements OnInit, DownloadCallback {
 
-  state : DownloadState = DownloadState.WAITING_FOR_DOWNLOAD;
+  state : DownloadState = DownloadState.LOADING;
 
   downloadItem : DownloadItem;
-
   downloadSpeed : string = "9.67 MB/s"
   progress : string = "10%";
   progressBarWidth : number = 100;
 
   buttonText : string = "LOADING...";
   downloadHelper : DownloadHelper;
+  downloadPatchFilter : DownloadPatchFilter;
 
   showPauseButton : boolean = false;
   showPlayButton : boolean = false;
@@ -33,23 +33,34 @@ export class HomeComponent implements OnInit, DownloadCallback {
   showDownloadStats : boolean = false;
   showDownloadBar : boolean = false;
 
+  hasFilesToDownload : boolean = false;
+
   constructor(private router: Router, 
               private cd: ChangeDetectorRef,
               private zone: NgZone,
               private downloadListService : DownloadListService) 
   {
     this.downloadHelper = new DownloadHelper(this, this.downloadListService);
+    this.downloadPatchFilter = new DownloadPatchFilter(this.downloadListService);
   }
 
-  ngOnInit(): void { 
-    this.downloadHelper.checkForFilesToDownload();
-  }
+  ngOnInit(): void { }
 
-  OnFilesToDownloadResult(hasFilesToDownload: boolean): void {
-    if (hasFilesToDownload)
-      this.buttonText = "DOWNLOAD";
-    else
-      this.buttonText = "START GAME";
+  OnFilesToDownloadResult(hasFilesToCheckForDownload: boolean): void {
+    if (this.hasFilesToDownload)
+      return;
+
+    if (hasFilesToCheckForDownload)
+    {
+      if (this.downloadPatchFilter.getPatchesToInstall().length > 0 ) {
+        this.state = DownloadState.WAITING_FOR_DOWNLOAD;
+        this.buttonText = "UPDATE";
+        this.hasFilesToDownload = true;
+        return;
+      }
+    }
+
+    this.buttonText = "START GAME";
   }
 
   OnDownloadStart() : void {
@@ -86,13 +97,13 @@ export class HomeComponent implements OnInit, DownloadCallback {
   }
 
   OnDownloadInterrupt(): void {
-    this.state = DownloadState.INTERRUPTED;
+    this.state = DownloadState.WAITING_FOR_DOWNLOAD;
     this.showPauseButton = false;
     this.showPlayButton = false;
     this.showDownloadStats = false;
     this.showInterruptButton = false;
     this.showDownloadBar = false;
-    this.buttonText = "DOWNLOAD";
+    this.buttonText = "UPDATE";
   }
 
   OnDownloadResume() : void {
@@ -112,39 +123,51 @@ export class HomeComponent implements OnInit, DownloadCallback {
     this.showDownloadStats = false;
     this.showInterruptButton = false;
     this.showDownloadBar = false;
+    this.hasFilesToDownload = false;
     this.buttonText = "START GAME";
   }
 
   download()
   {
-    if (this.downloadListService.getState() == DownloadListServiceState.RETRIEVING_INFORMATION)
-      return;
-
     ///Users/fredrik/Desktop/DownloadTest
-    if (this.state == DownloadState.WAITING_FOR_DOWNLOAD || this.state == DownloadState.INTERRUPTED)
-    {
-      console.log("got this faR!");
-      this.downloadHelper.prepare(
-        //this.downloadListService.getPatches().concat(this.downloadListService.getClient()), 
-        this.downloadListService.getPatches(),
-        "D:/DownloadTest"
-      );
-      this.downloadHelper.download();
-    } else if (this.state == DownloadState.PAUSED)
-    {
-      this.OnPressResumeDownload();
-    }
+    this.downloadHelper.prepare(
+      //this.downloadListService.getPatches().concat(this.downloadListService.getClient()), 
+      this.downloadPatchFilter.getPatchesToInstall(),
+      "D:/DownloadTest"
+    );
+
+    this.downloadHelper.download();
+    this.state = DownloadState.DOWNLOADING;
+  }
+
+  startGame() : void {
+
+  }
+
+  OnPressStartButton() {
+    if (this.hasFilesToDownload) {
+      if (this.state == DownloadState.WAITING_FOR_DOWNLOAD)
+        this.download();
+      else if (this.state == DownloadState.PAUSED)
+        this.OnPressResumeDownload();
+    } 
+
+    this.startGame();
   }
 
   OnPressPauseDownload() {
+    this.state = DownloadState.PAUSED;
     this.downloadHelper.pause();
   }
 
   OnPressResumeDownload() {
+    console.log("RESUME PRESSED");
+    this.state = DownloadState.DOWNLOADING;
     this.downloadHelper.resume();
   }
 
   OnPressCancelDownload() {
+    this.state = DownloadState.WAITING_FOR_DOWNLOAD;
     this.downloadHelper.interrupt();
   }
 

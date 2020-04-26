@@ -1,6 +1,7 @@
 import { app, BrowserWindow, screen } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+import { LauncherConfig } from './src/app/general/launcherconfig';
 
 let win: BrowserWindow = null;
 const args = process.argv.slice(1),
@@ -22,7 +23,6 @@ const createLoadingScreen = () => {
       transparent: true
     })
   );
-
   loadingScreen.resizable = true;
 
   loadingScreen.loadURL(url.format({
