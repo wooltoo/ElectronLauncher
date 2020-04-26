@@ -10,6 +10,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { InfoComponent } from '../info/info.component';
 import { NewsEntryComponent } from '../newsentry/newsentry.component';
 import { StatusBarComponent } from '../statusbar/statusbar.component'
+import { LandingComponent } from '../landing/landing.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { StatusBarComponent } from '../statusbar/statusbar.component'
     NavbarComponent, 
     InfoComponent, 
     NewsEntryComponent, 
-    StatusBarComponent
+    StatusBarComponent,
+    LandingComponent
   ],
   imports: [CommonModule, SharedModule, HomeRoutingModule],
   schemas: [

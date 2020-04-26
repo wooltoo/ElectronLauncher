@@ -1,0 +1,115 @@
+.primary-container-bg {
+    margin-left:25px;
+    background: url("assets/welcome/primary-container-bg.png");
+    width: 1236px;
+    height: 487px;
+}
+
+.purple-color {
+    color: rgb(211, 161, 255);
+}
+
+#primary-container {
+    height: 720px;
+    font-family: frizQuadraStd;
+    overflow-x:hidden;
+    overflow-y:hidden;
+    background-color: rgba(63,34,89,0.5);
+}
+
+.horizontal-center {
+    margin:0 auto;
+}
+
+#welcome-text {
+    margin-top: -52px;
+    font-size: 48.78pt;
+    color: white;
+    margin-left:365px;
+}
+
+#ready-text {
+    margin-top:-40px;
+    font-size: 17.7pt;
+    margin-left:550px;
+}
+
+#download-button {
+    background: url("assets/welcome/button.png");
+    width: 528px;
+    height: 176px;
+    border-radius: 0 !important;
+    border-color: rgba(0,0,0,0);
+    outline:none;
+    color: white;
+    font-size: 43.52pt;
+    margin-left:670px;/*-30px offset due to bad img*/
+    position:relative;
+    top:70px; /*-30px offset due to bad img*/
+}
+
+#select-game-button {
+    background: url("assets/welcome/select-game-path-button.png");
+    width:366px;
+    height:46px;
+    border-radius: 0 !important;
+    border: 0 !important;
+    border-color: rgba(0,0,0,0);
+    outline: none;
+    color: rgb(103,103,103);
+    position:relative;
+    left:785px;
+    top:60px;
+}
+
+#download-game-text {
+    position:relative;
+    left:805px;
+    top:45px;
+    font-size:11pt;
+}
+
+#download-button:focus, #download-button:active, 
+#select-game-button:focus, #select-game-button:active,
+#go-button:focus, #go-button:active
+{
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+#already-have-text {
+    position:relative;
+    left:730px;
+    top:140px;
+    font-size:15.12pt;
+}
+
+#only-works-with-text {
+    color: rgb(109,61,153);
+    font-size:11pt;
+    position:relative;
+    left:914px;
+    top:185px;
+}
+
+#arrox {
+    position:relative;
+    left:740px;
+    top:85px;
+}
+
+#go-button {
+    background: url("assets/welcome/go-button.png");
+    width:47px;
+    height:45px;
+    border-radius: 0 !important;
+    border:0 !important;
+    border-color: rgba(0,0,0,0);
+    outline: none;
+    color: white;
+    position:relative;
+    left:1165px;
+    top:7px;
+    padding:0;
+    font-size:11pt;
+}

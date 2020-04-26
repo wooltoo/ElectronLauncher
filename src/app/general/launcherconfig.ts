@@ -1,8 +1,5 @@
 export class LauncherConfig 
 {
-    // The name of the launcher window
-    static NAME : string = "Tales of Time";
-
     // How often the launcher checks if a patch is missing locally (MS).
     static INTERVAL_CHECK_FOR_PATCH_TO_DL : number = 500;
 

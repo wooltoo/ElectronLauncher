@@ -2,11 +2,10 @@ import { Component, OnInit, NgZone, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { DownloadItem } from 'electron';
 import { DownloadState } from '../general/downloadstate';
-import { DownloadHelper } from '../general/downloadhelper';
+//import { DownloadHelper } from '../general/downloadhelper';
 import { DownloadCallback } from '../general/downloadcallback';
 import { DownloadListService } from '../download-list.service';
-import { DownloadFile } from '../general/downloadfile';
-import { DownloadPatchFilter } from '../general/downloadpatchfilter'
+//import { DownloadPatchFilter } from '../general/downloadpatchfilter'
 
 
 @Component({
@@ -24,8 +23,8 @@ export class HomeComponent implements OnInit, DownloadCallback {
   progressBarWidth : number = 100;
 
   buttonText : string = "LOADING...";
-  downloadHelper : DownloadHelper;
-  downloadPatchFilter : DownloadPatchFilter;
+  //downloadHelper : DownloadHelper;
+  //downloadPatchFilter : DownloadPatchFilter;
 
   showPauseButton : boolean = false;
   showPlayButton : boolean = false;
@@ -40,8 +39,8 @@ export class HomeComponent implements OnInit, DownloadCallback {
               private zone: NgZone,
               private downloadListService : DownloadListService) 
   {
-    this.downloadHelper = new DownloadHelper(this, this.downloadListService);
-    this.downloadPatchFilter = new DownloadPatchFilter(this.downloadListService);
+    //this.downloadHelper = new DownloadHelper(this, this.downloadListService);
+    //this.downloadPatchFilter = new DownloadPatchFilter(this.downloadListService);
   }
 
   ngOnInit(): void { }
@@ -52,12 +51,12 @@ export class HomeComponent implements OnInit, DownloadCallback {
 
     if (hasFilesToCheckForDownload)
     {
-      if (this.downloadPatchFilter.getPatchesToInstall().length > 0 ) {
+      /*if (this.downloadPatchFilter.getPatchesToInstall().length > 0 ) {
         this.state = DownloadState.WAITING_FOR_DOWNLOAD;
         this.buttonText = "UPDATE";
         this.hasFilesToDownload = true;
         return;
-      }
+      }*/
     }
 
     this.buttonText = "START GAME";
@@ -129,14 +128,13 @@ export class HomeComponent implements OnInit, DownloadCallback {
 
   download()
   {
-    ///Users/fredrik/Desktop/DownloadTest
-    this.downloadHelper.prepare(
+    /*this.downloadHelper.prepare(
       //this.downloadListService.getPatches().concat(this.downloadListService.getClient()), 
       this.downloadPatchFilter.getPatchesToInstall(),
       "D:/DownloadTest"
     );
 
-    this.downloadHelper.download();
+    this.downloadHelper.download();*/
     this.state = DownloadState.DOWNLOADING;
   }
 
@@ -157,18 +155,18 @@ export class HomeComponent implements OnInit, DownloadCallback {
 
   OnPressPauseDownload() {
     this.state = DownloadState.PAUSED;
-    this.downloadHelper.pause();
+    //this.downloadHelper.pause();
   }
 
   OnPressResumeDownload() {
     console.log("RESUME PRESSED");
     this.state = DownloadState.DOWNLOADING;
-    this.downloadHelper.resume();
+    //this.downloadHelper.resume();
   }
 
   OnPressCancelDownload() {
     this.state = DownloadState.WAITING_FOR_DOWNLOAD;
-    this.downloadHelper.interrupt();
+    //this.downloadHelper.interrupt();
   }
 
   formatProgress(progress : string) : string {

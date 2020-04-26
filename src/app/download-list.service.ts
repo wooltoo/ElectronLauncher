@@ -4,7 +4,7 @@ import { AppConfig } from '../environments/environment';
 import { DownloadListServiceState } from './general/downloadlistservicestate';
 import { LauncherConfig } from './general/launcherconfig';
 
-const request = require('request');
+//const request = require('request');
 
 @Injectable({
   providedIn: 'root'
@@ -60,7 +60,7 @@ export class DownloadListService {
   }
 
   private fetchPatches(fetchPatchesId : any) : void {
-    request.get({
+    /*request.get({
       url: AppConfig.backend_url + '/patches',
       json: true
     }, (error, response, json) => {
@@ -77,11 +77,11 @@ export class DownloadListService {
       console.log("GOT PATCHES!");
       clearInterval(fetchPatchesId); 
       this.updateState();
-    });
+    });*/
   }
 
   private fetchClient(fetchClientId : any) : void {
-    request.get({
+    /*request.get({
       url: AppConfig.backend_url + '/client',
       json: true,
     }, (error, response, json) => {
@@ -93,7 +93,7 @@ export class DownloadListService {
       console.log("GOT CLIENT!");
       clearInterval(fetchClientId);
       this.updateState();
-    });
+    });*/
   }
 
   private updateState() : void {
