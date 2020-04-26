@@ -1,17 +1,17 @@
 <p id="welcome-text">Welcome to Tales of Time</p>
 <p id="ready-text" class="purple-color">Are you ready, Adventurer?</p>
 <div class="primary-container-bg">
-    <button id="download-button" type="button" class="btn btn-secondary btn-lg btn-block" (click)="OnPressStartButton()">
+    <button id="download-button" type="button" class="btn btn-secondary btn-lg btn-block" (click)="OnPressDownload()">
         DOWNLOAD
     </button>
     <p id="download-game-text" class="purple-color">Download the game client to get started!</p>
     <p id="already-have-text" class="purple-color">Do you already have world of Warcraft?</p>
     <p id="only-works-with-text">*ONLY WORKS WITH WOTLK 3.3.5a</p>
     <img id="arrox" src="assets/welcome/arrox.png"/>
-    <button id="select-game-button" type="button" class="btn btn-secondary btn-lg btn-block">
+    <button id="select-game-button" type="button" class="btn btn-secondary btn-lg btn-block" (click)="OnPressSelectGamePath()">
         SELECT GAME PATH
     </button>
-    <button id="go-button" type="button" class="btn btn-secondary btn-lg btn-block">
+    <button id="go-button" type="button" class="btn btn-secondary btn-lg btn-block" (click)="OnPressGo()">
         GO
     </button>
 </div>

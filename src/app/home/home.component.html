@@ -11,10 +11,10 @@
   
   <app-navbar></app-navbar>
   <app-statusbar></app-statusbar>
-  <!--<app-info></app-info>-->
-  <app-landing></app-landing>
+  <app-info *ngIf="showInfo" class="fadeIn animated"></app-info>
+  <app-landing *ngIf="showLanding"></app-landing>
 
-  <!--<div class="container bottom-bar-container">
+  <div *ngIf="showInfo" class="container bottom-bar-container fadeIn animated">
     <div class="row">
       <div class="col-4 no-padding">
         <button id="start-button" type="button" class="btn btn-secondary btn-lg btn-block" (click)="OnPressStartButton()">
@@ -46,5 +46,5 @@
         </div>
 
     </div>
-  </div>-->
+  </div>
 </div>

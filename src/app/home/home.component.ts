@@ -33,6 +33,9 @@ export class HomeComponent implements OnInit, DownloadCallback {
   showDownloadBar : boolean = false;
 
   hasFilesToDownload : boolean = false;
+  
+  showLanding : boolean = true;
+  showInfo : boolean = false;
 
   constructor(private router: Router, 
               private cd: ChangeDetectorRef,
@@ -142,6 +145,16 @@ export class HomeComponent implements OnInit, DownloadCallback {
 
   }
 
+  public OnPickGamePath(path : string) : void {
+    this.hideLanding();
+  }
+
+  // Called when the landing component requests the client to be downloaded.
+  // path = selected client directory.
+  public OnSelectClientDownload(path : string) : void {
+
+  }
+
   OnPressStartButton() {
     if (this.hasFilesToDownload) {
       if (this.state == DownloadState.WAITING_FOR_DOWNLOAD)
@@ -177,5 +190,10 @@ export class HomeComponent implements OnInit, DownloadCallback {
   formatDownloadSpeed(downloadSpeed) : string {
     let downloadSpeedNum = Number(downloadSpeed) / Math.pow(1024,2);
     return downloadSpeedNum.toFixed(2).toString() + " MB/s";
+  }
+
+  private hideLanding() : void {
+    this.showLanding = false;
+    this.showInfo = true;
   }
 }

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { HomeComponent } from '../home/home.component';
 
 @Component({
   selector: 'app-landing',
@@ -7,9 +8,34 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingComponent implements OnInit {
 
-  constructor() { }
+  gameDirectory : string = null;
 
-  ngOnInit(): void {
+  constructor(@Inject(HomeComponent) private homeComponent : HomeComponent) { }
+
+  ngOnInit(): void { }
+
+  OnPressGo() : void {
+    if (this.gameDirectory == null)
+      return;
+
+    this.homeComponent.OnPickGamePath(this.gameDirectory);
   }
 
+  OnPressSelectGamePath() : void {
+    this.gameDirectory = this.SelectDirectory();
+  }
+
+  OnPressDownload() : void {
+    this.homeComponent.OnSelectClientDownload(
+      this.SelectDirectory()
+    );
+  }
+
+  SelectDirectory() : string {
+    const {dialog} = require('electron').remote;
+    let dir = dialog.showOpenDialogSync({ properties: ['openDirectory']});
+
+    if (dir.length == 0) return;
+    return dir[0];
+  }
 }
