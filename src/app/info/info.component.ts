@@ -11,7 +11,7 @@ import { TouchBarSlider } from 'electron';
 })
 export class InfoComponent implements OnInit {
 
-  newsEntries : NewsEntry[] = null;
+  newsEntries : NewsEntry[] = [];
   showLoadingSpinner : boolean = true;
 
   constructor(private newsEntryService : NewsEntryService,
@@ -32,7 +32,6 @@ export class InfoComponent implements OnInit {
     if (!this.differsFromLoaded(news)) 
       return;
 
-    this.newsEntries = [];
     this.newsEntries.length = 0;
     news.forEach((entry : NewsEntry) => {
       this.newsEntries.push(entry);
@@ -45,7 +44,7 @@ export class InfoComponent implements OnInit {
     if (news == undefined || news == null)
       return false;
 
-    if (this.newsEntries == null)
+    if (this.newsEntries.length != news.length)
       return true;
 
     for(let i = 0; i < this.newsEntries.length; i++) {
