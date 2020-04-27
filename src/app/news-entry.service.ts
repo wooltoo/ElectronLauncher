@@ -13,15 +13,14 @@ export class NewsEntryService {
 
   constructor() {
     this.fetchNews();
-    setInterval(() => { this.fetchNews(); }, 1000);
+    setInterval(() => { this.fetchNews(); }, 100);
   }
 
   fetchNews() : void {
-    request.get(LauncherConfig.BACKEND_HOST + '/news', (error, response, body) => {
+    request.get({url: LauncherConfig.BACKEND_HOST + '/news', json: true}, (error, response, body) => {
       this.news = [];
-      let json = JSON.parse(body);
 
-      json.forEach(obj => {
+      body.forEach(obj => {
         this.news.push(
           new NewsEntry(obj["title"], obj["date"], obj["text"])
         );

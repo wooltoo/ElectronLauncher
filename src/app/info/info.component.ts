@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { NewsEntryService } from '../news-entry.service';
 import { NewsEntry } from '../news-entry';
+import { LauncherConfig } from '../general/launcherconfig';
 
 @Component({
   selector: 'app-info',
@@ -9,7 +10,8 @@ import { NewsEntry } from '../news-entry';
 })
 export class InfoComponent implements OnInit {
 
-  newsEntries : NewsEntry[];
+  newsEntries : NewsEntry[] = [];
+  showLoadingSpinner : boolean = true;
 
   constructor(private newsEntryService : NewsEntryService,
               private changeDetectorRef : ChangeDetectorRef) {
@@ -17,12 +19,19 @@ export class InfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getEntries();
-    setInterval(() => { this.getEntries(); }, 1000);
+    setTimeout(() => { this.getEntries(); }, 200);
+    setInterval(
+      () => { this.getEntries(); },
+      LauncherConfig.INTERVAL_CHECK_FOR_NEWS
+    );
   }
 
   getEntries() : void {
-    this.newsEntries = this.newsEntryService.getNews();
-    this.changeDetectorRef.detectChanges();
+    this.newsEntries.length = 0;
+    this.newsEntryService.getNews().forEach((entry : NewsEntry) => {
+      this.newsEntries.push(entry);
+    });
+
+    this.showLoadingSpinner = false;
   }
 }
