@@ -48,7 +48,7 @@
     top:70px; /*-30px offset due to bad img*/
 }
 
-#select-game-button {
+#select-game-field {
     background: url("assets/welcome/select-game-path-button.png");
     width:366px;
     height:46px;
@@ -59,7 +59,8 @@
     color: rgb(103,103,103);
     position:relative;
     left:785px;
-    top:60px;
+    top:54px;
+    text-align:center;
 }
 
 #download-game-text {

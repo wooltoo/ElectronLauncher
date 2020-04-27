@@ -8,24 +8,27 @@ import { HomeComponent } from '../home/home.component';
 })
 export class LandingComponent implements OnInit {
 
-  gameDirectory : string = null;
+  clientDirectory : string = "SELECT GAME PATH";
+  hasSelectedPath : boolean = false;
 
   constructor(@Inject(HomeComponent) private homeComponent : HomeComponent) { }
 
   ngOnInit(): void { }
 
   OnPressGo() : void {
-    if (this.gameDirectory == null)
+    if (!this.hasSelectedPath)
       return;
 
-    this.homeComponent.OnPickGamePath(this.gameDirectory);
+    this.homeComponent.OnPickGamePath(this.clientDirectory);
   }
 
   OnPressSelectGamePath() : void {
-    this.gameDirectory = this.SelectDirectory();
+    this.clientDirectory = this.SelectDirectory();
+    this.hasSelectedPath = true;
   }
 
   OnPressDownload() : void {
+    this.hasSelectedPath = true;
     this.homeComponent.OnSelectClientDownload(
       this.SelectDirectory()
     );

@@ -33,8 +33,8 @@ export class HomeComponent implements OnInit, DownloadCallback {
   showInterruptButton : boolean = false;
   showDownloadStats : boolean = false;
   showDownloadBar : boolean = false;
-  showLanding : boolean = false;
-  showInfo : boolean = true;
+  showLanding : boolean = true;
+  showInfo : boolean = false;
   showSettings : boolean = false;
 
   constructor(private router: Router, 

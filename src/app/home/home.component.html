@@ -1,7 +1,3 @@
-  <!--<h1 class="title">
-    {{ 'PAGES.HOME.TITLE' | translate }}
-  </h1>-->
-
 <div id="primary-container" class="fadeIn animated">
   <video autoplay muted loop poster="assets/background-placeholder.png">
     <source src="assets/background.mp4" type="video/mp4">
@@ -12,7 +8,7 @@
   <app-navbar></app-navbar>
   <app-statusbar></app-statusbar>
   <app-info [ngClass]="{'hidden' : showInfo == false}"></app-info>
-  <app-landing *ngIf="showLanding"></app-landing>
+  <app-landing [ngClass]="{'hidden' : showLanding == false}"></app-landing>
   <app-settings [ngClass]="{'hidden' : showSettings == false}"></app-settings>
 
   <div class="container bottom-bar-container fadeIn animated" [ngClass]="{'hidden' : showInfo == false}">
@@ -45,7 +41,6 @@
             </div>
           </div>
         </div>
-
     </div>
   </div>
 </div>

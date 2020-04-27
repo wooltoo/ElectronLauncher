@@ -8,9 +8,9 @@
     <p id="already-have-text" class="purple-color">Do you already have world of Warcraft?</p>
     <p id="only-works-with-text">*ONLY WORKS WITH WOTLK 3.3.5a</p>
     <img id="arrox" src="assets/welcome/arrox.png"/>
-    <button id="select-game-button" type="button" class="btn btn-secondary btn-lg btn-block" (click)="OnPressSelectGamePath()">
-        SELECT GAME PATH
-    </button>
+    <div (click)="OnPressSelectGamePath()">
+        <input id="select-game-field" value="{{clientDirectory}}" type="text" class="form-control" aria-describedby="emailHelp" disabled>
+    </div>
     <button id="go-button" type="button" class="btn btn-secondary btn-lg btn-block" (click)="OnPressGo()">
         GO
     </button>
