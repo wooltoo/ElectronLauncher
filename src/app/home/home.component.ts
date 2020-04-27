@@ -28,10 +28,10 @@ export class HomeComponent implements OnInit, DownloadCallback {
   hasFilesToDownload : boolean = false;
   isInstalling : boolean = false;
 
-  showPauseButton : boolean = false;
-  showPlayButton : boolean = false;
+  showPauseButton : boolean = true;
+  showPlayButton : boolean = true;
   showInterruptButton : boolean = false;
-  showDownloadStats : boolean = false;
+  showDownloadStats : boolean = true;
   showDownloadBar : boolean = false;
   showLanding : boolean = true;
   showInfo : boolean = false;
@@ -141,15 +141,16 @@ export class HomeComponent implements OnInit, DownloadCallback {
   download()
   {
     if (this.hasClientInstalled()) {
+      console.log("DOWNLOAD PATCHES!");
       this.downloadPatches();
     } else {
+      console.log("DOWNLOAD CLIENT!");
       this.downloadClient();
     }
   }
 
   downloadPatches() : void {
     let clientDir = this.localSt.retrieve('clientDirectory');
-    console.log("ClientDir: " + clientDir);
     this.downloadHelper.prepare(
       this.downloadPatchFilter.getPatchesToInstall(clientDir),
       clientDir
@@ -196,7 +197,6 @@ export class HomeComponent implements OnInit, DownloadCallback {
     if (this.showLanding)
       return;
 
-    console.log("COGWHEEL PRESSED");
     this.showSettingsPage();
   }
 
@@ -224,7 +224,6 @@ export class HomeComponent implements OnInit, DownloadCallback {
   }
 
   OnPressResumeDownload() {
-    console.log("RESUME PRESSED");
     this.state = DownloadState.DOWNLOADING;
     this.downloadHelper.resume();
   }

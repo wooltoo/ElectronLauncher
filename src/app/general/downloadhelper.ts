@@ -62,7 +62,7 @@ export class DownloadHelper
 
         let cDownloadConfig = Object.assign({}, this.downloadConfig);
         cDownloadConfig.url = item.getResource();
-
+        
         this.onStart();
         remote.require("electron-download-manager").download(cDownloadConfig, (error, info) => {
             if (error) console.log("Error: " + error);

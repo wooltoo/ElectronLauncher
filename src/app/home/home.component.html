@@ -11,7 +11,7 @@
   <app-landing [ngClass]="{'hidden' : showLanding == false}"></app-landing>
   <app-settings [ngClass]="{'hidden' : showSettings == false}"></app-settings>
 
-  <div class="container bottom-bar-container fadeIn animated" [ngClass]="{'hidden' : showInfo == false}">
+  <div class="container bottom-bar-container slideInLeft animated" [ngClass]="{'hidden' : showInfo == false}">
     <div class="row">
       <div class="col-4 no-padding">
         <button id="start-button" type="button" class="btn btn-secondary btn-lg btn-block" (click)="OnPressStartButton()">
@@ -19,28 +19,33 @@
         </button>
       </div>
       
-        <div *ngIf="showDownloadBar" class="download-bar fadeIn animated">
-          <div class="progress" id="progress-dl">
-            <div class="progress-bar bg-success" role="progressbar" [style.width.%]="progressBarWidth" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-            
-            <div *ngIf="showDownloadStats">
-              <p id="download-progress">{{progress}}</p>
-              <p id="download-speed">{{downloadSpeed}}</p>
+      <div *ngIf="showDownloadBar" class="download-bar fadeIn animated">
+
+        <div class="progress" id="progress-dl">
+          <div class="progress-bar bg-success" role="progressbar" [style.width.%]="progressBarWidth" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+          
+          <div *ngIf="showPauseButton; else elseBlock">
+            <i id="download-pause-button" class="fas fa-pause" (click)="OnPressPauseDownload()"></i>
+          </div>
+          <ng-template #elseBlock>
+            <div *ngIf="showPlayButton">
+              <i id="download-pause-button" class="fas fa-play" (click)="OnPressResumeDownload()"></i>
             </div>
-            <div *ngIf="showPauseButton; else elseBlock">
-              <i id="download-pause-button" class="fas fa-pause" (click)="OnPressPauseDownload()"></i>
-            </div>
-            <ng-template #elseBlock>
-              <div *ngIf="showPlayButton">
-                <i id="download-pause-button" class="fas fa-play" (click)="OnPressResumeDownload()"></i>
-              </div>
-            </ng-template>
-            
-            <div *ngIf="showInterruptButton">
-              <i id="download-exit-button" class="far fa-window-close" (click)="OnPressCancelDownload()"></i>
-            </div>
+          </ng-template>
+          
+          <div *ngIf="showInterruptButton">
+            <i id="download-exit-button" class="far fa-window-close" (click)="OnPressCancelDownload()"></i>
           </div>
         </div>
+
+        <div id="download-progress-wrapper">
+          <p id="download-progress">{{progress}}</p>        
+        </div>
+
+        <div id="download-speed-wrapper">
+          <p id="download-speed">{{downloadSpeed}}</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>

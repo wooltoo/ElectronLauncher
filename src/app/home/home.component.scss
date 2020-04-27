@@ -76,37 +76,54 @@ input, button, textarea, :focus {
     background-color: rgb(170, 251, 113) !important;
 }
 
+#download-progress-wrapper {
+    position:absolute;
+    top:7px;
+    left:980px;
+    width:55px;
+}
+
 #download-progress {
-    position: absolute;
+    display:block;
+    text-align:center;
     font-size: 16px !important;
-    top: 605px;
-    right: 144px;
     color: rgb(170, 251, 113);
+    font-size:7pt;
+}
+
+#download-speed-wrapper {
+    position:absolute;
+    top:25px;
+    left:982.5px;
+    width:55px;
 }
 
 #download-speed {
-    position: absolute;
-    right: 138px;
-    top: 622px;
-    color: rgb(191, 146, 218);
+    display:block;
+    text-align:center;
+    color:rgb(191, 146, 218);
+    font-size:8pt;
 }
 
 #download-pause-button {
     position: absolute;
-    right: 117px;
-    top: 620.5px;
-    color: rgb(124, 67, 175);
+    right:90px;
+    top:20px;
+    color:rgb(124, 67, 175);
 }
 
 #download-exit-button {
-    position: absolute;
-    right: 97px;
-    top: 620.5px;
+    position:absolute;
+    right:65px;
+    top:20px;
     color: rgb(124, 67, 175);
 }
 
 #progress-dl {
     background-color: rgb(18, 18, 18);
+    display:inline-block;
+    width:80%;
+    margin-right:0;
 }
 
 .btn:focus, .btn:active {
@@ -115,5 +132,13 @@ input, button, textarea, :focus {
 }  
 
 .hidden {
-    display:none !important;
+    display:none;
+}
+
+#download-stats {
+    display:inline;
+}
+
+#progress-dl > div {
+    height: 100%;
 }
