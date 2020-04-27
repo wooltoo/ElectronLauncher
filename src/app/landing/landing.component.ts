@@ -7,7 +7,7 @@ import { HomeComponent } from '../home/home.component';
   styleUrls: ['./landing.component.css']
 })
 export class LandingComponent implements OnInit {
-
+  
   clientDirectory : string = "SELECT GAME PATH";
   hasSelectedPath : boolean = false;
 
@@ -28,10 +28,19 @@ export class LandingComponent implements OnInit {
   }
 
   OnPressDownload() : void {
+    let directory = this.SelectDirectory();
+    if (directory == undefined)
+      return;
+
+    /*const fs = require('fs');
+    let isEmpty = fs.readdirSync(directory).length == 0;
+    if (!isEmpty) {
+      console.log("client directory not empty");
+      return;
+    }*/
+
     this.hasSelectedPath = true;
-    this.homeComponent.OnSelectClientDownload(
-      this.SelectDirectory()
-    );
+    this.homeComponent.OnSelectClientDownload(directory);
   }
 
   SelectDirectory() : string {

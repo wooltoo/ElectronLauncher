@@ -7,6 +7,8 @@ import { DownloadCallback } from '../general/downloadcallback';
 import { DownloadListService } from '../download-list.service';
 import { DownloadPatchFilter } from '../general/downloadpatchfilter'
 import { LocalStorageService } from 'ngx-webstorage';
+import { LauncherConfig } from '../general/launcherconfig';
+import { ClientInstaller } from '../general/clientinstaller';
 
 @Component({
   selector: 'app-home',
@@ -122,8 +124,12 @@ export class HomeComponent implements OnInit, DownloadCallback {
     this.buttonText = this.getButtonText();
   }
 
-  OnDownloadItemFinished(name : string) : void {
-    console.log("finished dl" + name);
+  OnDownloadItemFinished(fileName : string) : void {
+    console.log("FileName: " + fileName);
+    if (fileName == LauncherConfig.CLIENT_FILE_NAME) {
+      let installer : ClientInstaller = new ClientInstaller();
+      installer.install(fileName, this.localSt.retrieve('requestedClientDirectory'));
+    }
   }
 
   OnDownloadFinished() : void {
