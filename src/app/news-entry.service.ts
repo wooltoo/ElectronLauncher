@@ -19,7 +19,6 @@ export class NewsEntryService {
   fetchNews() : void {
     request.get({url: LauncherConfig.BACKEND_HOST + '/news', json: true}, (error, response, body) => {
       this.news = [];
-
       body.forEach(obj => {
         this.news.push(
           new NewsEntry(obj["title"], obj["date"], obj["text"])

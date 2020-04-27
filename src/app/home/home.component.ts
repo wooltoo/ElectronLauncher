@@ -33,8 +33,8 @@ export class HomeComponent implements OnInit, DownloadCallback {
   showInterruptButton : boolean = false;
   showDownloadStats : boolean = false;
   showDownloadBar : boolean = false;
-  showLanding : boolean = true;
-  showInfo : boolean = false;
+  showLanding : boolean = false;
+  showInfo : boolean = true;
   showSettings : boolean = false;
 
   constructor(private router: Router, 
@@ -51,10 +51,6 @@ export class HomeComponent implements OnInit, DownloadCallback {
     this.localSt.clear('clientDirectory');
     if (this.hasClientInstalled()) 
       this.hideLanding();
-
-    this.showLanding = false;
-    this.showInfo = false;
-    this.showSettings = true;
   }
 
   OnFilesToDownloadResult(hasFilesToCheckForDownload: boolean): void {
@@ -204,6 +200,13 @@ export class HomeComponent implements OnInit, DownloadCallback {
     this.showSettingsPage();
   }
 
+  public OnPressHomeButton() : void {
+    if (this.showLanding)
+      return;
+
+    this.showInfoPage();
+  }
+
   OnPressStartButton() {
     if (this.hasFilesToDownload) {
       if (this.state == DownloadState.WAITING_FOR_DOWNLOAD)
@@ -251,9 +254,15 @@ export class HomeComponent implements OnInit, DownloadCallback {
     this.showSettings = true;
   }
 
+  private showInfoPage() : void {
+    this.hideAll();
+    this.showInfo = true;
+  }
+
   private hideAll() {
     this.showInfo = false;
     this.showLanding = false;
+    this.showSettings = false;
   }
 
   private scheduleDownload() : void {

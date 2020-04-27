@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HomeComponent } from '../home/home.component';
+import { LauncherConfig } from '../general/launcherconfig';
 
 const { remote } = require("electron");
 const { shell } = require('electron')
@@ -11,18 +12,15 @@ const { shell } = require('electron')
 })
 export class NavbarComponent implements OnInit {
 
-  website = "http://www.website.com";
-
   constructor(@Inject(HomeComponent) private homeComponent : HomeComponent) { }
 
   ngOnInit(): void { }
 
   openWebsite(suburl) {
-    shell.openExternal(this.website + suburl);
+    shell.openExternal(LauncherConfig.WEBSITE + suburl);
   }
 
   minimizeWindow() {
-    console.log("minimize pressed!");
     remote.BrowserWindow.getFocusedWindow().minimize();
   }
 
@@ -31,7 +29,10 @@ export class NavbarComponent implements OnInit {
   }
 
   OnPressCogwheel() : void {
-    console.log("cogwheel pressed!");
     this.homeComponent.OnPressCogwheelButton();
+  }
+
+  OnPressHome() : void {
+    this.homeComponent.OnPressHomeButton();
   }
 }

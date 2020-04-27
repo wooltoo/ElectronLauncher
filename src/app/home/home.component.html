@@ -11,11 +11,11 @@
   
   <app-navbar></app-navbar>
   <app-statusbar></app-statusbar>
-  <app-info *ngIf="showInfo"></app-info>
+  <app-info [ngClass]="{'hidden' : showInfo == false}"></app-info>
   <app-landing *ngIf="showLanding"></app-landing>
-  <app-settings *ngIf="showSettings"></app-settings>
+  <app-settings [ngClass]="{'hidden' : showSettings == false}"></app-settings>
 
-  <div *ngIf="showInfo" class="container bottom-bar-container fadeIn animated">
+  <div class="container bottom-bar-container fadeIn animated" [ngClass]="{'hidden' : showInfo == false}">
     <div class="row">
       <div class="col-4 no-padding">
         <button id="start-button" type="button" class="btn btn-secondary btn-lg btn-block" (click)="OnPressStartButton()">

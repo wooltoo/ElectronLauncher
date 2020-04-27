@@ -68,11 +68,6 @@ export class DownloadListService {
       if(this.patches != null && this.patches.length == json.length) 
         return;
 
-      console.log("#####");
-      console.log(error);
-      console.log(response);
-      console.log("PATCHES:");
-      console.log(JSON.stringify(json));
       this.patches = [];
       json.forEach(obj => {
         this.patches.push(
@@ -80,7 +75,6 @@ export class DownloadListService {
         );
       });
 
-      console.log("GOT PATCHES!");
       clearInterval(fetchPatchesId); 
       this.updateState();
     });
@@ -96,7 +90,6 @@ export class DownloadListService {
 
       this.client = new DownloadFile(json['name'], '', json['resource']);
 
-      console.log("GOT CLIENT!");
       clearInterval(fetchClientId);
       this.updateState();
     });
