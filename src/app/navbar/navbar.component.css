@@ -119,6 +119,7 @@
 .right-menu-item {
     width: 25px;
     background: none;
+    -webkit-app-region: no-drag;
 }
 
 .fa-window-minimize {

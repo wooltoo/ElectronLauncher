@@ -11,6 +11,7 @@ import { InfoComponent } from '../info/info.component';
 import { NewsEntryComponent } from '../newsentry/newsentry.component';
 import { StatusBarComponent } from '../statusbar/statusbar.component'
 import { LandingComponent } from '../landing/landing.component';
+import { SettingsComponent } from '../settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { LandingComponent } from '../landing/landing.component';
     InfoComponent, 
     NewsEntryComponent, 
     StatusBarComponent,
-    LandingComponent
+    LandingComponent,
+    SettingsComponent
   ],
   imports: [CommonModule, SharedModule, HomeRoutingModule],
   schemas: [

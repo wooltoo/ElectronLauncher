@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { HomeComponent } from '../home/home.component';
 
 const { remote } = require("electron");
 const { shell } = require('electron')
@@ -12,7 +13,7 @@ export class NavbarComponent implements OnInit {
 
   website = "http://www.website.com";
 
-  constructor() { }
+  constructor(@Inject(HomeComponent) private homeComponent : HomeComponent) { }
 
   ngOnInit(): void { }
 
@@ -21,10 +22,16 @@ export class NavbarComponent implements OnInit {
   }
 
   minimizeWindow() {
+    console.log("minimize pressed!");
     remote.BrowserWindow.getFocusedWindow().minimize();
   }
 
   quitWindow() {
     remote.BrowserWindow.getFocusedWindow().close();
+  }
+
+  OnPressCogwheel() : void {
+    console.log("cogwheel pressed!");
+    this.homeComponent.OnPressCogwheelButton();
   }
 }

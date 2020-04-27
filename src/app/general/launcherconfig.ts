@@ -8,4 +8,7 @@ export class LauncherConfig
     static SHOULD_CHECK_FOR_NEW_REMOTE_PATCHES : boolean = true;
     // How often the launcher checks for new patches added on the remote host (MS).
     static INTERVAL_CHECK_FOR_NEW_REMOTE_PATCHES : number = 2500;
+
+    // How often the launcher updates news (MS).
+    static INTERVAL_CHECK_FOR_NEWS : number = 1000;
 }

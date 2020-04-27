@@ -1,0 +1,162 @@
+#settings {
+    background: url("assets/settings/settings-primary-container-bg.png");
+    width:693px;
+    height:391px;
+    margin-left:300px;    
+    margin-top:-15px;
+}
+
+#settings-title {
+    font-size:48.78pt;
+    color:white;
+    text-align:center;
+    margin-top:-10px;
+}
+
+#settings .purple-text {
+    color:rgb(202, 141, 255);
+}
+
+#settings-general {
+    margin-left:25px;
+    font-size:17.7pt;
+    padding-top:25px;
+    margin-bottom:0;
+}
+
+#settings-line-one {
+    padding-top:20px;
+}
+
+#automatic-update-button {
+    background:url("assets/settings/settings-cross-button.png");
+    width:33px;
+    height:32px;
+    margin-left:100px;
+    border-radius:0 !important;
+    border:0 !important;
+    padding:0;
+}
+
+#automatic-update-button:focus, #automatic-update-button:active,
+#settings-dropdown-locale-button:focus, #settings-dropdown-locale-button:active,
+#settings-game-path-field:focus, #settings-game-path-field:active,
+#settings-change-location-button:focus, #settings-change-location-button:active,
+#settings-clear-path-button:focus, #settings-clear-path-button:active,
+#settings-reset-button:focus, #settings-reset-button:active,
+#settings-save-button:focus, #settings-save-button:active {
+    outline: none !important;
+    box-shadow: none !important;
+}  
+
+#settings-enable-automatic-update {
+    margin-left:15px;
+    font-size: 17.7pt;
+    color:white;
+    display:inline;
+    position:relative;
+    top:3px;
+}
+
+#automatic-update-cross {
+    position:relative;
+    top:-1px;
+}
+
+#settings-recommended {
+    display:inline;
+    margin-left:10px;
+    position:relative;
+    top: 3px;
+}
+
+#settings-game-language {
+    color:white;
+    padding-top:20px;
+    margin-left:100px;
+    margin-bottom:0;
+}
+
+#settings-dropdown-locale-button {
+    background:url("assets/settings/settings-dropdown-locale.png");
+    border:0 !important;
+    width:187px;
+    height:31px;
+    margin-left:100px;
+    margin-top:5px;
+    padding:0;
+}
+
+#settings-game-location {
+    margin-left:25px;
+    font-size:17.7pt;
+    padding-top:10px;
+    margin-bottom:0;
+}
+
+#settings-line-two {
+    margin-top:25px;
+    margin-left:100px;
+}
+
+#settings-game-path-field {
+    background: url("assets/settings/settings-game-path-field-bg.png");
+    width:495px;
+    height:31px;
+    border:0 !important;
+    color:rgb(144, 96, 184);
+    margin-bottom:13px;
+}
+
+#settings-change-location-button {
+    background:url("assets/settings/settings-change-game-location-button.png");
+    width:304px;
+    height:30px;
+    border:0 !important;
+    color:rgb(122, 68, 168);
+    padding:0;
+}
+
+#settings-clear-path-button {
+    background:url("assets/settings/settings-clear-path-button.png");
+    width:179px;
+    height:30px;
+    border:0 !important;
+    color:rgb(122, 68, 168);
+    margin-left:15px;
+    padding:0;
+}
+
+#settings-line-three {
+    margin-top:5px;
+}
+
+#settings-reset-button {
+    background:url("assets/settings/settings-reset-button.png");
+    border:0!important;
+    width:78px;
+    height:29px;
+    color:rgb(209,51,51);
+    margin-left:225px;
+    padding: 0;
+}
+
+#settings-save-button {
+    background:url("assets/settings/settings-save-button.png");
+    border:0!important;
+    width:147px;
+    height:29px;
+    color:rgb(66,155,93);
+    padding: 0;
+    margin-left:15px;
+}
+
+#settings-house {
+    position:absolute;
+    right:285px;
+    top:250px;
+}
+
+.settings-dropdown-text-color {
+    color:rgb(144, 96, 184);
+}

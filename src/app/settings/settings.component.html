@@ -1,0 +1,57 @@
+
+<p id="settings-title">Settings</p>
+<div id="settings">
+    <p id="settings-general" class="purple-text">General</p>
+    <img id="settings-house" src="assets/settings/settings-top-right-home.png"/>
+    
+    <div id="settings-line-one">
+        <button id="automatic-update-button" class="social-button btn my-2 my-sm-0" type="submit" (click)="OnPressToggleAutomaticUpdates()">
+            <div class="btn-content-wrapper">
+                <img id="automatic-update-cross" *ngIf="toggleActive" src="assets/settings/settings-cross-button-cross.png">
+            </div>
+        </button>
+        <p id="settings-enable-automatic-update">Enable Automatic Updates</p>
+        <p id="settings-recommended" class="purple-text">(Recommended)</p>
+    </div>
+
+    <p id="settings-game-language">Game Language</p>
+    <div class="dropdown">
+        <button id="settings-dropdown-locale-button" class="btn btn-secondary dropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span class="settings-dropdown-text-color">English (US)</span>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="#">English (US)</a>
+          <a class="dropdown-item" href="#">...</a>
+          <a class="dropdown-item" href="#">...</a>
+        </div>
+      </div>
+
+    <p id="settings-game-location" class="purple-text">Game Location</p>
+
+    <div id="settings-line-two">
+        <input id="settings-game-path-field" value="{{directoryPath}}" type="text" class="form-control" aria-describedby="emailHelp" disabled>
+        <button id="settings-change-location-button" class="social-button btn my-2 my-sm-0" type="submit" (click)="OnPressToggleAutomaticUpdates()">
+            <div class="btn-content-wrapper">
+                CHANGE THE GAME LOCATION
+            </div>
+        </button>
+        <button id="settings-clear-path-button" class="social-button btn my-2 my-sm-0" type="submit" (click)="OnPressToggleAutomaticUpdates()">
+            <div class="btn-content-wrapper">
+                CLEAR THE PATH
+            </div>
+        </button>
+    </div>
+
+    <div id="settings-line-three">
+        <button id="settings-reset-button" class="social-button btn my-2 my-sm-0" type="submit" (click)="OnPressToggleAutomaticUpdates()">
+            <div class="btn-content-wrapper">
+                RESET
+            </div>
+        </button>
+        <button id="settings-save-button" class="social-button btn my-2 my-sm-0" type="submit" (click)="OnPressToggleAutomaticUpdates()">
+            <div class="btn-content-wrapper">
+                SAVE CHANGES
+            </div>
+        </button>
+    </div>
+</div>

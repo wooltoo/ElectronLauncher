@@ -35,6 +35,7 @@ export class HomeComponent implements OnInit, DownloadCallback {
   showDownloadBar : boolean = false;
   showLanding : boolean = true;
   showInfo : boolean = false;
+  showSettings : boolean = false;
 
   constructor(private router: Router, 
               private cd: ChangeDetectorRef,
@@ -48,11 +49,12 @@ export class HomeComponent implements OnInit, DownloadCallback {
 
   ngOnInit(): void {
     this.localSt.clear('clientDirectory');
-    //if (this.hasClientInstalled()) 
-    //  this.hideLanding();
+    if (this.hasClientInstalled()) 
+      this.hideLanding();
 
-    console.log("HELLO: " + process.env.backend_host);
-    console.log("HELLO 2" + 'http://' + process.env.backend_host + '/status');
+    this.showLanding = false;
+    this.showInfo = false;
+    this.showSettings = true;
   }
 
   OnFilesToDownloadResult(hasFilesToCheckForDownload: boolean): void {
@@ -81,7 +83,7 @@ export class HomeComponent implements OnInit, DownloadCallback {
     this.showPlayButton = false;
     this.showDownloadStats = true;
     this.showDownloadBar = true;
-    this.buttonText = "DOWNLOADING";
+    this.buttonText = this.getButtonText();
   }
 
   OnDownloadSpeedUpdate(downloadSpeed: any): void {
@@ -101,7 +103,7 @@ export class HomeComponent implements OnInit, DownloadCallback {
     this.showInterruptButton = true;
     this.showDownloadStats = true;
     this.showDownloadBar = true;
-    this.buttonText = "RESUME DOWNLOAD";
+    this.buttonText = this.getButtonText();
   }
 
   OnDownloadInterrupt(): void {
@@ -111,11 +113,7 @@ export class HomeComponent implements OnInit, DownloadCallback {
     this.showDownloadStats = false;
     this.showInterruptButton = false;
     this.showDownloadBar = false;
-
-    if (this.isInstalling)
-      this.buttonText = "INSTALL";
-    else
-      this.buttonText = "UPDATE";
+    this.buttonText = this.getButtonText();
   }
 
   OnDownloadResume() : void {
@@ -125,7 +123,7 @@ export class HomeComponent implements OnInit, DownloadCallback {
     this.showDownloadStats = true;
     this.showInterruptButton = true;
     this.showDownloadBar = true;
-    this.buttonText = "DOWNLOADING";
+    this.buttonText = this.getButtonText();
   }
 
   OnDownloadItemFinished(name : string) : void {
@@ -140,7 +138,7 @@ export class HomeComponent implements OnInit, DownloadCallback {
     this.showInterruptButton = false;
     this.showDownloadBar = false;
     this.hasFilesToDownload = false;
-    this.buttonText = "START GAME";
+    this.buttonText = this.getButtonText();
     this.isInstalling = false;
   }
 
@@ -157,7 +155,6 @@ export class HomeComponent implements OnInit, DownloadCallback {
     let clientDir = this.localSt.retrieve('clientDirectory');
     console.log("ClientDir: " + clientDir);
     this.downloadHelper.prepare(
-      //this.downloadListService.getPatches().concat(this.downloadListService.getClient()), 
       this.downloadPatchFilter.getPatchesToInstall(clientDir),
       clientDir
     );
@@ -191,11 +188,20 @@ export class HomeComponent implements OnInit, DownloadCallback {
   // Called when the landing component requests the client to be downloaded.
   // path = selected client directory.
   public OnSelectClientDownload(path : string) : void {
+    this.state = DownloadState.WAITING_FOR_DOWNLOAD;
     this.isInstalling = true;
     this.localSt.store('requestedClientDirectory', path);
     this.scheduleDownload();
-    this.buttonText = "INSTALL";
+    this.buttonText = this.getButtonText();
     this.hideLanding();
+  }
+
+  public OnPressCogwheelButton() : void {
+    if (this.showLanding)
+      return;
+
+    console.log("COGWHEEL PRESSED");
+    this.showSettingsPage();
   }
 
   OnPressStartButton() {
@@ -240,15 +246,32 @@ export class HomeComponent implements OnInit, DownloadCallback {
     this.showInfo = true;
   }
 
+  private showSettingsPage() : void {
+    this.hideAll();
+    this.showSettings = true;
+  }
+
+  private hideAll() {
+    this.showInfo = false;
+    this.showLanding = false;
+  }
+
   private scheduleDownload() : void {
     this.state = DownloadState.WAITING_FOR_DOWNLOAD;
-
-    if (this.isInstalling)
-      this.buttonText = "INSTALL";
-    else 
-      this.buttonText = "UPDATE";
-    
+    this.buttonText = this.getButtonText();    
     this.hasFilesToDownload = true;
+  }
+
+  private getButtonText() : string {
+    if (this.state == DownloadState.DOWNLOADING)
+      return "DOWNLOADING";
+    else if (this.state == DownloadState.PAUSED)
+      return "RESUME DOWNLOAD";
+    else if (this.state == DownloadState.COMPLETED)
+      return "START GAME";
+    else if (this.state == DownloadState.WAITING_FOR_DOWNLOAD) {
+      return this.isInstalling ? "INSTALL" : "UPDATE";
+    }
   }
   
   private hasClientInstalled() : boolean {
