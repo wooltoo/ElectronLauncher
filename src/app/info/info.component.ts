@@ -49,10 +49,12 @@ export class InfoComponent implements OnInit {
       return true;
 
     for(let i = 0; i < this.newsEntries.length; i++) {
-      if (news[i].getDateTime() != this.newsEntries[i].getDateTime() ||
-          news[i].getText() != this.newsEntries[i].getText() ||
-          news[i].getTitle() != this.newsEntries[i].getText())
-          return true;
+      let timeDiffer = news[i].getDateTime() != this.newsEntries[i].getDateTime();
+      let textDiffer = news[i].getText() != this.newsEntries[i].getText();
+      let titleDiffer = news[i].getTitle() != this.newsEntries[i].getTitle()
+
+      if (timeDiffer || textDiffer || titleDiffer)
+        return true;
     }
 
     return false;
