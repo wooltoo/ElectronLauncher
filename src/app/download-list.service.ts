@@ -32,19 +32,8 @@ export class DownloadListService {
   }
 
   public fetchRemoteFiles() : void {
-    let fetchPatchesId = setInterval(
-      () => { 
-        this.fetchPatches(fetchPatchesId);
-      }, 
-      1000
-    );
-
-    let fetchClientId = setInterval(
-      () => {
-        this.fetchClient(fetchClientId);
-      }, 
-      1000
-    );
+    this.fetchPatches();
+    this.fetchClient();
   }
 
   public getPatches() : DownloadFile[] {
@@ -59,11 +48,15 @@ export class DownloadListService {
     return this.state;
   }
 
-  private fetchPatches(fetchPatchesId : any) : void {
+  private fetchPatches() : void {
     request.get({
       url: LauncherConfig.BACKEND_HOST + '/patches',
       json: true
     }, (error, response, json) => {
+      if (json == undefined) {
+        console.log("Fetch patches was undefined!");
+        return;
+      }
 
       if(this.patches != null && this.patches.length == json.length) 
         return;
@@ -75,22 +68,20 @@ export class DownloadListService {
         );
       });
 
-      clearInterval(fetchPatchesId); 
       this.updateState();
     });
   }
 
-  private fetchClient(fetchClientId : any) : void {
+  private fetchClient() : void {
     request.get({
       url: LauncherConfig.BACKEND_HOST + '/client',
       json: true,
     }, (error, response, json) => {
-      if (this.client != null) 
+      if (this.client != null || json == undefined) 
         return;
 
       this.client = new DownloadFile(json['name'], '', json['resource']);
 
-      clearInterval(fetchClientId);
       this.updateState();
     });
   }

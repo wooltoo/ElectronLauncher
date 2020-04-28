@@ -18,6 +18,11 @@ export class NewsEntryService {
 
   fetchNews() : void {
     request.get({url: LauncherConfig.BACKEND_HOST + '/news', json: true}, (error, response, body) => {
+      if (body == undefined) {
+        console.log("BODY WAS UNDEFINED.");
+        return;
+      }
+
       this.news = [];
       body.forEach(obj => {
         this.news.push(

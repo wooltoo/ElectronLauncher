@@ -23,7 +23,11 @@ export class LandingComponent implements OnInit {
   }
 
   OnPressSelectGamePath() : void {
-    this.clientDirectory = this.SelectDirectory();
+    let directory = this.SelectDirectory();
+    if (directory == undefined)
+      return;
+    
+    this.clientDirectory = directory;
     this.hasSelectedPath = true;
   }
 
