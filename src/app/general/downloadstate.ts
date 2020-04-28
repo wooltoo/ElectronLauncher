@@ -4,6 +4,7 @@ export enum DownloadState
     WAITING_FOR_DOWNLOAD,
     DOWNLOADING,
     PAUSED,
+    INSTALLING,
     COMPLETED,
 }
   

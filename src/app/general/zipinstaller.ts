@@ -12,9 +12,12 @@ export class ZipInstaller
 
         unzipper.on('progress', (fileIndex, fileCount) => {
             let progress : number = (fileIndex + 1) / fileCount;
-            this.installCallback.OnInstallProgressUpdate(downloadFile, progress);
-            if (fileIndex + 1 == fileCount) 
+            this.installCallback.OnInstallProgressUpdate(downloadFile, progress, fileIndex + 1, fileCount);
+
+            if (fileIndex + 1 == fileCount) {
+                this.installCallback.OnInstallProgressUpdate(downloadFile, 1, fileIndex + 1, fileCount);
                 this.installCallback.OnInstallExtractionCompleted(downloadFile);
+            }
         });
 
         unzipper.extract({
