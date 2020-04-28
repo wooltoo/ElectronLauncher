@@ -8,14 +8,16 @@ import { DownloadListService } from '../download-list.service';
 import { DownloadPatchFilter } from '../general/downloadpatchfilter'
 import { LocalStorageService } from 'ngx-webstorage';
 import { LauncherConfig } from '../general/launcherconfig';
-import { ClientInstaller } from '../general/clientinstaller';
+import { ZipInstaller } from '../general/zipinstaller';
+import { DownloadFile } from '../general/downloadfile';
+import { InstallCallback } from '../general/installcallback';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit, DownloadCallback {
+export class HomeComponent implements OnInit, DownloadCallback, InstallCallback {
 
   state : DownloadState = DownloadState.LOADING;
 
@@ -124,12 +126,20 @@ export class HomeComponent implements OnInit, DownloadCallback {
     this.buttonText = this.getButtonText();
   }
 
-  OnDownloadItemFinished(fileName : string) : void {
-    console.log("FileName: " + fileName);
-    if (fileName == LauncherConfig.CLIENT_FILE_NAME) {
-      let installer : ClientInstaller = new ClientInstaller();
-      installer.install(fileName, this.localSt.retrieve('requestedClientDirectory'));
+  OnDownloadFileFinished(downloadFile : DownloadFile) : void {
+    console.log("File: " + downloadFile.getFileName());
+    if (downloadFile.getName() == LauncherConfig.CLIENT_RESOURCE_NAME) {
+      let installer : ZipInstaller = new ZipInstaller(this);
+      installer.install(downloadFile, this.localSt.retrieve('requestedClientDirectory'));
     }
+  }
+
+  OnInstallExtractionCompleted(downloadFile : DownloadFile): void {
+    console.log("FINISHED INSTALLING!");
+  }
+
+  OnInstallProgressUpdate(downloadFile : DownloadFile, progress : number) : void {
+
   }
 
   OnDownloadFinished() : void {

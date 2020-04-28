@@ -16,6 +16,6 @@ export class LauncherConfig
     // How often the launcher updates news (MS).
     static INTERVAL_CHECK_FOR_NEWS : number = 1000;
 
-    // The name of the client file.
-    static CLIENT_FILE_NAME = "fake-client.zip";
+    // The name of the client remote resource.
+    static CLIENT_RESOURCE_NAME = "client";
 }

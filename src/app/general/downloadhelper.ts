@@ -18,7 +18,7 @@ export class DownloadHelper
     }
 
     downloadItem : DownloadItem;
-    downloadItemName : string;
+    downloadFile : DownloadFile;
     downloadFiles : DownloadFile[] = [];
 
     constructor(private callback : DownloadCallback, private downloadListService : DownloadListService) { 
@@ -60,6 +60,7 @@ export class DownloadHelper
             return;  
         } 
 
+        this.downloadFile = item;
         let cDownloadConfig = Object.assign({}, this.downloadConfig);
         cDownloadConfig.url = item.getResource();
         
@@ -67,8 +68,8 @@ export class DownloadHelper
         remote.require("electron-download-manager").download(cDownloadConfig, (error, info) => {
             if (error) console.log("Error: " + error);
             
-            this.callback.OnDownloadItemFinished(this.downloadItemName);
-            this.downloadItemName = null;
+            this.callback.OnDownloadFileFinished(this.downloadFile);
+            this.downloadFile = null;
             this.downloadNext();
         });
     }
@@ -77,6 +78,7 @@ export class DownloadHelper
         if (this.downloadItem == null)
             return;
 
+        this.downloadFile = null;
         this.downloadItem.cancel();
         this.onInterrupt();
     }
@@ -100,7 +102,6 @@ export class DownloadHelper
     private onProgress(progress, item) : void
     {
         this.downloadItem = item;
-        this.downloadItemName = this.downloadItem.getFilename();
         this.onDownloadSpeedUpdate(progress.speedBytes);
         this.onDownloadProgressUpdate(progress.progress)
     }

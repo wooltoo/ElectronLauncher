@@ -64,7 +64,7 @@ export class DownloadListService {
       this.patches = [];
       json.forEach(obj => {
         this.patches.push(
-          new DownloadFile(obj['name'], obj['md5-checksum'], obj['resource'])
+          new DownloadFile(obj['name'], obj['md5-checksum'], obj['resource'], obj['file-name'])
         );
       });
 
@@ -80,7 +80,7 @@ export class DownloadListService {
       if (this.client != null || json == undefined) 
         return;
 
-      this.client = new DownloadFile(json['name'], '', json['resource']);
+      this.client = new DownloadFile(json['name'], '', json['resource'], json['file-name']);
 
       this.updateState();
     });

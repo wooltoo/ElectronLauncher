@@ -2,17 +2,22 @@ export class DownloadFile
 {
     constructor(private name : string, 
                 private md5 : string, 
-                private resource : string ) { }
+                private resource : string,
+                private fileName : string ) { }
 
-    getName() : string {
+    public getName() : string {
         return this.name;
     }
 
-    getMD5() : string {
+    public getMD5() : string {
         return this.md5;
     }
 
-    getResource() : string {
+    public getResource() : string {
         return this.resource;
+    }
+
+    public getFileName() : string {
+        return this.fileName;
     }
 }
