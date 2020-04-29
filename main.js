@@ -46,6 +46,7 @@ function createWindow() {
         frame: false,
         webPreferences: {
             nodeIntegration: true,
+            nodeIntegrationInWorker: true,
             allowRunningInsecureContent: (serve) ? true : false,
         },
         show: false

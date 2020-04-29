@@ -145,17 +145,4 @@ export class HomeComponent implements OnInit {
     this.showLanding = false;
     this.showSettings = false;
   }
-
-  public getButtonText() : string {
-    if (this.state == DownloadState.DOWNLOADING)
-      return "DOWNLOADING";
-    else if (this.state == DownloadState.PAUSED)
-      return "RESUME DOWNLOAD";
-    else if (this.state == DownloadState.COMPLETED)
-      return "START GAME";
-    else if (this.state == DownloadState.WAITING_FOR_DOWNLOAD) 
-      return this.isInstalling ? "INSTALL" : "UPDATE";
-    else if (this.state == DownloadState.INSTALLING) 
-      return "INSTALLING";
-  }
 }

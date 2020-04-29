@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { DownloadFile } from './general/downloadfile';
-import { AppConfig } from '../environments/environment';
 import { DownloadListServiceState } from './general/downloadlistservicestate';
 import { LauncherConfig } from './general/launcherconfig';
 

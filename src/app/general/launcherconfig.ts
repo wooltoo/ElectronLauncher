@@ -18,4 +18,7 @@ export class LauncherConfig
 
     // The name of the client remote resource.
     static CLIENT_RESOURCE_NAME = "client";
+
+    // The name of the client.
+    static CLIENT_FILE_NAME = "client.zip";
 }
