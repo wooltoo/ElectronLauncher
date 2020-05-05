@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit {
   public progressBarWidth : number = 100;
   public hasFilesToDownload : boolean = false;
   public isInstalling : boolean = false;
+  public isUnzipping : boolean = false;
   public buttonText : string = "LOADING...";
   
   public showPauseButton : boolean = true;
@@ -56,7 +57,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.localSt.clear('clientDirectory');
+    //this.localSt.clear('clientDirectory');
     if (ClientHelper.getInstance().hasClientInstalled()) 
       this.hideLanding();
   }
@@ -64,12 +65,8 @@ export class HomeComponent implements OnInit {
   Download()
   {
     if (ClientHelper.getInstance().hasClientInstalled()) {
-      console.log("DOWNLOAD PATCHES!");
       this.homeInstallManager.downloadPatches();
-    } else {
-      console.log("DOWNLOAD CLIENT!");
-      this.homeInstallManager.downloadClient();
-    }
+    } 
   }
 
   StartGame() : void {

@@ -22,9 +22,10 @@
 #news-top {
     background-color: rgb(64, 43, 93);
     background: url("assets/news/news-background-r.png");
-    max-width:349px;
     margin-left:75px;
     background-size:cover;
+    max-width:349px;
+    max-height:352px;
 }
 
 #news-top-banner {

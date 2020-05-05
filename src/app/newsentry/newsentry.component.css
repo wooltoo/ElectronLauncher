@@ -1,42 +1,38 @@
 .news-entry {
     min-height:92px;
     color: white;
+    font-size:0;
 }
 
 .news-entry p {
-    display: inline-block;
+    display:inline-block;
 }
 
 .avatar {
     width:6%;
     margin-left:5px;
+    display:inline-block;
+    vertical-align: top;
 }
 
 .datetime {
-    position:relative;
-    left:-61px;
-    top:5px;
     color: rgb(209, 186, 255);
-    height: 50%;
     font-size:9px;
+    width:80%;
     margin-bottom:0;
-    margin-left:-3px;
+    position:relative;
+    top:-5px;
 }
 
 .title {
-    position:relative;
-    top:-4px;
-    height: 50%;
-    margin-bottom:0;
     font-size:9px;
-    margin-left:6px;
+    margin-bottom:0;
 }
 
 .text {
     margin-top:2px;
     font-size:11.07px;
-    margin-bottom: 0;
-    margin-left:31px;
+    margin-bottom:0;
     min-height:64px;
     max-width:290px;
 }
@@ -45,4 +41,10 @@
     position:relative;
     left:-7px;
     margin-left:-10px;
+}
+
+.news-entry-text-container {
+    margin-left:10px;
+    display:inline-block;
+    width:80%;
 }
