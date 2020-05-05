@@ -9,6 +9,9 @@ export class DownloadPatchFilter
     constructor(private downloadListService : DownloadListService) { }
 
     public filterFromInstalled(clientDirectory : string, patches : DownloadFile[]) : DownloadFile[] {
+        if (!patches)
+            return [];
+
         let uninstalledPatches : DownloadFile[] = [] ;
 
         patches.forEach((patch : DownloadFile) => {

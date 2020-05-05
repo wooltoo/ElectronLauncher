@@ -10,6 +10,7 @@ import { ClientInstallState } from '../implementation/clientinstallstate';
 import { PatchInstallState } from '../implementation/patchinstallstate';
 import { spawn } from 'child_process';
 import * as path from 'path';
+import { LauncherConfig } from '../general/launcherconfig';
 
 @Component({
   selector: 'app-home',
@@ -54,10 +55,22 @@ export class HomeComponent implements OnInit {
     );
 
     this.downloadHelper = new DownloadHelper(this.homeInstallManager, this.downloadListService);
+
+    this.homeInstallManager.EnterInstallState(
+      new PatchInstallState(
+        this,
+        this.localSt,
+        this.downloadListService
+      )
+    );
+    
+    this.homeInstallManager.downloadPatches();
   }
 
   ngOnInit(): void {
-    //this.localSt.clear('clientDirectory');
+    if (LauncherConfig.FORCE_LANDING_SCREEN)
+      this.localSt.clear('clientDirectory');
+
     if (ClientHelper.getInstance().hasClientInstalled()) 
       this.hideLanding();
   }

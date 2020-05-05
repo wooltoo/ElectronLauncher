@@ -1,10 +1,10 @@
 export class LauncherConfig 
 {
     // The project's website.
-    static WEBSITE = "http://www.website.com";
+    static WEBSITE : string = "http://www.website.com";
 
     // The hostname with port to the backend.
-    static BACKEND_HOST = "http://116.203.225.226:3000";
+    static BACKEND_HOST : string = "http://116.203.225.226:3000";
     // How often the launcher checks if a patch is missing locally (MS).
     static INTERVAL_CHECK_FOR_PATCH_TO_DL : number = 500;
 
@@ -17,8 +17,11 @@ export class LauncherConfig
     static INTERVAL_CHECK_FOR_NEWS : number = 1000;
 
     // The name of the client remote resource.
-    static CLIENT_RESOURCE_NAME = "client";
+    static CLIENT_RESOURCE_NAME : string = "client";
 
     // The name of the client.
-    static CLIENT_FILE_NAME = "client.zip";
+    static CLIENT_FILE_NAME : string = "client.zip";
+
+    // Devices if landing screen should be forced upon startup.
+    static FORCE_LANDING_SCREEN : boolean = false;
 }
