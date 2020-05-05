@@ -16,6 +16,9 @@ export class LauncherConfig
     // How often the launcher updates news (MS).
     static INTERVAL_CHECK_FOR_NEWS : number = 1000;
 
+    // How often the launcher should update the settings panel game directory (MS).
+    static INTERVAL_UPDATE_SETTINGS_GAME_DIRECTORY = 500;
+
     // The name of the client remote resource.
     static CLIENT_RESOURCE_NAME : string = "client";
 

@@ -11,6 +11,7 @@ import { PatchInstallState } from '../implementation/patchinstallstate';
 import { spawn } from 'child_process';
 import * as path from 'path';
 import { LauncherConfig } from '../general/launcherconfig';
+import { HomeComponentHolder } from '../general/homecomponentholder';
 
 @Component({
   selector: 'app-home',
@@ -47,6 +48,7 @@ export class HomeComponent implements OnInit {
               private localSt : LocalStorageService) 
   {
     ClientHelper.getInstance().setLocalSt(this.localSt);
+    HomeComponentHolder.getInstance().setHomeComponent(this);
 
     this.homeInstallManager = new HomeInstallManager(
       this, 
@@ -63,7 +65,7 @@ export class HomeComponent implements OnInit {
         this.downloadListService
       )
     );
-    
+
     this.homeInstallManager.downloadPatches();
   }
 

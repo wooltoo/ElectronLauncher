@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from 'ngx-webstorage';
+import { LauncherConfig } from '../general/launcherconfig';
+import { ClientHelper } from '../general/clienthelper';
+import { HomeComponentHolder } from '../general/homecomponentholder';
 
 @Component({
   selector: 'app-settings',
@@ -9,17 +12,29 @@ import { LocalStorageService } from 'ngx-webstorage';
 export class SettingsComponent implements OnInit {
 
   toggleActive : boolean = true;
-  directoryPath : string = "unk";
+  directoryPath : string = "";
 
   constructor(private localSt : LocalStorageService) { }
 
   ngOnInit(): void {
     this.directoryPath = this.localSt.retrieve('clientDirectory');
-    this.directoryPath = "unk";
+    this.UpdateGamePath();
   }
 
   OnPressToggleAutomaticUpdates() {
     this.toggleActive = !this.toggleActive;
   }
-x
+
+  OnPressHome() {
+    HomeComponentHolder.getInstance().getHomeComponent().OnPressHomeButton();
+  }
+
+  UpdateGamePath() : void {
+    setInterval(() => {
+      if (ClientHelper.getInstance().hasClientInstalled()) {
+        this.directoryPath = ClientHelper.getInstance().getClientDirectory()
+      }
+    }, LauncherConfig.INTERVAL_UPDATE_SETTINGS_GAME_DIRECTORY);
+  }
+
 }

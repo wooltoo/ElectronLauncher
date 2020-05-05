@@ -2,7 +2,10 @@
     <p id="settings-title">Settings</p>
     <div id="settings">
         <p id="settings-general" class="purple-text">General</p>
-        <img id="settings-house" src="assets/settings/settings-top-right-home.png"/>
+
+        <div (click)="OnPressHome()">
+            <img id="settings-house" src="assets/settings/settings-top-right-home.png"/>
+        </div>
         
         <div id="settings-line-one">
             <button id="automatic-update-button" class="social-button btn my-2 my-sm-0" type="submit" (click)="OnPressToggleAutomaticUpdates()">
