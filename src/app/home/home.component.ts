@@ -6,6 +6,10 @@ import { DownloadListService } from '../download-list.service';
 import { LocalStorageService } from 'ngx-webstorage';
 import { HomeInstallManager } from '../implementation/homeinstallmanager';
 import { ClientHelper } from '../general/clienthelper';
+import { ClientInstallState } from '../implementation/clientinstallstate';
+import { PatchInstallState } from '../implementation/patchinstallstate';
+import { spawn } from 'child_process';
+import * as path from 'path';
 
 @Component({
   selector: 'app-home',
@@ -69,32 +73,60 @@ export class HomeComponent implements OnInit {
   }
 
   startGame() : void {
-
+    let cmd = path.join(ClientHelper.getInstance().getClientDirectory(), 'Wow.exe');
+    spawn(cmd, [], {detached: true});
   }
 
+  // Called when the landing component picks a already installed game path.
   public OnPickGamePath(path : string) : void {
-    this.isInstalling = true;
-    this.hideLanding();
-    this.buttonText = "INSTALL";
     this.localSt.store('clientDirectory', path);
+    this.homeInstallManager.EnterInstallState(
+      new PatchInstallState(
+        this,
+        this.localSt,
+        this.downloadListService
+      )
+    );
+
+    this.homeInstallManager.downloadPatches();
   }
 
   // Called when the landing component requests the client to be downloaded.
   // path = selected client directory.
   public OnSelectClientDownload(path : string) : void {
-    this.homeInstallManager.OnSelectClientDownload(path);
+    this.localSt.store('requestedClientDirectory', path);
+
+    this.homeInstallManager.EnterInstallState(
+      new ClientInstallState(
+        this, 
+        this.localSt, 
+        this.downloadListService
+      )
+    );
+
+    this.homeInstallManager.downloadClient();
+  }
+
+  public OnClientInstallStateFinished() : void {
+    this.homeInstallManager.EnterInstallState(
+      new PatchInstallState(
+        this,
+        this.localSt,
+        this.downloadListService
+      )
+    );
+
+    this.homeInstallManager.downloadPatches();
   }
 
   public OnPressCogwheelButton() : void {
-    if (this.showLanding)
-      return;
+    if (this.showLanding) return;
 
     this.showSettingsPage();
   }
 
   public OnPressHomeButton() : void {
-    if (this.showLanding)
-      return;
+    if (this.showLanding) return;
 
     this.showInfoPage();
   }

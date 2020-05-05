@@ -7,7 +7,6 @@ import { DownloadListService } from '../download-list.service';
 import { LocalStorageService } from 'ngx-webstorage';
 import { DownloadPatchFilter } from '../general/downloadpatchfilter';
 import { InstallState } from '../general/installstate';
-import { ClientInstallHandler } from '../implementation/clientinstallhandler';
 
 export class HomeInstallManager implements DownloadCallback, InstallCallback {
 
@@ -18,11 +17,7 @@ export class HomeInstallManager implements DownloadCallback, InstallCallback {
                 private localSt : LocalStorageService,
                 ) 
     { 
-        this.installState = new ClientInstallHandler(
-            homeComponent, 
-            localSt, 
-            downloadListService
-        );    
+  
     }
     
     /* MANAGER CALLBACKS */
@@ -59,6 +54,9 @@ export class HomeInstallManager implements DownloadCallback, InstallCallback {
     }
 
     OnFilesToDownloadResult(hasFilesToCheckForDownload: boolean): void {
+        if (!this.GetActiveInstallState())
+            return;
+
         this.installState.OnFilesToDownloadResult(hasFilesToCheckForDownload);
     }
 
@@ -70,13 +68,27 @@ export class HomeInstallManager implements DownloadCallback, InstallCallback {
         this.installState.OnInstallProgressUpdate(downloadFile, progress, currFile, fileCount);
     }
 
+    /* STATE METHODS */
+    public EnterInstallState(newInstallState : InstallState) : void {
+        console.log("This.installState: " + this.installState);
+        if (this.GetActiveInstallState())
+            this.installState.OnExitState();
+        
+        this.installState = newInstallState;
+        this.installState.OnEnterState();
+    }
+
+    public GetActiveInstallState() : InstallState {
+        return this.installState;
+    }
+
     /* MANAGER METHODS */
 
-    public OnSelectClientDownload(path : string) : void {
+    /*public OnSelectClientDownload(path : string) : void {
         this.localSt.store('requestedClientDirectory', path);
         this.installState = new ClientInstallHandler(this.homeComponent, this.localSt, this.downloadListService);
         this.installState.OnEnterState();
-    }
+    }*/
 
     public downloadPatches() : void {
         let downloadPatchFilter = new DownloadPatchFilter(this.downloadListService);

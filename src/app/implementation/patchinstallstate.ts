@@ -1,26 +1,31 @@
 import { HomeComponent } from '../home/home.component';
 import { DownloadState } from '../general/downloadstate';
 import { DownloadInfoFormatter } from '../general/downloadinfoformatter';
-import { ZipInstaller } from '../general/zipinstaller';
 import { LocalStorageService } from 'ngx-webstorage';
-import { LauncherConfig } from '../general/launcherconfig';
+import { DownloadPatchFilter } from '../general/downloadpatchfilter';
 import { DownloadListService } from '../download-list.service';
 import { DownloadFile } from '../general/downloadfile';
 import { InstallState } from '../general/installstate';
 
-export class ClientInstallHandler implements InstallState {
+export class PatchInstallState implements InstallState {
 
     constructor(private homeComponent : HomeComponent,
                 private localSt : LocalStorageService,
                 private downloadListService : DownloadListService) {
 
     }
+
+    OnExitState(): void {
+        
+    }
+
     OnEnterState(): void {
         this.homeComponent.state = DownloadState.WAITING_FOR_DOWNLOAD;
         this.homeComponent.isInstalling = true;
+        this.scheduleDownload();
         this.homeComponent.hideLanding();
         this.homeComponent.hasFilesToDownload = true;
-        this.homeComponent.buttonText = "INSTALL";
+        this.homeComponent.buttonText = "DOWNLOAD";
     }
 
     OnDownloadStart(): void {
@@ -43,7 +48,6 @@ export class ClientInstallHandler implements InstallState {
     OnDownloadProgressUpdate(downloadProgress: any): void {
         this.homeComponent.progressBarWidth = downloadProgress;
         this.homeComponent.progress = DownloadInfoFormatter.formatProgress(downloadProgress);
-        this.homeComponent.cd.detectChanges(); 
     }
 
     OnDownloadPause(): void {
@@ -53,7 +57,7 @@ export class ClientInstallHandler implements InstallState {
         this.homeComponent.showInterruptButton = true;
         this.homeComponent.showDownloadStats = true;
         this.homeComponent.showDownloadBar = true;
-        this.homeComponent.buttonText = "RESUME INSTALLATION";
+        this.homeComponent.buttonText = "RESUME";
     }
 
     OnDownloadInterrupt(): void {
@@ -63,7 +67,7 @@ export class ClientInstallHandler implements InstallState {
         this.homeComponent.showDownloadStats = false;
         this.homeComponent.showInterruptButton = false;
         this.homeComponent.showDownloadBar = false;
-        this.homeComponent.buttonText = "INSTALL";
+        this.homeComponent.buttonText = "DOWNLOAD";
     }
 
     OnDownloadResume(): void {
@@ -77,10 +81,7 @@ export class ClientInstallHandler implements InstallState {
     }
 
     OnDownloadFileFinished(downloadFile: DownloadFile) {
-        if (downloadFile.getName() == LauncherConfig.CLIENT_RESOURCE_NAME) {
-          let installer : ZipInstaller = new ZipInstaller(this);
-          installer.install(downloadFile, this.localSt.retrieve('requestedClientDirectory'));
-        }
+
     }
 
     OnDownloadFinished(): void {
@@ -89,51 +90,42 @@ export class ClientInstallHandler implements InstallState {
         this.homeComponent.showPlayButton = false;
         this.homeComponent.showInterruptButton = false;
         this.homeComponent.hasFilesToDownload = true;
-        this.homeComponent.buttonText = "INSTALLING";
         this.homeComponent.progressBarWidth = 0;
         this.homeComponent.isInstalling = true;
         this.homeComponent.progress = "";
         this.homeComponent.downloadSpeed = "";
+        this.homeComponent.showDownloadBar = false;
+        this.homeComponent.buttonText = "START GAME"
     }
 
     OnFilesToDownloadResult(hasFilesToCheckForDownload: boolean): void {
+        if (this.homeComponent.hasFilesToDownload)
+            return;
+  
+        if (hasFilesToCheckForDownload)
+        {
+            let clientDir = this.localSt.retrieve('clientDirectory');
+            let downloadPatchFilter = new DownloadPatchFilter(this.downloadListService);
+            if (downloadPatchFilter.getPatchesToInstall(clientDir).length > 0) {
+                this.scheduleDownload();
+                return;
+            }
+        }
+  
+        this.homeComponent.buttonText = "START GAME";
+    }
+
+    OnInstallProgressUpdate(downloadFile: DownloadFile, progress: number, currFile: number, fileCount: number): void {
 
     }
 
     OnInstallExtractionCompleted(downloadFile: DownloadFile): void {
-        if (downloadFile.getName() == LauncherConfig.CLIENT_RESOURCE_NAME) {
-            this.finishedInstallingClient();
-            this.cleanup();
-        }
+    
     }
 
-    cleanup() {
-        this.homeComponent.showDownloadBar = false;
-        this.homeComponent.buttonText = "UPDATE";
-    }
-
-    OnInstallProgressUpdate(downloadFile: DownloadFile, progress: number, currFile: number, fileCount: number): void {
-        this.homeComponent.state = DownloadState.INSTALLING;
-        this.homeComponent.showPauseButton = false;
-        this.homeComponent.showPlayButton = false;
-        this.homeComponent.showDownloadStats = true;
-        this.homeComponent.showInterruptButton = false;
-        this.homeComponent.showDownloadBar = true;
-        this.homeComponent.buttonText = "INSTALLING";
-        this.homeComponent.downloadSpeed = "of " + fileCount.toString();
-        this.homeComponent.progress = currFile.toString();
-        this.homeComponent.progressBarWidth = (progress * 100);
-    }
-
-    private finishedInstallingClient() : void {
-        this.localSt.store('clientDirectory', this.localSt.retrieve('requestedClientDirectory'));
-        this.homeComponent.isInstalling = false;
-
-        const fs = require('fs');
-        const path = require('path');
-        let downloadFile = path.join(this.localSt.retrieve('clientDirectory'), LauncherConfig.CLIENT_FILE_NAME);
-        fs.unlink(downloadFile, (error) => {
-            if (error) throw error;
-        });
+    private scheduleDownload() : void {
+        this.homeComponent.state = DownloadState.WAITING_FOR_DOWNLOAD;
+        this.homeComponent.buttonText = "UPDATE";    
+        this.homeComponent.hasFilesToDownload = true;
     }
 }

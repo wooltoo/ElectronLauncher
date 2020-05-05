@@ -1,6 +1,9 @@
 export class DownloadInfoFormatter
 {
     public static formatProgress(progress : string) : string {
+        if (progress == "100") 
+            return "100%";
+
         const number = Number(progress);
         return number.toFixed(2).toString() + "%";
     }
