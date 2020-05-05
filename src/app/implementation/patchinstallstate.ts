@@ -16,13 +16,12 @@ export class PatchInstallState implements InstallState {
     }
 
     OnExitState(): void {
-        
+     
     }
 
     OnEnterState(): void {
         this.homeComponent.state = DownloadState.WAITING_FOR_DOWNLOAD;
         this.homeComponent.isInstalling = true;
-        this.scheduleDownload();
         this.homeComponent.hideLanding();
         this.homeComponent.hasFilesToDownload = true;
         this.homeComponent.buttonText = "DOWNLOAD";
@@ -89,9 +88,8 @@ export class PatchInstallState implements InstallState {
         this.homeComponent.showPauseButton = false;
         this.homeComponent.showPlayButton = false;
         this.homeComponent.showInterruptButton = false;
-        this.homeComponent.hasFilesToDownload = true;
+        this.homeComponent.hasFilesToDownload = false;
         this.homeComponent.progressBarWidth = 0;
-        this.homeComponent.isInstalling = true;
         this.homeComponent.progress = "";
         this.homeComponent.downloadSpeed = "";
         this.homeComponent.showDownloadBar = false;
@@ -107,7 +105,9 @@ export class PatchInstallState implements InstallState {
             let clientDir = this.localSt.retrieve('clientDirectory');
             let downloadPatchFilter = new DownloadPatchFilter(this.downloadListService);
             if (downloadPatchFilter.getPatchesToInstall(clientDir).length > 0) {
-                this.scheduleDownload();
+                this.homeComponent.state = DownloadState.WAITING_FOR_DOWNLOAD;
+                this.homeComponent.buttonText = "UPDATE";    
+                this.homeComponent.hasFilesToDownload = true;
                 return;
             }
         }
@@ -121,11 +121,5 @@ export class PatchInstallState implements InstallState {
 
     OnInstallExtractionCompleted(downloadFile: DownloadFile): void {
     
-    }
-
-    private scheduleDownload() : void {
-        this.homeComponent.state = DownloadState.WAITING_FOR_DOWNLOAD;
-        this.homeComponent.buttonText = "UPDATE";    
-        this.homeComponent.hasFilesToDownload = true;
     }
 }

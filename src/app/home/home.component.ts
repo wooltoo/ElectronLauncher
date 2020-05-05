@@ -61,7 +61,7 @@ export class HomeComponent implements OnInit {
       this.hideLanding();
   }
 
-  download()
+  Download()
   {
     if (ClientHelper.getInstance().hasClientInstalled()) {
       console.log("DOWNLOAD PATCHES!");
@@ -72,7 +72,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  startGame() : void {
+  StartGame() : void {
     let cmd = path.join(ClientHelper.getInstance().getClientDirectory(), 'Wow.exe');
     spawn(cmd, [], {detached: true});
   }
@@ -134,12 +134,12 @@ export class HomeComponent implements OnInit {
   OnPressStartButton() {
     if (this.hasFilesToDownload) {
       if (this.state == DownloadState.WAITING_FOR_DOWNLOAD)
-        this.download();
+        this.Download();
       else if (this.state == DownloadState.PAUSED)
         this.OnPressResumeDownload();
-    } 
-
-    this.startGame();
+    } else {
+      this.StartGame();
+    }
   }
 
   OnPressPauseDownload() {
