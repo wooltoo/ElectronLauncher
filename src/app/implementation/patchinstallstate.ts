@@ -104,6 +104,7 @@ export class PatchInstallState implements InstallState {
         {
             let clientDir = this.localSt.retrieve('clientDirectory');
             let downloadPatchFilter = new DownloadPatchFilter(this.downloadListService);
+            
             if (downloadPatchFilter.getPatchesToInstall(clientDir).length > 0) {
                 this.homeComponent.state = DownloadState.WAITING_FOR_DOWNLOAD;
                 this.homeComponent.buttonText = "UPDATE";    

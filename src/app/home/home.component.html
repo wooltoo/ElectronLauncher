@@ -38,8 +38,9 @@
           </div>
         </div>
 
-        <div id="download-progress-wrapper">
-          <p id="download-progress">{{progress}}</p>        
+        <div id="download-progress-wrapper" [ngClass]="{'unzip-progress' : isUnzipping == true}">
+          <p id="download-progress">{{progress}}</p>     
+          <p>Hej</p>   
         </div>
 
         <div id="download-speed-wrapper">

@@ -70,7 +70,6 @@ export class HomeInstallManager implements DownloadCallback, InstallCallback {
 
     /* STATE METHODS */
     public EnterInstallState(newInstallState : InstallState) : void {
-        console.log("This.installState: " + this.installState);
         if (this.GetActiveInstallState())
             this.installState.OnExitState();
         
@@ -83,12 +82,6 @@ export class HomeInstallManager implements DownloadCallback, InstallCallback {
     }
 
     /* MANAGER METHODS */
-
-    /*public OnSelectClientDownload(path : string) : void {
-        this.localSt.store('requestedClientDirectory', path);
-        this.installState = new ClientInstallHandler(this.homeComponent, this.localSt, this.downloadListService);
-        this.installState.OnEnterState();
-    }*/
 
     public downloadPatches() : void {
         let downloadPatchFilter = new DownloadPatchFilter(this.downloadListService);

@@ -7,6 +7,7 @@ import { LauncherConfig } from '../general/launcherconfig';
 import { DownloadListService } from '../download-list.service';
 import { DownloadFile } from '../general/downloadfile';
 import { InstallState } from '../general/installstate';
+import { ClientHelper } from '../general/clienthelper';
 
 export class ClientInstallState implements InstallState {
 
@@ -109,6 +110,7 @@ export class ClientInstallState implements InstallState {
             this.FinishedInstallingClient();
             this.Cleanup();
             this.homeComponent.OnClientInstallStateFinished();
+            this.homeComponent.isUnzipping = false;
         }
     }
 
@@ -119,14 +121,15 @@ export class ClientInstallState implements InstallState {
 
     OnInstallProgressUpdate(downloadFile: DownloadFile, progress: number, currFile: number, fileCount: number): void {
         this.homeComponent.state = DownloadState.INSTALLING;
+        this.homeComponent.isUnzipping = true;
         this.homeComponent.showPauseButton = false;
         this.homeComponent.showPlayButton = false;
         this.homeComponent.showDownloadStats = true;
         this.homeComponent.showInterruptButton = false;
         this.homeComponent.showDownloadBar = true;
         this.homeComponent.buttonText = "INSTALLING";
-        this.homeComponent.downloadSpeed = "of " + fileCount.toString();
-        this.homeComponent.progress = currFile.toString();
+        this.homeComponent.downloadSpeed = "";
+        this.homeComponent.progress = (progress * 100).toFixed(2).toString() + "%";
         this.homeComponent.progressBarWidth = (progress * 100);
     }
 
@@ -136,7 +139,7 @@ export class ClientInstallState implements InstallState {
 
         const fs = require('fs');
         const path = require('path');
-        let downloadFile = path.join(this.localSt.retrieve('clientDirectory'), LauncherConfig.CLIENT_FILE_NAME);
+        let downloadFile = path.join(ClientHelper.getInstance().getClientDirectory(), LauncherConfig.CLIENT_FILE_NAME);
         fs.unlink(downloadFile, (error) => {
             if (error) throw error;
         });
