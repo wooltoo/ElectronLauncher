@@ -19,7 +19,7 @@
     
         <p id="settings-game-language">Game Language</p>
         <div class="dropdown">
-            <button id="settings-dropdown-locale-button" class="btn btn-secondary dropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button id="settings-dropdown-locale-button" class="btn btn-secondary dropdown disabled" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="settings-dropdown-text-color">English (US)</span>
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -33,12 +33,12 @@
     
         <div id="settings-line-two">
             <input id="settings-game-path-field" value="{{directoryPath}}" type="text" class="form-control" aria-describedby="emailHelp" disabled>
-            <button id="settings-change-location-button" class="social-button btn my-2 my-sm-0" type="submit" (click)="OnPressToggleAutomaticUpdates()">
+            <button id="settings-change-location-button" class="social-button btn my-2 my-sm-0" type="submit" (click)="OnPressChangeGameLocation()">
                 <div class="btn-content-wrapper">
                     CHANGE THE GAME LOCATION
                 </div>
             </button>
-            <button id="settings-clear-path-button" class="social-button btn my-2 my-sm-0" type="submit" (click)="OnPressToggleAutomaticUpdates()">
+            <button id="settings-clear-path-button" class="social-button btn my-2 my-sm-0" type="submit" (click)="OnPressClearPath()">
                 <div class="btn-content-wrapper">
                     CLEAR THE PATH
                 </div>
@@ -46,12 +46,12 @@
         </div>
     
         <div id="settings-line-three">
-            <button id="settings-reset-button" class="social-button btn my-2 my-sm-0" type="submit" (click)="OnPressToggleAutomaticUpdates()">
+            <button id="settings-reset-button" class="social-button btn my-2 my-sm-0" type="submit" (click)="OnPressReset()">
                 <div class="btn-content-wrapper">
                     RESET
                 </div>
             </button>
-            <button id="settings-save-button" class="social-button btn my-2 my-sm-0" type="submit" (click)="OnPressToggleAutomaticUpdates()">
+            <button id="settings-save-button" class="social-button btn my-2 my-sm-0" type="submit" (click)="OnPressSaveChanges()">
                 <div class="btn-content-wrapper">
                     SAVE CHANGES
                 </div>

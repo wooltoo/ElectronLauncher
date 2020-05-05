@@ -17,24 +17,61 @@ export class SettingsComponent implements OnInit {
   constructor(private localSt : LocalStorageService) { }
 
   ngOnInit(): void {
-    this.directoryPath = this.localSt.retrieve('clientDirectory');
+    if (this.localSt.hasOwnProperty('clientDirectory')) {
+      this.directoryPath = this.localSt.retrieve('clientDirectory');
+    }
+
     this.UpdateGamePath();
   }
 
-  OnPressToggleAutomaticUpdates() {
+  OnPressToggleAutomaticUpdates() : void {
     this.toggleActive = !this.toggleActive;
+    this.localSt.store('settingAutomaticUpdates', this.toggleActive);
   }
 
-  OnPressHome() {
+  OnPressHome() : void {
     HomeComponentHolder.getInstance().getHomeComponent().OnPressHomeButton();
+  }
+
+  OnPressSaveChanges() : void {
+    if (this.directoryPath != " ") {
+      // Should prompt error trying to save empty game directory
+      this.localSt.store('clientDirectory', this.directoryPath);
+    }
+  }
+
+  OnPressReset() : void {
+    this.directoryPath = ClientHelper.getInstance().getClientDirectory();
+  }
+
+  OnPressClearPath() : void {
+    // Having an space avoids UpdateGamePath() from overwriting the stored game directory.
+    this.directoryPath = " ";
+  }
+
+  OnPressChangeGameLocation() : void {
+    let selectedDir = this.SelectGameDirectory();
+    if (selectedDir != null && selectedDir != undefined) {
+      this.directoryPath = selectedDir;
+    }
   }
 
   UpdateGamePath() : void {
     setInterval(() => {
       if (ClientHelper.getInstance().hasClientInstalled()) {
-        this.directoryPath = ClientHelper.getInstance().getClientDirectory()
+        if (this.directoryPath == "") {
+          this.directoryPath = ClientHelper.getInstance().getClientDirectory()
+        }
       }
     }, LauncherConfig.INTERVAL_UPDATE_SETTINGS_GAME_DIRECTORY);
+  }
+
+  private SelectGameDirectory() : string {
+    const {dialog} = require('electron').remote;
+    let dir = dialog.showOpenDialogSync({ properties: ['openDirectory']});
+
+    if (dir == undefined || dir.length == 0) return;
+    return dir[0];
   }
 
 }
