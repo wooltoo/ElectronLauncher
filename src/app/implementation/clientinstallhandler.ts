@@ -101,10 +101,7 @@ export class ClientInstallHandler implements InstallState {
     }
 
     OnInstallExtractionCompleted(downloadFile: DownloadFile): void {
-        console.log("DOWNLOADFILE NAME: " + downloadFile.getName());
-        console.log("Client resource name: " + LauncherConfig.CLIENT_RESOURCE_NAME);
         if (downloadFile.getName() == LauncherConfig.CLIENT_RESOURCE_NAME) {
-            console.log("CALLING");
             this.finishedInstallingClient();
             this.cleanup();
         }
@@ -129,17 +126,14 @@ export class ClientInstallHandler implements InstallState {
     }
 
     private finishedInstallingClient() : void {
-        console.log("CLEANING UP");
         this.localSt.store('clientDirectory', this.localSt.retrieve('requestedClientDirectory'));
         this.homeComponent.isInstalling = false;
 
         const fs = require('fs');
         const path = require('path');
         let downloadFile = path.join(this.localSt.retrieve('clientDirectory'), LauncherConfig.CLIENT_FILE_NAME);
-        /*fs.unlink(downloadFile, (error) => {
+        fs.unlink(downloadFile, (error) => {
             if (error) throw error;
-            console.log("UNLINKED CLIENT.ZIP");
-        });*/
-        //fs.unlinkSync(downloadFile);
+        });
     }
 }

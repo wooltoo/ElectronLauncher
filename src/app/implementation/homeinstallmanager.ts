@@ -18,7 +18,11 @@ export class HomeInstallManager implements DownloadCallback, InstallCallback {
                 private localSt : LocalStorageService,
                 ) 
     { 
-        this.installState = new ClientInstallHandler(homeComponent, localSt, downloadListService);    
+        this.installState = new ClientInstallHandler(
+            homeComponent, 
+            localSt, 
+            downloadListService
+        );    
     }
     
     /* MANAGER CALLBACKS */
