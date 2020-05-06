@@ -7,6 +7,7 @@ import { DownloadListService } from '../download-list.service';
 import { DownloadFile } from '../general/downloadfile';
 import { InstallState } from '../general/installstate';
 import { ClientHelper } from '../general/clienthelper';
+import { SettingsManager, Setting } from '../general/settingsmanager';
 
 export class PatchInstallState implements InstallState {
 
@@ -108,6 +109,10 @@ export class PatchInstallState implements InstallState {
                 this.homeComponent.state = DownloadState.WAITING_FOR_DOWNLOAD;
                 this.homeComponent.buttonText = "UPDATE";    
                 this.homeComponent.hasFilesToDownload = true;
+
+                if (SettingsManager.getInstance().getSetting(Setting.SHOULD_AUTO_PATCH)) 
+                    this.homeComponent.homeInstallManager.downloadPatches();
+                
                 return;
             }
         }

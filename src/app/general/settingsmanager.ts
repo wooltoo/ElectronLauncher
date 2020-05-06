@@ -46,7 +46,7 @@ export class SettingsManager {
     }
 
     private setDefaults() : void {
-        if (!this.getSetting(Setting.SHOULD_AUTO_PATCH)) 
+        if (this.getSetting(Setting.SHOULD_AUTO_PATCH) == null) 
             this.setSetting(Setting.SHOULD_AUTO_PATCH, true);
     }
 

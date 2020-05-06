@@ -13,7 +13,7 @@ import * as path from 'path';
 import { LauncherConfig } from '../general/launcherconfig';
 import { ComponentRegistryEntry, ComponentRegistry } from '../general/componentregistry';
 import { SettingsComponent } from '../settings/settings.component';
-import { SettingsManager } from '../general/settingsmanager';
+import { SettingsManager, Setting } from '../general/settingsmanager';
 
 @Component({
   selector: 'app-home',
@@ -71,16 +71,14 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!LauncherConfig.FORCE_LANDING_SCREEN && ClientHelper.getInstance().hasClientInstalled()) {
+    if (!LauncherConfig.FORCE_LANDING_SCREEN && ClientHelper.getInstance().hasClientInstalled()) 
       this.hideLanding();
-    }
   }
 
   Download()
   {
-    if (ClientHelper.getInstance().hasClientInstalled()) {
+    if (ClientHelper.getInstance().hasClientInstalled()) 
       this.homeInstallManager.downloadPatches();
-    } 
   }
 
   StartGame() : void {
@@ -163,6 +161,10 @@ export class HomeComponent implements OnInit {
   }
 
   OnPressCancelDownload() {
+    this.CancelDownload();
+  }
+
+  public CancelDownload() : void {
     this.state = DownloadState.WAITING_FOR_DOWNLOAD;
     this.downloadHelper.interrupt();
   }

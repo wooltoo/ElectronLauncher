@@ -17,9 +17,7 @@ export class HomeInstallManager implements DownloadCallback, InstallCallback {
                 private downloadListService : DownloadListService,
                 private localSt : LocalStorageService,
                 ) 
-    { 
-  
-    }
+    { }
     
     /* MANAGER CALLBACKS */
     OnDownloadStart(): void {
@@ -93,8 +91,7 @@ export class HomeInstallManager implements DownloadCallback, InstallCallback {
         );
     
         this.homeComponent.downloadHelper.download();
-        this.homeComponent.state = DownloadState.DOWNLOADING;
-      }
+    }
     
     public downloadClient() : void {
         let clientTargetDir = this.localSt.retrieve('requestedClientDirectory');

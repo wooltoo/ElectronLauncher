@@ -75,7 +75,7 @@ export class DownloadHelper
     }
 
     public interrupt() : void {
-        if (this.downloadItem == null)
+        if (this.downloadItem == null || this.downloadItem == undefined)
             return;
 
         this.downloadFile = null;

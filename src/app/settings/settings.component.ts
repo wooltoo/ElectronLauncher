@@ -6,7 +6,6 @@ import { ComponentRegistryEntry, ComponentRegistry } from '../general/componentr
 import { HomeComponent } from '../home/home.component';
 import { SettingsManager, Setting } from '../general/settingsmanager';
 
-
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
@@ -35,6 +34,11 @@ export class SettingsComponent implements OnInit {
 
   OnPressToggleAutomaticUpdates() : void {
     this.toggleActive = !this.toggleActive;
+
+    if (this.toggleActive === false) {
+      let homeComponent : HomeComponent = <HomeComponent> ComponentRegistry.getInstance().get(ComponentRegistryEntry.HOME_COMPONENT);
+      homeComponent.CancelDownload();
+    }
   }
 
   OnPressHome() : void {
