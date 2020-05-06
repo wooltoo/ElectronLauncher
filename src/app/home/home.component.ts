@@ -13,6 +13,7 @@ import * as path from 'path';
 import { LauncherConfig } from '../general/launcherconfig';
 import { ComponentRegistryEntry, ComponentRegistry } from '../general/componentregistry';
 import { SettingsComponent } from '../settings/settings.component';
+import { SettingsManager } from '../general/settingsmanager';
 
 @Component({
   selector: 'app-home',
@@ -48,7 +49,7 @@ export class HomeComponent implements OnInit {
               private downloadListService : DownloadListService,
               private localSt : LocalStorageService) 
   {
-    ClientHelper.getInstance().setLocalSt(this.localSt);
+    SettingsManager.getInstance().setLocalSt(this.localSt);
     ComponentRegistry.getInstance().register(ComponentRegistryEntry.HOME_COMPONENT, this);
 
     this.homeInstallManager = new HomeInstallManager(
@@ -62,7 +63,6 @@ export class HomeComponent implements OnInit {
     this.homeInstallManager.EnterInstallState(
       new PatchInstallState(
         this,
-        this.localSt,
         this.downloadListService
       )
     );
@@ -94,7 +94,6 @@ export class HomeComponent implements OnInit {
     this.homeInstallManager.EnterInstallState(
       new PatchInstallState(
         this,
-        this.localSt,
         this.downloadListService
       )
     );
@@ -123,7 +122,6 @@ export class HomeComponent implements OnInit {
     this.homeInstallManager.EnterInstallState(
       new PatchInstallState(
         this,
-        this.localSt,
         this.downloadListService
       )
     );

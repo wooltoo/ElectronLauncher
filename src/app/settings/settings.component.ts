@@ -4,6 +4,7 @@ import { LauncherConfig } from '../general/launcherconfig';
 import { ClientHelper } from '../general/clienthelper';
 import { ComponentRegistryEntry, ComponentRegistry } from '../general/componentregistry';
 import { HomeComponent } from '../home/home.component';
+import { SettingsManager, Setting } from '../general/settingsmanager';
 
 
 @Component({
@@ -21,16 +22,19 @@ export class SettingsComponent implements OnInit {
   ngOnInit(): void {
     ComponentRegistry.getInstance().register(ComponentRegistryEntry.SETTINGS_COMPONENT, this);
 
-    if (this.localSt.hasOwnProperty('clientDirectory')) {
-      this.directoryPath = this.localSt.retrieve('clientDirectory');
-    }
-
+    this.LoadSettings();
     this.UpdateGamePath();
+  }
+
+  private LoadSettings() : void {
+    if (ClientHelper.getInstance().hasClientInstalled()) 
+      this.directoryPath = ClientHelper.getInstance().getClientDirectory();
+
+    this.toggleActive = SettingsManager.getInstance().getSetting(Setting.SHOULD_AUTO_PATCH);
   }
 
   OnPressToggleAutomaticUpdates() : void {
     this.toggleActive = !this.toggleActive;
-    this.localSt.store('settingAutomaticUpdates', this.toggleActive);
   }
 
   OnPressHome() : void {
@@ -42,8 +46,10 @@ export class SettingsComponent implements OnInit {
   OnPressSaveChanges() : void {
     if (this.directoryPath != " ") {
       // Should prompt error trying to save empty game directory
-      this.localSt.store('clientDirectory', this.directoryPath);
+      SettingsManager.getInstance().setSetting(Setting.CLIENT_DIRECTORY, this.directoryPath);
     }
+
+    SettingsManager.getInstance().setSetting(Setting.SHOULD_AUTO_PATCH, this.toggleActive);
   }
 
   OnPressReset() : void {
@@ -78,7 +84,7 @@ export class SettingsComponent implements OnInit {
   }
 
   private Reset() : void {
-    this.directoryPath = ClientHelper.getInstance().getClientDirectory();
+    this.LoadSettings();
   }
 
   private SelectGameDirectory() : string {

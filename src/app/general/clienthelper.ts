@@ -1,30 +1,30 @@
 import { LocalStorageService } from "ngx-webstorage";
+import { Setting, SettingsManager } from './settingsmanager';
 
 export class ClientHelper {
     private static instance : ClientHelper;
-    private localSt : LocalStorageService;
 
-    private constructor() { }
+    private constructor() {}
+
     public static getInstance(): ClientHelper {
-        if (!ClientHelper.instance) {
+        if (!ClientHelper.instance)
             ClientHelper.instance = new ClientHelper();
-        }
 
         return ClientHelper.instance;
     }
 
-    public setLocalSt(localStI : LocalStorageService) : void {
-        this.localSt = localStI;
-    }
-
     public hasClientInstalled() : boolean {
-        return this.localSt.retrieve('clientDirectory') != null;
+        return SettingsManager.getInstance().getSetting(Setting.CLIENT_DIRECTORY) != null;
     }
 
     public getClientDirectory() : string {
         if (!this.hasClientInstalled())
             return null;
 
-        return this.localSt.retrieve('clientDirectory');
+        return SettingsManager.getInstance().getSetting(Setting.CLIENT_DIRECTORY);
+    }
+
+    public setClientDirectory(directory : String) : void {
+        SettingsManager.getInstance().setSetting(Setting.CLIENT_DIRECTORY, directory);
     }
 }

@@ -6,11 +6,11 @@ import { DownloadPatchFilter } from '../general/downloadpatchfilter';
 import { DownloadListService } from '../download-list.service';
 import { DownloadFile } from '../general/downloadfile';
 import { InstallState } from '../general/installstate';
+import { ClientHelper } from '../general/clienthelper';
 
 export class PatchInstallState implements InstallState {
 
     constructor(private homeComponent : HomeComponent,
-                private localSt : LocalStorageService,
                 private downloadListService : DownloadListService) {
 
     }
@@ -101,7 +101,7 @@ export class PatchInstallState implements InstallState {
   
         if (hasFilesToCheckForDownload)
         {
-            let clientDir = this.localSt.retrieve('clientDirectory');
+            let clientDir = ClientHelper.getInstance().getClientDirectory();
             let downloadPatchFilter = new DownloadPatchFilter(this.downloadListService);
             
             if (downloadPatchFilter.getPatchesToInstall(clientDir).length > 0) {

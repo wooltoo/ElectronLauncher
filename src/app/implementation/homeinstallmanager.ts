@@ -7,6 +7,7 @@ import { DownloadListService } from '../download-list.service';
 import { LocalStorageService } from 'ngx-webstorage';
 import { DownloadPatchFilter } from '../general/downloadpatchfilter';
 import { InstallState } from '../general/installstate';
+import { ClientHelper } from '../general/clienthelper';
 
 export class HomeInstallManager implements DownloadCallback, InstallCallback {
 
@@ -85,7 +86,7 @@ export class HomeInstallManager implements DownloadCallback, InstallCallback {
 
     public downloadPatches() : void {
         let downloadPatchFilter = new DownloadPatchFilter(this.downloadListService);
-        let clientDir = this.localSt.retrieve('clientDirectory');
+        let clientDir = ClientHelper.getInstance().getClientDirectory();
         this.homeComponent.downloadHelper.prepare(
           downloadPatchFilter.getPatchesToInstall(clientDir),
           clientDir
