@@ -8,6 +8,7 @@ import { LocalStorageService } from 'ngx-webstorage';
 import { DownloadPatchFilter } from '../general/downloadpatchfilter';
 import { InstallState } from '../general/installstate';
 import { ClientHelper } from '../general/clienthelper';
+import { DownloadHelper } from '../general/downloadhelper';
 
 export class HomeInstallManager implements DownloadCallback, InstallCallback {
 

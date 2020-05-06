@@ -11,14 +11,12 @@ import { SettingsManager, Setting } from '../general/settingsmanager';
 
 export class PatchInstallState implements InstallState {
 
+    private isPatching : boolean = false;
+
     constructor(private homeComponent : HomeComponent,
-                private downloadListService : DownloadListService) {
+                private downloadListService : DownloadListService) { }
 
-    }
-
-    OnExitState(): void {
-     
-    }
+    OnExitState(): void { }
 
     OnEnterState(): void {
         this.homeComponent.state = DownloadState.WAITING_FOR_DOWNLOAD;
@@ -67,6 +65,7 @@ export class PatchInstallState implements InstallState {
         this.homeComponent.showInterruptButton = false;
         this.homeComponent.showDownloadBar = false;
         this.homeComponent.buttonText = "DOWNLOAD";
+        this.isPatching = false;
     }
 
     OnDownloadResume(): void {
@@ -79,9 +78,7 @@ export class PatchInstallState implements InstallState {
         this.homeComponent.buttonText = "DOWNLOADING";
     }
 
-    OnDownloadFileFinished(downloadFile: DownloadFile) {
-
-    }
+    OnDownloadFileFinished(downloadFile: DownloadFile) { }
 
     OnDownloadFinished(): void {
         this.homeComponent.state = DownloadState.COMPLETED;
@@ -94,12 +91,15 @@ export class PatchInstallState implements InstallState {
         this.homeComponent.downloadSpeed = "";
         this.homeComponent.showDownloadBar = false;
         this.homeComponent.buttonText = "START GAME"
+        this.isPatching = false;
     }
 
     OnFilesToDownloadResult(hasFilesToCheckForDownload: boolean): void {
-        if (this.homeComponent.hasFilesToDownload)
+        if (this.homeComponent.hasFilesToDownload) {
+            this.CheckIfShouldStartPatching();
             return;
-  
+        }   
+
         if (hasFilesToCheckForDownload)
         {
             let clientDir = ClientHelper.getInstance().getClientDirectory();
@@ -109,10 +109,6 @@ export class PatchInstallState implements InstallState {
                 this.homeComponent.state = DownloadState.WAITING_FOR_DOWNLOAD;
                 this.homeComponent.buttonText = "UPDATE";    
                 this.homeComponent.hasFilesToDownload = true;
-
-                if (SettingsManager.getInstance().getSetting(Setting.SHOULD_AUTO_PATCH)) 
-                    this.homeComponent.homeInstallManager.downloadPatches();
-                
                 return;
             }
         }
@@ -120,11 +116,13 @@ export class PatchInstallState implements InstallState {
         this.homeComponent.buttonText = "START GAME";
     }
 
-    OnInstallProgressUpdate(downloadFile: DownloadFile, progress: number, currFile: number, fileCount: number): void {
+    OnInstallProgressUpdate(downloadFile: DownloadFile, progress: number, currFile: number, fileCount: number): void { }
+    OnInstallExtractionCompleted(downloadFile: DownloadFile): void { }
 
-    }
-
-    OnInstallExtractionCompleted(downloadFile: DownloadFile): void {
-    
+    private CheckIfShouldStartPatching() : void {
+        if (this.isPatching == false && SettingsManager.getInstance().getSetting(Setting.SHOULD_AUTO_PATCH)) {
+            this.homeComponent.homeInstallManager.downloadPatches();
+            this.isPatching = true;
+        }
     }
 }

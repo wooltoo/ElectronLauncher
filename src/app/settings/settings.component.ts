@@ -35,10 +35,11 @@ export class SettingsComponent implements OnInit {
   OnPressToggleAutomaticUpdates() : void {
     this.toggleActive = !this.toggleActive;
 
-    if (this.toggleActive === false) {
+    // This has breaking changes for download system
+    /*if (this.toggleActive === false) {
       let homeComponent : HomeComponent = <HomeComponent> ComponentRegistry.getInstance().get(ComponentRegistryEntry.HOME_COMPONENT);
       homeComponent.CancelDownload();
-    }
+    }*/
   }
 
   OnPressHome() : void {

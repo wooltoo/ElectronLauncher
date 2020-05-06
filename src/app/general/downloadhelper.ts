@@ -80,6 +80,7 @@ export class DownloadHelper
 
         this.downloadFile = null;
         this.downloadItem.cancel();
+        this.downloadItem = null;
         this.onInterrupt();
     }
 
