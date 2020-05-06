@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from 'ngx-webstorage';
 import { LauncherConfig } from '../general/launcherconfig';
 import { ClientHelper } from '../general/clienthelper';
-import { HomeComponentHolder } from '../general/homecomponentholder';
+import { ComponentRegistryEntry, ComponentRegistry } from '../general/componentregistry';
+import { HomeComponent } from '../home/home.component';
+
 
 @Component({
   selector: 'app-settings',
@@ -17,6 +19,8 @@ export class SettingsComponent implements OnInit {
   constructor(private localSt : LocalStorageService) { }
 
   ngOnInit(): void {
+    ComponentRegistry.getInstance().register(ComponentRegistryEntry.SETTINGS_COMPONENT, this);
+
     if (this.localSt.hasOwnProperty('clientDirectory')) {
       this.directoryPath = this.localSt.retrieve('clientDirectory');
     }
@@ -30,7 +34,9 @@ export class SettingsComponent implements OnInit {
   }
 
   OnPressHome() : void {
-    HomeComponentHolder.getInstance().getHomeComponent().OnPressHomeButton();
+    this.Reset();
+    let homeComponent : HomeComponent = <HomeComponent> ComponentRegistry.getInstance().get(ComponentRegistryEntry.HOME_COMPONENT);
+    homeComponent.OnPressHomeButton();
   }
 
   OnPressSaveChanges() : void {
@@ -41,7 +47,7 @@ export class SettingsComponent implements OnInit {
   }
 
   OnPressReset() : void {
-    this.directoryPath = ClientHelper.getInstance().getClientDirectory();
+    this.Reset();
   }
 
   OnPressClearPath() : void {
@@ -66,6 +72,15 @@ export class SettingsComponent implements OnInit {
     }, LauncherConfig.INTERVAL_UPDATE_SETTINGS_GAME_DIRECTORY);
   }
 
+  // Called when the settings panel is hidden. 
+  public OnHide() : void {
+    this.Reset();
+  }
+
+  private Reset() : void {
+    this.directoryPath = ClientHelper.getInstance().getClientDirectory();
+  }
+
   private SelectGameDirectory() : string {
     const {dialog} = require('electron').remote;
     let dir = dialog.showOpenDialogSync({ properties: ['openDirectory']});
@@ -73,5 +88,4 @@ export class SettingsComponent implements OnInit {
     if (dir == undefined || dir.length == 0) return;
     return dir[0];
   }
-
 }

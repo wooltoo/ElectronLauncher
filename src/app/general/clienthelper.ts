@@ -18,7 +18,7 @@ export class ClientHelper {
     }
 
     public hasClientInstalled() : boolean {
-        return this.localSt.retrieve('clientDirectory') != null
+        return this.localSt.retrieve('clientDirectory') != null;
     }
 
     public getClientDirectory() : string {

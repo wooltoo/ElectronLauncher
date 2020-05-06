@@ -11,7 +11,8 @@ import { PatchInstallState } from '../implementation/patchinstallstate';
 import { spawn } from 'child_process';
 import * as path from 'path';
 import { LauncherConfig } from '../general/launcherconfig';
-import { HomeComponentHolder } from '../general/homecomponentholder';
+import { ComponentRegistryEntry, ComponentRegistry } from '../general/componentregistry';
+import { SettingsComponent } from '../settings/settings.component';
 
 @Component({
   selector: 'app-home',
@@ -48,7 +49,7 @@ export class HomeComponent implements OnInit {
               private localSt : LocalStorageService) 
   {
     ClientHelper.getInstance().setLocalSt(this.localSt);
-    HomeComponentHolder.getInstance().setHomeComponent(this);
+    ComponentRegistry.getInstance().register(ComponentRegistryEntry.HOME_COMPONENT, this);
 
     this.homeInstallManager = new HomeInstallManager(
       this, 
@@ -70,11 +71,9 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (LauncherConfig.FORCE_LANDING_SCREEN)
-      this.localSt.clear('clientDirectory');
-
-    if (ClientHelper.getInstance().hasClientInstalled()) 
+    if (!LauncherConfig.FORCE_LANDING_SCREEN && ClientHelper.getInstance().hasClientInstalled()) {
       this.hideLanding();
+    }
   }
 
   Download()
@@ -101,6 +100,7 @@ export class HomeComponent implements OnInit {
     );
 
     this.homeInstallManager.downloadPatches();
+    this.hideLanding();
   }
 
   // Called when the landing component requests the client to be downloaded.
@@ -187,6 +187,12 @@ export class HomeComponent implements OnInit {
   private hideAll() {
     this.showInfo = false;
     this.showLanding = false;
+    this.hideSettings();
+  }
+
+  private hideSettings() {
+    let settings : SettingsComponent = <SettingsComponent> ComponentRegistry.getInstance().get(ComponentRegistryEntry.SETTINGS_COMPONENT);
+    settings.OnHide();
     this.showSettings = false;
   }
 }

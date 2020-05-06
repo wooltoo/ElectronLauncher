@@ -22,7 +22,6 @@ export class PatchInstallState implements InstallState {
     OnEnterState(): void {
         this.homeComponent.state = DownloadState.WAITING_FOR_DOWNLOAD;
         this.homeComponent.isInstalling = true;
-        this.homeComponent.hideLanding();
         this.homeComponent.hasFilesToDownload = true;
         this.homeComponent.buttonText = "DOWNLOAD";
     }
