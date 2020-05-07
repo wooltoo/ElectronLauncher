@@ -134,7 +134,10 @@ export class ClientInstallState implements InstallState {
     }
 
     private FinishedInstallingClient() : void {
-        this.localSt.store('clientDirectory', this.localSt.retrieve('requestedClientDirectory'));
+        ClientHelper.getInstance().setClientDirectory(
+            this.localSt.retrieve('requestedClientDirectory')
+        );
+        
         this.homeComponent.isInstalling = false;
 
         const fs = require('fs');

@@ -87,7 +87,7 @@ export class HomeComponent implements OnInit {
 
   // Called when the landing component picks a already installed game path.
   public OnPickGamePath(path : string) : void {
-    this.localSt.store('clientDirectory', path);
+    ClientHelper.getInstance().setClientDirectory(path);
     this.homeInstallManager.EnterInstallState(
       new PatchInstallState(
         this,

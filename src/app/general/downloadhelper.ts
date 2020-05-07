@@ -4,6 +4,7 @@ import { DownloadFile } from '../general/downloadfile';
 import { DownloadListService } from '../download-list.service';
 import { DownloadListServiceState } from './downloadlistservicestate';
 import { LauncherConfig } from './launcherconfig'
+import { FileRemover } from '../general/fileremover'
 
 export class DownloadHelper
 {
@@ -59,6 +60,12 @@ export class DownloadHelper
             this.onFinished();
             return;  
         } 
+
+        const path = require('path');
+        FileRemover.removeIfMD5Mismatch(
+            path.join(this.downloadConfig.downloadFolder, item.getFileName()),
+            item.getMD5()
+        );
 
         this.downloadFile = item;
         let cDownloadConfig = Object.assign({}, this.downloadConfig);
