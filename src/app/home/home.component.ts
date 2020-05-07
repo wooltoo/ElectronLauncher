@@ -43,9 +43,8 @@ export class HomeComponent implements OnInit {
 
   homeInstallManager : HomeInstallManager;
 
-  constructor(private router: Router, 
+  constructor(
               public cd: ChangeDetectorRef,
-              private zone: NgZone,
               private downloadListService : DownloadListService,
               private localSt : LocalStorageService) 
   {
