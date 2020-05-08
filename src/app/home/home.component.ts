@@ -1,5 +1,4 @@
 import { Component, OnInit, NgZone, ChangeDetectorRef } from '@angular/core';
-import { Router } from '@angular/router';
 import { DownloadState } from '../general/downloadstate';
 import { DownloadHelper } from '../general/downloadhelper';
 import { DownloadListService } from '../download-list.service';
@@ -13,7 +12,9 @@ import * as path from 'path';
 import { LauncherConfig } from '../general/launcherconfig';
 import { ComponentRegistryEntry, ComponentRegistry } from '../general/componentregistry';
 import { SettingsComponent } from '../settings/settings.component';
-import { SettingsManager, Setting } from '../general/settingsmanager';
+import { SettingsManager } from '../general/settingsmanager';
+import { RealmListChanger } from '../general/realmlistchanger';
+import { RealmService } from '../realm.service';
 
 @Component({
   selector: 'app-home',
@@ -46,7 +47,8 @@ export class HomeComponent implements OnInit {
   constructor(
               public cd: ChangeDetectorRef,
               private downloadListService : DownloadListService,
-              private localSt : LocalStorageService) 
+              private localSt : LocalStorageService,
+              private realmService : RealmService) 
   {
     SettingsManager.getInstance().setLocalSt(this.localSt);
     ComponentRegistry.getInstance().register(ComponentRegistryEntry.HOME_COMPONENT, this);
@@ -81,6 +83,9 @@ export class HomeComponent implements OnInit {
   }
 
   StartGame() : void {
+    let changer = new RealmListChanger();
+    changer.setRealmList(this.realmService.getRealms()[0].getRealmList());
+
     let cmd = path.join(ClientHelper.getInstance().getClientDirectory(), 'Wow.exe');
     spawn(cmd, [], {detached: true});
   }

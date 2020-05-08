@@ -22,10 +22,7 @@ export class StatusBarComponent implements OnInit {
   realmTwoEllipse : string = "offline-ellipse";
   realmTwoGlow : string = "offline-server";
 
-  constructor(private realmService : RealmService,
-              private changeDetectorRef : ChangeDetectorRef) {
-
-  }
+  constructor(private realmService : RealmService) { }
 
   ngOnInit(): void {
     this.getRealms();
@@ -66,8 +63,5 @@ export class StatusBarComponent implements OnInit {
         this.realmTwoGlow = "offline-server";
       }
     }
-
-
-    //this.changeDetectorRef.detectChanges();
   }
 }

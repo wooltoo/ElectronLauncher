@@ -4,10 +4,12 @@ export class Realm
 {
     name : string;
     status : RealmStatus;
+    realmList : string;
 
-    constructor(nameI : string, status : RealmStatus) {
-        this.name = nameI;
+    constructor(name : string, status : RealmStatus,  realmList : string) {
+        this.name = name;
         this.status = status;
+        this.realmList = realmList;
     }
 
     getName() : string {
@@ -16,5 +18,9 @@ export class Realm
 
     getStatus() : RealmStatus {
         return this.status;
+    }
+
+    getRealmList() : string {
+        return this.realmList;
     }
 }

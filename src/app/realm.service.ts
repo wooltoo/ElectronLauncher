@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { AppConfig } from '../environments/environment';
 import { Realm } from './general/realm';
 import { RealmStatus } from './general/realmstatus';
 import { LauncherConfig } from './general/launcherconfig';
 
-const request = require("request"); // Need to uncomment when running web
+const request = require("request");
 
 @Injectable({
   providedIn: 'root'
@@ -28,13 +27,13 @@ export class RealmService {
 
       json.forEach(obj => {
         let status : RealmStatus = null; 
-        if (obj["status"] == "ONLINE")
+        if (obj['status'] == 'ONLINE')
           status = RealmStatus.ONLINE;
         else 
           status = RealmStatus.OFFLINE;
 
         this.realms.push(
-          new Realm(obj["name"], status)
+          new Realm(obj['name'], status, obj['realmlist'])
         );
       });
     });

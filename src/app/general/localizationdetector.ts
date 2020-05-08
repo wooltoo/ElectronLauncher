@@ -1,10 +1,10 @@
 import { ClientHelper } from './clienthelper';
-import fs from 'fs';
-import path from 'path';
+import * as fs from 'fs';
+import * as path from 'path';
 
 export class LocalizationDetector
 {
-    private static localeCandidates = ["frFr", "deDE", "enGB", "enUS", "itIT", "koKR", "zhCN", "zhTW", "ruRU", "esES", "esMX", "ptBR"];
+    private static localeCandidates = ['frFr', 'deDE', 'enGB', 'enUS', 'itIT', 'koKR', 'zhCN', 'zhTW', 'ruRU', 'esES', 'esMX', 'ptBR'];
 
     public static find() : string {
         let found : string = null; 
@@ -13,8 +13,8 @@ export class LocalizationDetector
         this.localeCandidates.forEach((candidate) => {
             let checkPath = path.join(dataDirectory, candidate);
             if (fs.existsSync(checkPath)) {
-                console.log("CheckPath: " + checkPath);
-                return candidate;      
+                found = candidate;
+                return found;  
             }
         });
 
