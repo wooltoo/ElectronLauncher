@@ -5,6 +5,7 @@ import { DownloadListService } from '../download-list.service';
 import { DownloadListServiceState } from './downloadlistservicestate';
 import { LauncherConfig } from './launcherconfig'
 import { FileRemover } from '../general/fileremover'
+import { ClientHelper } from './clienthelper';
 
 export class DownloadHelper
 {
@@ -25,12 +26,16 @@ export class DownloadHelper
     constructor(private callback : DownloadCallback, private downloadListService : DownloadListService) { 
         this.checkForFilesToDownload();
         this.checkForFilesToDownloadWrapper();
+        this.downloadConfig.downloadFolder = ClientHelper.getInstance().getClientDirectory();
     }
 
-    public prepare(items : DownloadFile[], downloadFolder : string) : void
+    public add(items : DownloadFile[]) : void
     {
-        this.downloadFiles = items;
-        this.downloadConfig.downloadFolder = downloadFolder;
+        items.forEach((item) => {
+            if (!DownloadFile.existsInArray(item, this.downloadFiles)) {
+                this.downloadFiles.push(item);
+            }
+        });
     }
 
     public download() : void {
@@ -40,7 +45,7 @@ export class DownloadHelper
     private checkForFilesToDownload() : void {
         if (this.downloadListService.getState() == DownloadListServiceState.READY) {
             this.callback.OnFilesToDownloadResult(
-                this.downloadListService.getPatches().length > 0
+                this.downloadListService.getFiles().length > 0
             );
         }
     }
@@ -61,15 +66,15 @@ export class DownloadHelper
             return;  
         } 
 
-        const path = require('path');
         FileRemover.removeIfMD5Mismatch(
-            path.join(this.downloadConfig.downloadFolder, item.getFileName()),
+            item.getFullLocalPath(),
             item.getMD5()
         );
 
         this.downloadFile = item;
         let cDownloadConfig = Object.assign({}, this.downloadConfig);
         cDownloadConfig.url = item.getResource();
+        cDownloadConfig.downloadFolder = item.getLocalDirectory();
         
         this.onStart();
         remote.require("electron-download-manager").download(cDownloadConfig, (error, info) => {

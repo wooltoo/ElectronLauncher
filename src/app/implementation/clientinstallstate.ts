@@ -16,6 +16,9 @@ export class ClientInstallState implements InstallState {
                 private downloadListService : DownloadListService) {
 
     }
+    GetDownloadListService(): DownloadListService {
+        throw new Error("Method not implemented.");
+    }
 
     OnExitState() : void {
 

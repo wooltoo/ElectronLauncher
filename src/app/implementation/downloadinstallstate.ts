@@ -1,30 +1,29 @@
 import { HomeComponent } from '../home/home.component';
 import { DownloadState } from '../general/downloadstate';
 import { DownloadInfoFormatter } from '../general/downloadinfoformatter';
-//import { DownloadPatchFilter } from '../general/downloadfilefilter';
+import { ZipInstaller } from '../general/zipinstaller';
+import { LocalStorageService } from 'ngx-webstorage';
+import { LauncherConfig } from '../general/launcherconfig';
 import { DownloadListService } from '../download-list.service';
 import { DownloadFile } from '../general/downloadfile';
 import { InstallState } from '../general/installstate';
 import { ClientHelper } from '../general/clienthelper';
-import { SettingsManager, Setting } from '../general/settingsmanager';
 
-export class PatchInstallState implements InstallState {
-
-    private isPatching : boolean = false;
+export class DownloadInstallState implements InstallState {
 
     constructor(private homeComponent : HomeComponent,
-                private downloadListService : DownloadListService) { }
-    GetDownloadListService(): DownloadListService {
-        throw new Error("Method not implemented.");
+                private localSt : LocalStorageService,
+                private downloadListService : DownloadListService) {
+
     }
 
-    OnExitState(): void { }
+    OnExitState() : void { }
 
     OnEnterState(): void {
         this.homeComponent.state = DownloadState.WAITING_FOR_DOWNLOAD;
         this.homeComponent.isInstalling = true;
         this.homeComponent.hasFilesToDownload = true;
-        this.homeComponent.buttonText = "DOWNLOAD";
+        this.homeComponent.buttonText = "INSTALL";
     }
 
     OnDownloadStart(): void {
@@ -56,7 +55,7 @@ export class PatchInstallState implements InstallState {
         this.homeComponent.showInterruptButton = true;
         this.homeComponent.showDownloadStats = true;
         this.homeComponent.showDownloadBar = true;
-        this.homeComponent.buttonText = "RESUME";
+        this.homeComponent.buttonText = "RESUME INSTALLATION";
     }
 
     OnDownloadInterrupt(): void {
@@ -66,8 +65,7 @@ export class PatchInstallState implements InstallState {
         this.homeComponent.showDownloadStats = false;
         this.homeComponent.showInterruptButton = false;
         this.homeComponent.showDownloadBar = false;
-        this.homeComponent.buttonText = "DOWNLOAD";
-        this.isPatching = false;
+        this.homeComponent.buttonText = "INSTALL";
     }
 
     OnDownloadResume(): void {
@@ -80,51 +78,74 @@ export class PatchInstallState implements InstallState {
         this.homeComponent.buttonText = "DOWNLOADING";
     }
 
-    OnDownloadFileFinished(downloadFile: DownloadFile) { }
+    OnDownloadFileFinished(downloadFile: DownloadFile) {
+        if (downloadFile.getName() == LauncherConfig.CLIENT_RESOURCE_NAME) {
+          let installer : ZipInstaller = new ZipInstaller(this);
+          installer.install(downloadFile, this.localSt.retrieve('requestedClientDirectory'));
+        }
+    }
 
     OnDownloadFinished(): void {
         this.homeComponent.state = DownloadState.COMPLETED;
         this.homeComponent.showPauseButton = false;
         this.homeComponent.showPlayButton = false;
         this.homeComponent.showInterruptButton = false;
-        this.homeComponent.hasFilesToDownload = false;
+        this.homeComponent.hasFilesToDownload = true;
+        this.homeComponent.buttonText = "INSTALLING";
         this.homeComponent.progressBarWidth = 0;
+        this.homeComponent.isInstalling = true;
         this.homeComponent.progress = "";
         this.homeComponent.downloadSpeed = "";
-        this.homeComponent.showDownloadBar = false;
-        this.homeComponent.buttonText = "START GAME"
-        this.isPatching = false;
     }
 
     OnFilesToDownloadResult(hasFilesToCheckForDownload: boolean): void {
-        if (this.homeComponent.hasFilesToDownload) {
-            this.CheckIfShouldStartPatching();
-            return;
-        }   
 
-        if (hasFilesToCheckForDownload)
-        {
-            let clientDir = ClientHelper.getInstance().getClientDirectory();
-            //let downloadPatchFilter = new DownloadPatchFilter(this.downloadListService);
-            
-            /*if (downloadPatchFilter.getPatchesToInstall(clientDir).length > 0) {
-                this.homeComponent.state = DownloadState.WAITING_FOR_DOWNLOAD;
-                this.homeComponent.buttonText = "UPDATE";    
-                this.homeComponent.hasFilesToDownload = true;
-                return;
-            }*/
-        }
-  
-        this.homeComponent.buttonText = "START GAME";
     }
 
-    OnInstallProgressUpdate(downloadFile: DownloadFile, progress: number, currFile: number, fileCount: number): void { }
-    OnInstallExtractionCompleted(downloadFile: DownloadFile): void { }
+    OnInstallExtractionCompleted(downloadFile: DownloadFile): void {
+        if (downloadFile.getName() == LauncherConfig.CLIENT_RESOURCE_NAME) {
+            this.FinishedInstallingClient();
+            this.Cleanup();
+            this.homeComponent.OnClientInstallStateFinished();
+            this.homeComponent.isUnzipping = false;
+        }
+    }
 
-    private CheckIfShouldStartPatching() : void {
-        /*if (this.isPatching == false && SettingsManager.getInstance().getSetting(Setting.SHOULD_AUTO_PATCH)) {
-            this.homeComponent.homeInstallManager.downloadPatches();
-            this.isPatching = true;
-        }*/
+    Cleanup() {
+        this.homeComponent.showDownloadBar = false;
+        this.homeComponent.buttonText = "UPDATE";
+    }
+
+    OnInstallProgressUpdate(downloadFile: DownloadFile, progress: number, currFile: number, fileCount: number): void {
+        this.homeComponent.state = DownloadState.INSTALLING;
+        this.homeComponent.isUnzipping = true;
+        this.homeComponent.showPauseButton = false;
+        this.homeComponent.showPlayButton = false;
+        this.homeComponent.showDownloadStats = true;
+        this.homeComponent.showInterruptButton = false;
+        this.homeComponent.showDownloadBar = true;
+        this.homeComponent.buttonText = "INSTALLING";
+        this.homeComponent.downloadSpeed = "";
+        this.homeComponent.progress = (progress * 100).toFixed(2).toString() + "%";
+        this.homeComponent.progressBarWidth = (progress * 100);
+    }
+
+    GetDownloadListService(): DownloadListService {
+        return this.downloadListService;
+    }
+
+    private FinishedInstallingClient() : void {
+        ClientHelper.getInstance().setClientDirectory(
+            this.localSt.retrieve('requestedClientDirectory')
+        );
+        
+        this.homeComponent.isInstalling = false;
+
+        const fs = require('fs');
+        const path = require('path');
+        let downloadFile = path.join(ClientHelper.getInstance().getClientDirectory(), LauncherConfig.CLIENT_FILE_NAME);
+        fs.unlink(downloadFile, (error) => {
+            if (error) throw error;
+        });
     }
 }

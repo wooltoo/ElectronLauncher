@@ -7,6 +7,7 @@ import { HomeInstallManager } from '../implementation/homeinstallmanager';
 import { ClientHelper } from '../general/clienthelper';
 import { ClientInstallState } from '../implementation/clientinstallstate';
 import { PatchInstallState } from '../implementation/patchinstallstate';
+import { DownloadInstallState } from '../implementation/downloadinstallstate';
 import { spawn } from 'child_process';
 import * as path from 'path';
 import { LauncherConfig } from '../general/launcherconfig';
@@ -15,13 +16,16 @@ import { SettingsComponent } from '../settings/settings.component';
 import { SettingsManager } from '../general/settingsmanager';
 import { RealmListChanger } from '../general/realmlistchanger';
 import { RealmService } from '../realm.service';
+import { DownloadSystem } from '../general/downloadsystem';
+import { DownloadListCallback } from '../general/downloadlistcallback';
+import { DownloadFile } from '../general/downloadfile';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, DownloadListCallback {
   public downloadHelper : DownloadHelper;
   
   public state : DownloadState = DownloadState.LOADING;
@@ -52,23 +56,14 @@ export class HomeComponent implements OnInit {
   {
     SettingsManager.getInstance().setLocalSt(this.localSt);
     ComponentRegistry.getInstance().register(ComponentRegistryEntry.HOME_COMPONENT, this);
+    
+    DownloadSystem.getInstance().setInstallState(new DownloadInstallState(
+      this,
+      this.localSt,
+      this.downloadListService
+    ));
 
-    this.homeInstallManager = new HomeInstallManager(
-      this, 
-      this.downloadListService,
-      this.localSt
-    );
-
-    this.downloadHelper = new DownloadHelper(this.homeInstallManager, this.downloadListService);
-
-    this.homeInstallManager.EnterInstallState(
-      new PatchInstallState(
-        this,
-        this.downloadListService
-      )
-    );
-
-    this.homeInstallManager.downloadPatches();
+    downloadListService.observe(this);
   }
 
   ngOnInit(): void {
@@ -76,10 +71,16 @@ export class HomeComponent implements OnInit {
       this.hideLanding();
   }
 
+  OnNewFilesFetched(downloadFiles: DownloadFile[]): void {
+    console.log("New files to dl?");
+    DownloadSystem.getInstance().downloadAll();
+  }
+
   Download()
   {
-    if (ClientHelper.getInstance().hasClientInstalled()) 
-      this.homeInstallManager.downloadPatches();
+    if (ClientHelper.getInstance().hasClientInstalled()) {
+      DownloadSystem.getInstance().downloadAll();
+    }
   }
 
   StartGame() : void {
@@ -93,14 +94,7 @@ export class HomeComponent implements OnInit {
   // Called when the landing component picks a already installed game path.
   public OnPickGamePath(path : string) : void {
     ClientHelper.getInstance().setClientDirectory(path);
-    this.homeInstallManager.EnterInstallState(
-      new PatchInstallState(
-        this,
-        this.downloadListService
-      )
-    );
-
-    this.homeInstallManager.downloadPatches();
+    DownloadSystem.getInstance().downloadAll();
     this.hideLanding();
   }
 
@@ -108,27 +102,11 @@ export class HomeComponent implements OnInit {
   // path = selected client directory.
   public OnSelectClientDownload(path : string) : void {
     this.localSt.store('requestedClientDirectory', path);
-
-    this.homeInstallManager.EnterInstallState(
-      new ClientInstallState(
-        this, 
-        this.localSt, 
-        this.downloadListService
-      )
-    );
-
-    this.homeInstallManager.downloadClient();
+    DownloadSystem.getInstance().downloadClient();
   }
 
   public OnClientInstallStateFinished() : void {
-    this.homeInstallManager.EnterInstallState(
-      new PatchInstallState(
-        this,
-        this.downloadListService
-      )
-    );
-
-    this.homeInstallManager.downloadPatches();
+    DownloadSystem.getInstance().downloadAll();
   }
 
   public OnPressCogwheelButton() : void {
@@ -149,9 +127,8 @@ export class HomeComponent implements OnInit {
         this.Download();
       else if (this.state == DownloadState.PAUSED)
         this.OnPressResumeDownload();
-    } else {
+    } else 
       this.StartGame();
-    }
   }
 
   OnPressPauseDownload() {

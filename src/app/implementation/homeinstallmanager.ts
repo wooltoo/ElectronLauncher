@@ -2,13 +2,9 @@ import { InstallCallback } from '../general/installcallback';
 import { DownloadCallback } from '../general/downloadcallback';
 import { DownloadFile } from '../general/downloadfile';
 import { HomeComponent } from '../home/home.component';
-import { DownloadState } from '../general/downloadstate';
 import { DownloadListService } from '../download-list.service';
 import { LocalStorageService } from 'ngx-webstorage';
-import { DownloadPatchFilter } from '../general/downloadpatchfilter';
 import { InstallState } from '../general/installstate';
-import { ClientHelper } from '../general/clienthelper';
-import { DownloadHelper } from '../general/downloadhelper';
 
 export class HomeInstallManager implements DownloadCallback, InstallCallback {
 
@@ -83,7 +79,7 @@ export class HomeInstallManager implements DownloadCallback, InstallCallback {
 
     /* MANAGER METHODS */
 
-    public downloadPatches() : void {
+    /*public downloadPatches() : void {
         let downloadPatchFilter = new DownloadPatchFilter(this.downloadListService);
         let clientDir = ClientHelper.getInstance().getClientDirectory();
         this.homeComponent.downloadHelper.prepare(
@@ -103,5 +99,5 @@ export class HomeInstallManager implements DownloadCallback, InstallCallback {
     
         this.homeComponent.downloadHelper.download();
         this.homeComponent.state = DownloadState.DOWNLOADING;
-      }
+      }*/
 }
