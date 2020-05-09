@@ -9,6 +9,7 @@ export class DownloadSystem
 
     private downloadHelper : DownloadHelper = null;
     private downloadFileFilter : DownloadFileFilter = null;
+    private installState : InstallState;
 
     private constructor() {}
 
@@ -20,6 +21,7 @@ export class DownloadSystem
     }
 
     public setInstallState(installState : InstallState) : void {
+        this.installState = installState;
         this.downloadHelper = new DownloadHelper(installState, installState.GetDownloadListService());
         this.downloadFileFilter = new DownloadFileFilter(installState.GetDownloadListService());
     }
@@ -45,13 +47,17 @@ export class DownloadSystem
         if (!this.downloadHelper) return;
         if (this.downloadHelper.isDownloading()) return;
 
-        console.log("DOWNLOADING ALL!");
         this.downloadHelper.add(this.downloadFileFilter.getFilesToInstall());
         this.downloadHelper.download();
     }
 
     // Should download client.
     public downloadClient() : void {
-        console.log("Download client!");
+        if (!this.installState) return;
+
+        let client : DownloadFile = this.installState.GetDownloadListService().getClient();
+        client.setTarget(this.installState.GetLocalStorageService().retrieve('requestedClientDirectory'));
+        this.downloadHelper.addSingle(client);
+        this.downloadHelper.download();
     }
 }

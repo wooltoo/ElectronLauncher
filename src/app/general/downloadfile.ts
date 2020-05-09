@@ -1,5 +1,6 @@
 import { TargetPath } from "./targetpath";
 import * as path from 'path';
+import { ClientHelper } from "./clienthelper";
 
 export enum DownloadFileType 
 {
@@ -18,7 +19,10 @@ export class DownloadFile
                 private resource : string,
                 private fileName : string,
                 private extract : boolean,
-                private target : string) { }
+                private target : string) 
+    { 
+    
+    }
 
     public static existsInArray(downloadFile : DownloadFile, array : DownloadFile[]) : boolean {
         array.forEach((item) => {
@@ -61,6 +65,10 @@ export class DownloadFile
         return this.target;
     }
 
+    public setTarget(target: string) : void {
+        this.target = target;
+    }
+
     // Fetches the full local path of this DownloadFile.
     // e.g. D:\Client\Data\enGB\file.zip
     public getFullLocalPath() : string {
@@ -70,6 +78,9 @@ export class DownloadFile
     // Fetches the local directory of this DownloadFile.
     // e.g. D:\Client\Data\enGB
     public getLocalDirectory() : string {
-        return TargetPath.process(this.getTarget());
+        if (ClientHelper.getInstance().hasClientInstalled())
+            return TargetPath.process(this.getTarget());
+        else
+            return this.getTarget();
     }
 }

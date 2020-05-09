@@ -1,4 +1,3 @@
-import { LocalStorageService } from "ngx-webstorage";
 import { Setting, SettingsManager } from './settingsmanager';
 
 export class ClientHelper {
@@ -26,5 +25,9 @@ export class ClientHelper {
 
     public setClientDirectory(directory : String) : void {
         SettingsManager.getInstance().setSetting(Setting.CLIENT_DIRECTORY, directory);
+    }
+
+    public clearClientDirectory() : void {
+        SettingsManager.getInstance().setSetting(Setting.CLIENT_DIRECTORY, null);
     }
 }

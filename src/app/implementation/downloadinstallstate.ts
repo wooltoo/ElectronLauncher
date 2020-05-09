@@ -113,6 +113,20 @@ export class DownloadInstallState implements InstallState {
 
     OnFilesToDownloadResult(hasFilesToCheckForDownload: boolean): void {}
 
+    OnInstallExtractionBegin(): void {
+        this.homeComponent.state = DownloadState.INSTALLING;
+        this.homeComponent.isUnzipping = true;
+        this.homeComponent.showPauseButton = false;
+        this.homeComponent.showPlayButton = false;
+        this.homeComponent.showDownloadStats = true;
+        this.homeComponent.showInterruptButton = false;
+        this.homeComponent.showDownloadBar = true;
+        this.homeComponent.buttonText = "INSTALLING";
+        this.homeComponent.downloadSpeed = "";
+        this.homeComponent.progress = "0%";
+        this.homeComponent.progressBarWidth = 0;
+    }
+
     OnInstallExtractionCompleted(downloadFile: DownloadFile): void {
         if (downloadFile.getName() == LauncherConfig.CLIENT_RESOURCE_NAME) {
             this.FinishedInstallingClient();
@@ -145,18 +159,15 @@ export class DownloadInstallState implements InstallState {
         return this.downloadListService;
     }
 
+    GetLocalStorageService(): LocalStorageService {
+        return this.localSt;
+    }
+
     private FinishedInstallingClient() : void {
         ClientHelper.getInstance().setClientDirectory(
             this.localSt.retrieve('requestedClientDirectory')
         );
         
         this.homeComponent.isInstalling = false;
-
-        const fs = require('fs');
-        const path = require('path');
-        let downloadFile = path.join(ClientHelper.getInstance().getClientDirectory(), LauncherConfig.CLIENT_FILE_NAME);
-        fs.unlink(downloadFile, (error) => {
-            if (error) throw error;
-        });
     }
 }

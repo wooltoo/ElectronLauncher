@@ -33,10 +33,13 @@ export class DownloadHelper
     public add(items : DownloadFile[]) : void
     {
         items.forEach((item) => {
-            if (!DownloadFile.existsInArray(item, this.downloadFiles)) {
-                this.downloadFiles.push(item);
-            }
+            this.addSingle(item);
         });
+    }
+
+    public addSingle(item : DownloadFile) : void {
+        if (!DownloadFile.existsInArray(item, this.downloadFiles))
+            this.downloadFiles.push(item);
     }
 
     public download() : void {
@@ -71,10 +74,12 @@ export class DownloadHelper
             return;  
         } 
 
-        FileRemover.removeIfMD5Mismatch(
-            item.getFullLocalPath(),
-            item.getMD5()
-        );
+        if (ClientHelper.getInstance().hasClientInstalled()) {
+            FileRemover.removeIfMD5Mismatch(
+                item.getFullLocalPath(),
+                item.getMD5()
+            );
+        }
 
         this.downloadFile = item;
         let cDownloadConfig = Object.assign({}, this.downloadConfig);

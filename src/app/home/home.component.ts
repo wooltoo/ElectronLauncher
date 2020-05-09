@@ -23,8 +23,6 @@ import { DownloadFile } from '../general/downloadfile';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit, DownloadListCallback {
-  public downloadHelper : DownloadHelper;
-  
   public state : DownloadState = DownloadState.LOADING;
   public downloadSpeed : string = "9.67 MB/s"
   public progress : string = "10%";
@@ -62,20 +60,23 @@ export class HomeComponent implements OnInit, DownloadListCallback {
   }
 
   ngOnInit(): void {
-    if (!LauncherConfig.FORCE_LANDING_SCREEN && ClientHelper.getInstance().hasClientInstalled()) 
+    if (LauncherConfig.FORCE_LANDING_SCREEN)
+      ClientHelper.getInstance().clearClientDirectory();
+
+    if (!LauncherConfig.FORCE_LANDING_SCREEN && ClientHelper.getInstance().hasClientInstalled()) {
       this.hideLanding();
+    }
   }
 
   OnNewFilesFetched(downloadFiles: DownloadFile[]): void {
-    console.log("New files to dl?");
-    DownloadSystem.getInstance().downloadAll();
+    if (ClientHelper.getInstance().hasClientInstalled()) 
+      DownloadSystem.getInstance().downloadAll();
   }
 
   Download()
   {
-    if (ClientHelper.getInstance().hasClientInstalled()) {
+    if (ClientHelper.getInstance().hasClientInstalled()) 
       DownloadSystem.getInstance().downloadAll();
-    }
   }
 
   StartGame() : void {
@@ -98,6 +99,7 @@ export class HomeComponent implements OnInit, DownloadListCallback {
   public OnSelectClientDownload(path : string) : void {
     this.localSt.store('requestedClientDirectory', path);
     DownloadSystem.getInstance().downloadClient();
+    this.hideLanding();
   }
 
   public OnClientInstallStateFinished() : void {
@@ -128,12 +130,12 @@ export class HomeComponent implements OnInit, DownloadListCallback {
 
   OnPressPauseDownload() {
     this.state = DownloadState.PAUSED;
-    this.downloadHelper.pause();
+    DownloadSystem.getInstance().pause();
   }
 
   OnPressResumeDownload() {
     this.state = DownloadState.DOWNLOADING;
-    this.downloadHelper.resume();
+    DownloadSystem.getInstance().resume();
   }
 
   OnPressCancelDownload() {
@@ -142,7 +144,7 @@ export class HomeComponent implements OnInit, DownloadListCallback {
 
   public CancelDownload() : void {
     this.state = DownloadState.WAITING_FOR_DOWNLOAD;
-    this.downloadHelper.interrupt();
+    DownloadSystem.getInstance().cancel();
   }
 
   public hideLanding() : void {

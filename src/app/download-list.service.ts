@@ -73,8 +73,6 @@ export class DownloadListService {
       if (this.files.length > 0)
         this.notifyNewFilesFetched();
       
-      console.log("DownloadList patches length: " + this.files.length);
-
       this.updateState();
     });
   }
