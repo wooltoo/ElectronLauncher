@@ -5,7 +5,7 @@ export class ZipInstaller
 {
     constructor(private installCallback : InstallCallback) { }
 
-    public async install(downloadFile : DownloadFile, directory : string) {
+    public async install(downloadFile : DownloadFile, directory : string, completeFunc = null) {
         let clientFile = directory + '/' + downloadFile.getFileName();
         const AdmZip = require('../../custom_modules/adm-zip/adm-zip.js');
         let zip = new AdmZip(clientFile);
@@ -17,6 +17,8 @@ export class ZipInstaller
             this.installCallback.OnInstallProgressUpdate(downloadFile, progress, currCount, fileCount);
             if (progress == 1) {
                 this.installCallback.OnInstallExtractionCompleted(downloadFile);
+                if (completeFunc)
+                    completeFunc();
             }
         });
     }

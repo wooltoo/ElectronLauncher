@@ -1,11 +1,12 @@
 import { DownloadItem, webContents } from 'electron';
-import { DownloadCallback } from '../general/downloadcallback';
 import { DownloadFile } from '../general/downloadfile';
 import { DownloadListService } from '../download-list.service';
 import { DownloadListServiceState } from './downloadlistservicestate';
 import { LauncherConfig } from './launcherconfig'
 import { FileRemover } from '../general/fileremover'
 import { ClientHelper } from './clienthelper';
+import { InstallState } from './installstate';
+import { ZipInstaller } from './zipinstaller';
 
 export class DownloadHelper
 {
@@ -23,7 +24,7 @@ export class DownloadHelper
     downloadFile : DownloadFile;
     downloadFiles : DownloadFile[] = [];
 
-    constructor(private callback : DownloadCallback, private downloadListService : DownloadListService) { 
+    constructor(private callback : InstallState, private downloadListService : DownloadListService) { 
         this.checkForFilesToDownload();
         this.checkForFilesToDownloadWrapper();
         this.downloadConfig.downloadFolder = ClientHelper.getInstance().getClientDirectory();
@@ -40,6 +41,10 @@ export class DownloadHelper
 
     public download() : void {
         this.downloadNext();
+    }
+
+    public isDownloading() : boolean {
+        return this.downloading;
     }
 
     private checkForFilesToDownload() : void {
@@ -81,9 +86,27 @@ export class DownloadHelper
             if (error) console.log("Error: " + error);
             
             this.callback.OnDownloadFileFinished(this.downloadFile);
-            this.downloadFile = null;
-            this.downloadNext();
+            console.log("FINISHED DOWNLOADING" + JSON.stringify(this.downloadFile));
+            this.extract(this.downloadFile);
         });
+    }
+
+    private extract(downloadFile : DownloadFile) : void {
+        if (!downloadFile.getExtract()) {
+            this.extractionComplete();
+            return;
+        }
+
+        console.log("About to extract: " + downloadFile.getName());
+        let installer : ZipInstaller = new ZipInstaller(this.callback);
+        installer.install(downloadFile, downloadFile.getLocalDirectory(), () => {
+            this.extractionComplete();
+        });
+    }
+
+    private extractionComplete() : void {
+        this.downloadFile = null;
+        this.downloadNext();
     }
 
     public interrupt() : void {

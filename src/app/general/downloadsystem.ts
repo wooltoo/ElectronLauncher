@@ -43,6 +43,7 @@ export class DownloadSystem
     // Should download all files, e.g. patches/exes/addons that are missing or have mismatching MD5.
     public downloadAll() : void {
         if (!this.downloadHelper) return;
+        if (this.downloadHelper.isDownloading()) return;
 
         console.log("DOWNLOADING ALL!");
         this.downloadHelper.add(this.downloadFileFilter.getFilesToInstall());

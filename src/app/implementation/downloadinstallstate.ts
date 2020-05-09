@@ -19,11 +19,18 @@ export class DownloadInstallState implements InstallState {
 
     OnExitState() : void { }
 
-    OnEnterState(): void {
-        this.homeComponent.state = DownloadState.WAITING_FOR_DOWNLOAD;
-        this.homeComponent.isInstalling = true;
-        this.homeComponent.hasFilesToDownload = true;
-        this.homeComponent.buttonText = "INSTALL";
+    OnEnterState(): void { 
+        if (!ClientHelper.getInstance().hasClientInstalled()) {
+            this.homeComponent.state = DownloadState.WAITING_FOR_DOWNLOAD;
+            this.homeComponent.isInstalling = true;
+            this.homeComponent.hasFilesToDownload = true;
+            this.homeComponent.buttonText = "INSTALL";
+        } else {
+            this.homeComponent.state = DownloadState.LOADING;
+            this.homeComponent.isInstalling = false;
+            this.homeComponent.hasFilesToDownload = false;
+            this.homeComponent.buttonText = "LOADING...";
+        }
     }
 
     OnDownloadStart(): void {
@@ -55,7 +62,7 @@ export class DownloadInstallState implements InstallState {
         this.homeComponent.showInterruptButton = true;
         this.homeComponent.showDownloadStats = true;
         this.homeComponent.showDownloadBar = true;
-        this.homeComponent.buttonText = "RESUME INSTALLATION";
+        this.homeComponent.buttonText = "RESUME";
     }
 
     OnDownloadInterrupt(): void {
@@ -65,7 +72,12 @@ export class DownloadInstallState implements InstallState {
         this.homeComponent.showDownloadStats = false;
         this.homeComponent.showInterruptButton = false;
         this.homeComponent.showDownloadBar = false;
-        this.homeComponent.buttonText = "INSTALL";
+
+        if (ClientHelper.getInstance().hasClientInstalled()) {
+            this.homeComponent.buttonText = "INSTALL";
+        } else {
+            this.homeComponent.buttonText = "UPDATE";
+        }
     }
 
     OnDownloadResume(): void {
@@ -90,17 +102,16 @@ export class DownloadInstallState implements InstallState {
         this.homeComponent.showPauseButton = false;
         this.homeComponent.showPlayButton = false;
         this.homeComponent.showInterruptButton = false;
-        this.homeComponent.hasFilesToDownload = true;
-        this.homeComponent.buttonText = "INSTALLING";
+        this.homeComponent.hasFilesToDownload = false;
+        this.homeComponent.buttonText = "START GAME";
         this.homeComponent.progressBarWidth = 0;
-        this.homeComponent.isInstalling = true;
+        this.homeComponent.isInstalling = false;
         this.homeComponent.progress = "";
         this.homeComponent.downloadSpeed = "";
+        this.homeComponent.showDownloadBar = false;
     }
 
-    OnFilesToDownloadResult(hasFilesToCheckForDownload: boolean): void {
-
-    }
+    OnFilesToDownloadResult(hasFilesToCheckForDownload: boolean): void {}
 
     OnInstallExtractionCompleted(downloadFile: DownloadFile): void {
         if (downloadFile.getName() == LauncherConfig.CLIENT_RESOURCE_NAME) {

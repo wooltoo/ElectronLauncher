@@ -3,10 +3,7 @@ import { DownloadState } from '../general/downloadstate';
 import { DownloadHelper } from '../general/downloadhelper';
 import { DownloadListService } from '../download-list.service';
 import { LocalStorageService } from 'ngx-webstorage';
-import { HomeInstallManager } from '../implementation/homeinstallmanager';
 import { ClientHelper } from '../general/clienthelper';
-import { ClientInstallState } from '../implementation/clientinstallstate';
-import { PatchInstallState } from '../implementation/patchinstallstate';
 import { DownloadInstallState } from '../implementation/downloadinstallstate';
 import { spawn } from 'child_process';
 import * as path from 'path';
@@ -45,8 +42,6 @@ export class HomeComponent implements OnInit, DownloadListCallback {
   public showLanding : boolean = true;
   public showInfo : boolean = false;
   public showSettings : boolean = false;
-
-  homeInstallManager : HomeInstallManager;
 
   constructor(
               public cd: ChangeDetectorRef,
