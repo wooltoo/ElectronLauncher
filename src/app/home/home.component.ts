@@ -1,6 +1,5 @@
 import { Component, OnInit, NgZone, ChangeDetectorRef } from '@angular/core';
 import { DownloadState } from '../general/downloadstate';
-import { DownloadHelper } from '../general/downloadhelper';
 import { DownloadListService } from '../download-list.service';
 import { LocalStorageService } from 'ngx-webstorage';
 import { ClientHelper } from '../general/clienthelper';
@@ -10,7 +9,7 @@ import * as path from 'path';
 import { LauncherConfig } from '../general/launcherconfig';
 import { ComponentRegistryEntry, ComponentRegistry } from '../general/componentregistry';
 import { SettingsComponent } from '../settings/settings.component';
-import { SettingsManager } from '../general/settingsmanager';
+import { SettingsManager, Setting } from '../general/settingsmanager';
 import { RealmListChanger } from '../general/realmlistchanger';
 import { RealmService } from '../realm.service';
 import { DownloadSystem } from '../general/downloadsystem';
@@ -68,15 +67,12 @@ export class HomeComponent implements OnInit, DownloadListCallback {
     }
   }
 
-  OnNewFilesFetched(downloadFiles: DownloadFile[]): void {
-    if (ClientHelper.getInstance().hasClientInstalled()) 
-      DownloadSystem.getInstance().downloadAll();
-  }
+  OnNewFilesFetched(downloadFiles: DownloadFile[]): void { }
 
   Download()
   {
-    if (ClientHelper.getInstance().hasClientInstalled()) 
-      DownloadSystem.getInstance().downloadAll();
+    console.log("HomeComponent#Download()");
+    DownloadSystem.getInstance().downloadAll();
   }
 
   StartGame() : void {
@@ -97,13 +93,9 @@ export class HomeComponent implements OnInit, DownloadListCallback {
   // Called when the landing component requests the client to be downloaded.
   // path = selected client directory.
   public OnSelectClientDownload(path : string) : void {
-    this.localSt.store('requestedClientDirectory', path);
-    DownloadSystem.getInstance().downloadClient();
-    this.hideLanding();
-  }
-
-  public OnClientInstallStateFinished() : void {
+    ClientHelper.getInstance().setRequestedClientDirectory(path);
     DownloadSystem.getInstance().downloadAll();
+    this.hideLanding();
   }
 
   public OnPressCogwheelButton() : void {
@@ -119,6 +111,7 @@ export class HomeComponent implements OnInit, DownloadListCallback {
   }
 
   OnPressStartButton() {
+    console.log("DownloadState: " + this.state);
     if (this.hasFilesToDownload) {
       if (this.state == DownloadState.WAITING_FOR_DOWNLOAD)
         this.Download();

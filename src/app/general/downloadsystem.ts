@@ -2,6 +2,10 @@ import { DownloadFile } from '../general/downloadfile';
 import { InstallState } from './installstate';
 import { DownloadHelper } from './downloadhelper';
 import { DownloadFileFilter } from './downloadfilefilter';
+import { ClientHelper } from './clienthelper';
+import { FileRemover } from './fileremover';
+import * as path from 'path';
+import { LauncherConfig } from './launcherconfig';
 
 export class DownloadSystem
 {
@@ -24,6 +28,7 @@ export class DownloadSystem
         this.installState = installState;
         this.downloadHelper = new DownloadHelper(installState, installState.GetDownloadListService());
         this.downloadFileFilter = new DownloadFileFilter(installState.GetDownloadListService());
+        this.installState.OnEnterState();
     }
 
     public download(files : DownloadFile[]) : void {
@@ -44,20 +49,30 @@ export class DownloadSystem
 
     // Should download all files, e.g. patches/exes/addons that are missing or have mismatching MD5.
     public downloadAll() : void {
+        console.log("This dlhelper: " + this.downloadHelper);
+        console.log("isDownloading: " + this.downloadHelper.isDownloading());
         if (!this.downloadHelper) return;
         if (this.downloadHelper.isDownloading()) return;
 
-        this.downloadHelper.add(this.downloadFileFilter.getFilesToInstall());
+        console.log("DOWNLOAD ALL!");
+
+        if (!ClientHelper.getInstance().hasClientInstalled()) 
+            this.addClientDownload();
+        else 
+            this.downloadHelper.add(this.downloadFileFilter.getFilesToInstall());
+        
         this.downloadHelper.download();
     }
 
-    // Should download client.
-    public downloadClient() : void {
-        if (!this.installState) return;
+    // Adds client to be downloaded.
+    private addClientDownload() : void {
+        // Clear old client files.
+        FileRemover.remove(
+            path.join(ClientHelper.getInstance().getRequestedClientDirectory(), LauncherConfig.CLIENT_FILE_NAME)
+        );
 
         let client : DownloadFile = this.installState.GetDownloadListService().getClient();
-        client.setTarget(this.installState.GetLocalStorageService().retrieve('requestedClientDirectory'));
+        client.setTarget(ClientHelper.getInstance().getRequestedClientDirectory());
         this.downloadHelper.addSingle(client);
-        this.downloadHelper.download();
     }
 }

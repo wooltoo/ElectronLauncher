@@ -8,10 +8,9 @@ export class ZipInstaller
     public async install(downloadFile : DownloadFile, directory : string, completeFunc = null) {
         let clientFile = directory + '/' + downloadFile.getFileName();
         const AdmZip = require('../../custom_modules/adm-zip/adm-zip.js');
-        
-        this.installCallback.OnInstallExtractionBegin();
         let zip = new AdmZip(clientFile);
 
+        this.installCallback.OnInstallExtractionBegin();
         zip.extractAllToAsync(directory, true, (error) => {
             if (error) console.log(error);
         }, (currCount : number, fileCount : number, progress : number) => {

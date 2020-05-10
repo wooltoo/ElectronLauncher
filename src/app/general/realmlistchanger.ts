@@ -19,6 +19,9 @@ export class RealmListChanger
             FileRemover.remove(realmListPath);
 
         let fullRealmList = 'set realmlist ' + realmList;
+        if (!fs.existsSync(localePath))
+            fs.mkdirSync(localePath, { recursive: true });
+            
         fs.writeFileSync(realmListPath, fullRealmList); 
 
         return true;

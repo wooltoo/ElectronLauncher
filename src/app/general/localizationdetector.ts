@@ -18,6 +18,6 @@ export class LocalizationDetector
             }
         });
 
-        return found;
+        return "not found";
     }
 }

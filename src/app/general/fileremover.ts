@@ -2,8 +2,11 @@ export class FileRemover {
     public static remove(filePath : String) : void {
         const fs = require('fs');
 
-        fs.unlink(filePath, (error: any) => {
-            if (error) throw error;
+        if (!fs.existsSync(filePath))
+            return;
+
+        fs.unlinkSync(filePath, (error: any) => {
+            if (error) console.error(error);
         });
     }
 

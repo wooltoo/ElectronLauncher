@@ -2,6 +2,7 @@ import { Setting, SettingsManager } from './settingsmanager';
 
 export class ClientHelper {
     private static instance : ClientHelper;
+    private requestedDirectory : string;
 
     private constructor() {}
 
@@ -29,5 +30,13 @@ export class ClientHelper {
 
     public clearClientDirectory() : void {
         SettingsManager.getInstance().setSetting(Setting.CLIENT_DIRECTORY, null);
+    }
+
+    public setRequestedClientDirectory(directory : string) : void {
+        this.requestedDirectory = directory;
+    }
+
+    public getRequestedClientDirectory() : string {
+        return this.requestedDirectory;
     }
 }

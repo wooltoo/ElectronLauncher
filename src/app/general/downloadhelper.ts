@@ -7,6 +7,7 @@ import { FileRemover } from '../general/fileremover'
 import { ClientHelper } from './clienthelper';
 import { InstallState } from './installstate';
 import { ZipInstaller } from './zipinstaller';
+import { DownloadFileFilter } from './downloadfilefilter';
 
 export class DownloadHelper
 {
@@ -43,7 +44,8 @@ export class DownloadHelper
     }
 
     public download() : void {
-        this.downloadNext();
+        if (this.downloadFiles.length > 0)
+            this.downloadNext();
     }
 
     public isDownloading() : boolean {
@@ -51,9 +53,13 @@ export class DownloadHelper
     }
 
     private checkForFilesToDownload() : void {
+        if (!ClientHelper.getInstance().hasClientInstalled())
+            return;
+
         if (this.downloadListService.getState() == DownloadListServiceState.READY) {
+            let filter : DownloadFileFilter = new DownloadFileFilter(this.downloadListService);
             this.callback.OnFilesToDownloadResult(
-                this.downloadListService.getFiles().length > 0
+                filter.getFilesToInstall().length > 0
             );
         }
     }
@@ -91,7 +97,6 @@ export class DownloadHelper
             if (error) console.log("Error: " + error);
             
             this.callback.OnDownloadFileFinished(this.downloadFile);
-            console.log("FINISHED DOWNLOADING" + JSON.stringify(this.downloadFile));
             this.extract(this.downloadFile);
         });
     }
@@ -102,7 +107,6 @@ export class DownloadHelper
             return;
         }
 
-        console.log("About to extract: " + downloadFile.getName());
         let installer : ZipInstaller = new ZipInstaller(this.callback);
         installer.install(downloadFile, downloadFile.getLocalDirectory(), () => {
             this.extractionComplete();
@@ -121,6 +125,7 @@ export class DownloadHelper
         this.downloadFile = null;
         this.downloadItem.cancel();
         this.downloadItem = null;
+        this.downloading = false;
         this.onInterrupt();
     }
 
@@ -173,6 +178,7 @@ export class DownloadHelper
     }
 
     private onFinished() : void {
+        console.log("FINISHED!");
         this.downloading = false;
         this.callback.OnDownloadFinished();
     }
