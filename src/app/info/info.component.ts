@@ -2,7 +2,9 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { NewsEntryService } from '../news-entry.service';
 import { NewsEntry } from '../news-entry';
 import { LauncherConfig } from '../general/launcherconfig';
-import { TouchBarSlider } from 'electron';
+import {DomSanitizer} from '@angular/platform-browser';
+
+const request = require('request');
 
 @Component({
   selector: 'app-info',
@@ -13,10 +15,17 @@ export class InfoComponent implements OnInit {
 
   newsEntries : NewsEntry[] = [];
   showLoadingSpinner : boolean = true;
+  videoUrl : string;
+  video : any;
 
   constructor(private newsEntryService : NewsEntryService,
-              private changeDetectorRef : ChangeDetectorRef) {
+              private changeDetectorRef : ChangeDetectorRef,
+              private sanitizer : DomSanitizer) 
+  {
+    this.setVideo(LauncherConfig.DEFAULT_YOUTUBE_VIDEO);
 
+    this.checkForYoutubeVideo();
+    this.startCheckForYoutubeVideo();
   }
 
   ngOnInit(): void {
@@ -25,6 +34,15 @@ export class InfoComponent implements OnInit {
       () => { this.getEntries(); },
       LauncherConfig.INTERVAL_CHECK_FOR_NEWS
     );
+  }
+
+  private setVideo(url : string) {
+    if (this.videoUrl == url)
+      return;
+
+    console.log("Setting video!");
+    this.videoUrl = url;
+    this.video = this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
   getEntries() : void {
@@ -57,5 +75,26 @@ export class InfoComponent implements OnInit {
     }
 
     return false;
+  }
+
+  private checkForYoutubeVideo() {
+    request.get({
+      url: LauncherConfig.BACKEND_HOST + '/youtube-video',
+      json: true
+    }, (error, response, json) => {
+      if (json == undefined) {
+        console.log("Fetch youtube video response was undefined!");
+        return;
+      }
+
+      this.setVideo(json['video']);
+    });
+  }
+
+  private startCheckForYoutubeVideo() {
+    setInterval(
+      () => { this.checkForYoutubeVideo() },
+      LauncherConfig.INTERVAL_CHECK_FOR_YOUTUBE_VIDEO
+    );
   }
 }
