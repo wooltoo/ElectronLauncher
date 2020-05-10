@@ -62,9 +62,10 @@ export class HomeComponent implements OnInit, DownloadListCallback {
     if (LauncherConfig.FORCE_LANDING_SCREEN)
       ClientHelper.getInstance().clearClientDirectory();
 
-    if (!LauncherConfig.FORCE_LANDING_SCREEN && ClientHelper.getInstance().hasClientInstalled()) {
+    this.checkIfClientHasBeenDeleted();
+
+    if (!LauncherConfig.FORCE_LANDING_SCREEN && ClientHelper.getInstance().hasClientInstalled()) 
       this.hideLanding();
-    }
   }
 
   OnNewFilesFetched(downloadFiles: DownloadFile[]): void { }
@@ -165,5 +166,14 @@ export class HomeComponent implements OnInit, DownloadListCallback {
     let settings : SettingsComponent = <SettingsComponent> ComponentRegistry.getInstance().get(ComponentRegistryEntry.SETTINGS_COMPONENT);
     settings.OnHide();
     this.showSettings = false;
+  }
+
+  private checkIfClientHasBeenDeleted() {
+    if (!ClientHelper.getInstance().hasClientInstalled())
+      return;
+
+    if (!ClientHelper.hasClientInDirectory(ClientHelper.getInstance().getClientDirectory())) {
+      ClientHelper.getInstance().clearClientDirectory();
+    }
   }
 }

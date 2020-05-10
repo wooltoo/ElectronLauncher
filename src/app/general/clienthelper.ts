@@ -44,7 +44,7 @@ export class ClientHelper {
         const fs = require('fs');
         const path = require('path');
 
-        let executablePath = path.join(directory, 'Wow.exe');
+        let executablePath = path.join(directory, 'Data');
         return fs.existsSync(executablePath);
     }
 }
