@@ -10,6 +10,7 @@ import { InstallState } from '../general/installstate';
 import { ClientHelper } from '../general/clienthelper';
 import { DownloadSystem } from '../general/downloadsystem';
 import { SettingsManager, Setting } from '../general/settingsmanager';
+import { FileRemover } from '../general/fileremover';
 
 export class DownloadInstallState implements InstallState {
 
@@ -177,6 +178,11 @@ export class DownloadInstallState implements InstallState {
     private FinishedInstallingClient() : void {
         ClientHelper.getInstance().setClientDirectory(
             ClientHelper.getInstance().getRequestedClientDirectory()
+        );
+
+        const path = require('path');
+        FileRemover.remove(
+            path.join(ClientHelper.getInstance().getRequestedClientDirectory(), LauncherConfig.CLIENT_FILE_NAME)
         );
         
         this.homeComponent.isInstalling = false;

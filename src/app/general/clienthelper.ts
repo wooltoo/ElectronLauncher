@@ -39,4 +39,12 @@ export class ClientHelper {
     public getRequestedClientDirectory() : string {
         return this.requestedDirectory;
     }
+
+    public static hasClientInDirectory(directory : string) : boolean {
+        const fs = require('fs');
+        const path = require('path');
+
+        let executablePath = path.join(directory, 'Wow.exe');
+        return fs.existsSync(executablePath);
+    }
 }

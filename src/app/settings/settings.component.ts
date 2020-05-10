@@ -5,6 +5,7 @@ import { ClientHelper } from '../general/clienthelper';
 import { ComponentRegistryEntry, ComponentRegistry } from '../general/componentregistry';
 import { HomeComponent } from '../home/home.component';
 import { SettingsManager, Setting } from '../general/settingsmanager';
+import { DownloadSystem } from '../general/downloadsystem';
 
 @Component({
   selector: 'app-settings',
@@ -34,12 +35,6 @@ export class SettingsComponent implements OnInit {
 
   OnPressToggleAutomaticUpdates() : void {
     this.toggleActive = !this.toggleActive;
-
-    // This has breaking changes for download system
-    /*if (this.toggleActive === false) {
-      let homeComponent : HomeComponent = <HomeComponent> ComponentRegistry.getInstance().get(ComponentRegistryEntry.HOME_COMPONENT);
-      homeComponent.CancelDownload();
-    }*/
   }
 
   OnPressHome() : void {
@@ -51,7 +46,15 @@ export class SettingsComponent implements OnInit {
   OnPressSaveChanges() : void {
     if (this.directoryPath != " ") {
       // Should prompt error trying to save empty game directory
-      SettingsManager.getInstance().setSetting(Setting.CLIENT_DIRECTORY, this.directoryPath);
+      if (ClientHelper.hasClientInDirectory(this.directoryPath)) {
+        console.log("HAS CLIENT!");
+        SettingsManager.getInstance().setSetting(Setting.CLIENT_DIRECTORY, this.directoryPath);
+      } else {
+        console.log("DOES NOT HAVE CLIENT!");
+        ClientHelper.getInstance().clearClientDirectory();
+        ClientHelper.getInstance().setRequestedClientDirectory(this.directoryPath);
+        DownloadSystem.getInstance().downloadAll();
+      }
     }
 
     SettingsManager.getInstance().setSetting(Setting.SHOULD_AUTO_PATCH, this.toggleActive);
