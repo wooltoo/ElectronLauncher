@@ -31,8 +31,14 @@ export class LauncherConfig
     static CLIENT_FILE_NAME : string = "client.zip";
 
     // Devices if landing screen should be forced upon startup.
-    static FORCE_LANDING_SCREEN : boolean = false;
+    static FORCE_LANDING_SCREEN : boolean = true;
 
     // Default Youtube video to be shown.
     static DEFAULT_YOUTUBE_VIDEO : string = "https://www.youtube.com/embed/IBHL_-biMrQ";
+
+    // Use https://www.gbmb.org/mb-to-bytes to convert from TB/MB to bytes (binary result)
+    // This size should be an estimate and not specific.
+    static CLIENT_DOWNLOAD_SIZE : number = 159383552;
+    static CLIENT_FILE_SIZE : number = 267386880;
+    static PATCH_FILE_SIZE : number = 11324620;
 }

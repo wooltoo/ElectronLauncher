@@ -39,8 +39,8 @@ export class ModalComponent implements OnInit {
     this.show = true;
   }
 
-  public ShowDouble(title : string, text : string, buttonPositiveText : string, buttonNegativeText : string, 
-                    onPressPositiveFunc: () => void, onPressNegativeFunc: () => void) : void {
+  public ShowDouble(title : string, text : string, buttonNegativeText : string, buttonPositiveText : string,
+                    onPressNegativeFunc: () => void, onPressPositiveFunc: () => void) : void {
     this.title = title;
     this.text = text;
     this.buttonPositiveText = buttonPositiveText;

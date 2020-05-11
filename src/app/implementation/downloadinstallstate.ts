@@ -23,12 +23,7 @@ export class DownloadInstallState implements InstallState {
     OnExitState() : void { }
 
     OnEnterState(): void { 
-        if (!ClientHelper.getInstance().hasClientInstalled()) {
-            this.homeComponent.state = DownloadState.WAITING_FOR_DOWNLOAD;
-            this.homeComponent.isInstalling = true;
-            this.homeComponent.hasFilesToDownload = true;
-            this.homeComponent.buttonText = "INSTALL";
-        } else {
+        if (ClientHelper.getInstance().hasClientInstalled()) {
             this.homeComponent.state = DownloadState.LOADING;
             this.homeComponent.isInstalling = false;
             this.homeComponent.hasFilesToDownload = false;
