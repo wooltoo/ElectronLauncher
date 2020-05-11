@@ -1,5 +1,8 @@
 export class LauncherConfig 
 {
+    // The launcher's version.
+    static VERSION : number = 0.91;
+
     // The project's website.
     static WEBSITE : string = "http://www.website.com";
 
