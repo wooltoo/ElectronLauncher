@@ -29,7 +29,7 @@ export class InfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    setTimeout(() => { this.getEntries(); }, 200);
+    setTimeout(() => { this.getEntries(); }, 1000);
     setInterval(
       () => { this.getEntries(); },
       LauncherConfig.INTERVAL_CHECK_FOR_NEWS

@@ -1,7 +1,8 @@
 export enum ComponentRegistryEntry 
 {
     HOME_COMPONENT,
-    SETTINGS_COMPONENT
+    SETTINGS_COMPONENT,
+    MODAL_COMPONENT
 }
 
 export class ComponentRegistry {

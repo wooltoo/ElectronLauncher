@@ -12,6 +12,7 @@ import { NewsEntryComponent } from '../newsentry/newsentry.component';
 import { StatusBarComponent } from '../statusbar/statusbar.component'
 import { LandingComponent } from '../landing/landing.component';
 import { SettingsComponent } from '../settings/settings.component';
+import { ModalComponent } from '../modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { SettingsComponent } from '../settings/settings.component';
     NewsEntryComponent, 
     StatusBarComponent,
     LandingComponent,
-    SettingsComponent
+    SettingsComponent,
+    ModalComponent
   ],
   imports: [CommonModule, SharedModule, HomeRoutingModule],
   schemas: [

@@ -15,6 +15,7 @@ import { RealmService } from '../realm.service';
 import { DownloadSystem } from '../general/downloadsystem';
 import { DownloadListCallback } from '../general/downloadlistcallback';
 import { DownloadFile } from '../general/downloadfile';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-home',
@@ -72,7 +73,6 @@ export class HomeComponent implements OnInit, DownloadListCallback {
 
   Download()
   {
-    console.log("HomeComponent#Download()");
     DownloadSystem.getInstance().downloadAll();
   }
 
