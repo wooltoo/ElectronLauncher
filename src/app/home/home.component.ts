@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit, DownloadListCallback {
   public hasFilesToDownload : boolean = false;
   public isInstalling : boolean = false;
   public isUnzipping : boolean = false;
-  public buttonText : string = "LOADING...";
+  public buttonText : string = "START GAME";
   
   public showPauseButton : boolean = true;
   public showPlayButton : boolean = true;

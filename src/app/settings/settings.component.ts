@@ -6,6 +6,7 @@ import { ComponentRegistryEntry, ComponentRegistry } from '../general/componentr
 import { HomeComponent } from '../home/home.component';
 import { SettingsManager, Setting } from '../general/settingsmanager';
 import { DownloadSystem } from '../general/downloadsystem';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-settings',
@@ -16,6 +17,7 @@ export class SettingsComponent implements OnInit {
 
   toggleActive : boolean = true;
   directoryPath : string = "";
+  modalComponent : ModalComponent = null;
 
   constructor(private localSt : LocalStorageService) { }
 
@@ -44,17 +46,39 @@ export class SettingsComponent implements OnInit {
   }
 
   OnPressSaveChanges() : void {
-    if (this.directoryPath != " ") {
-      // Should prompt error trying to save empty game directory
-      if (ClientHelper.hasClientInDirectory(this.directoryPath)) {
-        console.log("HAS CLIENT!");
-        SettingsManager.getInstance().setSetting(Setting.CLIENT_DIRECTORY, this.directoryPath);
-      } else {
-        console.log("DOES NOT HAVE CLIENT!");
-        ClientHelper.getInstance().clearClientDirectory();
-        ClientHelper.getInstance().setRequestedClientDirectory(this.directoryPath);
-        DownloadSystem.getInstance().downloadAll();
-      }
+    if (!this.modalComponent)
+      this.modalComponent = <ModalComponent> ComponentRegistry.getInstance().get(ComponentRegistryEntry.MODAL_COMPONENT);
+
+    if (this.directoryPath === " ") 
+    {
+      this.modalComponent.ShowSingle(
+        "Invalid setting",
+        "You must choose a client directory before you can save your settings.",
+        "CONTINUE",
+        () => {
+        }
+      );
+      return;
+    }
+
+    if (ClientHelper.hasClientInDirectory(this.directoryPath)) {
+      SettingsManager.getInstance().setSetting(Setting.CLIENT_DIRECTORY, this.directoryPath);
+    } else {
+
+      if (!ClientHelper.hasClientInDirectory(this.directoryPath)) {
+        this.modalComponent.ShowDouble(
+          "Could not find client",
+          "The launcher could not detect a client in your selected directory. Would you like to install a client?",
+          "CANCEL",
+          "CONFIRM",
+          () => {},
+          () => {
+            ClientHelper.getInstance().clearClientDirectory();
+            ClientHelper.getInstance().setRequestedClientDirectory(this.directoryPath);
+            DownloadSystem.getInstance().downloadAll();
+          }
+        );
+      } 
     }
 
     SettingsManager.getInstance().setSetting(Setting.SHOULD_AUTO_PATCH, this.toggleActive);
