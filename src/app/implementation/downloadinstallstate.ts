@@ -11,13 +11,18 @@ import { ClientHelper } from '../general/clienthelper';
 import { DownloadSystem } from '../general/downloadsystem';
 import { SettingsManager, Setting } from '../general/settingsmanager';
 import { FileRemover } from '../general/fileremover';
+import { TranslateService } from '@ngx-translate/core';
 
 export class DownloadInstallState implements InstallState {
 
+    private translate : TranslateService;
+
     constructor(private homeComponent : HomeComponent,
                 private localSt : LocalStorageService,
-                private downloadListService : DownloadListService) {
+                private downloadListService : DownloadListService
+               ) {
 
+        this.translate = homeComponent.getTranslate();
     }
 
     OnExitState() : void { }
@@ -27,7 +32,10 @@ export class DownloadInstallState implements InstallState {
             this.homeComponent.state = DownloadState.LOADING;
             this.homeComponent.isInstalling = false;
             this.homeComponent.hasFilesToDownload = false;
-            this.homeComponent.buttonText = "START GAME";
+
+            this.translate.get('PRIMARY-BUTTON.TEXT-START').subscribe((result) => {
+                this.homeComponent.buttonText = result;
+            });
         }
     }
 
@@ -43,7 +51,7 @@ export class DownloadInstallState implements InstallState {
         this.homeComponent.showPlayButton = false;
         this.homeComponent.showDownloadStats = true;
         this.homeComponent.showDownloadBar = true;
-        this.homeComponent.buttonText = "DOWNLOADING";
+        this.homeComponent.buttonText = this.translate.instant('PRIMARY-BUTTON.TEXT-DOWNLOADING');
     }
 
     OnDownloadSpeedUpdate(downloadSpeed: any): void {
@@ -59,7 +67,7 @@ export class DownloadInstallState implements InstallState {
         this.homeComponent.state = DownloadState.PAUSED;
         this.homeComponent.showPauseButton = false;
         this.homeComponent.showPlayButton = true;
-        this.homeComponent.buttonText = "RESUME";
+        this.homeComponent.buttonText = this.translate.instant('PRIMARY-BUTTON.TEXT-RESUME');
     }
 
     OnDownloadInterrupt(): void {
@@ -71,9 +79,9 @@ export class DownloadInstallState implements InstallState {
         this.homeComponent.showDownloadBar = false;
 
         if (!ClientHelper.getInstance().hasClientInstalled()) 
-            this.homeComponent.buttonText = "INSTALL";
+            this.homeComponent.buttonText = this.translate.instant('PRIMARY-BUTTON.TEXT-INSTALL');
         else 
-            this.homeComponent.buttonText = "UPDATE";
+            this.homeComponent.buttonText = this.translate.instant('PRIMARY-BUTTON.TEXT-UPDATE');
     }
 
     OnDownloadResume(): void {
@@ -82,7 +90,7 @@ export class DownloadInstallState implements InstallState {
         this.homeComponent.showPlayButton = false;
         this.homeComponent.showDownloadStats = true;
         this.homeComponent.showDownloadBar = true;
-        this.homeComponent.buttonText = "DOWNLOADING";
+        this.homeComponent.buttonText = this.translate.instant('PRIMARY-BUTTON.TEXT-DOWNLOADING');
     }
 
     OnDownloadFileFinished(downloadFile: DownloadFile) {
@@ -98,7 +106,7 @@ export class DownloadInstallState implements InstallState {
         this.homeComponent.showPlayButton = false;
         this.homeComponent.showInterruptButton = false;
         this.homeComponent.hasFilesToDownload = false;
-        this.homeComponent.buttonText = "START GAME";
+        this.homeComponent.buttonText = this.translate.instant('PRIMARY-BUTTON.TEXT-START');
         this.homeComponent.progressBarWidth = 0;
         this.homeComponent.isInstalling = false;
         this.homeComponent.progress = "";
@@ -117,7 +125,7 @@ export class DownloadInstallState implements InstallState {
             DownloadSystem.getInstance().downloadAll();
         } else {
             this.homeComponent.state = DownloadState.WAITING_FOR_DOWNLOAD;
-            this.homeComponent.buttonText = "UPDATE";
+            this.homeComponent.buttonText = this.translate.instant('PRIMARY-BUTTON.TEXT-UPDATE');
             this.homeComponent.hasFilesToDownload = true;
         }
     }
@@ -133,7 +141,7 @@ export class DownloadInstallState implements InstallState {
         this.homeComponent.showDownloadStats = true;
         this.homeComponent.showInterruptButton = false;
         this.homeComponent.showDownloadBar = true;
-        this.homeComponent.buttonText = "INSTALLING";
+        this.homeComponent.buttonText = this.translate.instant('PRIMARY-BUTTON.TEXT-INSTALLING');
         this.homeComponent.downloadSpeed = "";
         this.homeComponent.progress = "0%";
         this.homeComponent.progressBarWidth = 0;
@@ -142,7 +150,6 @@ export class DownloadInstallState implements InstallState {
     OnInstallExtractionCompleted(downloadFile: DownloadFile): void {
         if (downloadFile.getName() == LauncherConfig.CLIENT_RESOURCE_NAME) {
             this.FinishedInstallingClient();
-            console.log("INSTALL EXTRACTION COMPLETED!");
         }
 
         this.homeComponent.isUnzipping = false;
@@ -156,7 +163,7 @@ export class DownloadInstallState implements InstallState {
         this.homeComponent.showDownloadStats = true;
         this.homeComponent.showInterruptButton = false;
         this.homeComponent.showDownloadBar = true;
-        this.homeComponent.buttonText = "INSTALLING";
+        this.homeComponent.buttonText = this.translate.instant('PRIMARY-BUTTON.TEXT-INSTALLING');
         this.homeComponent.downloadSpeed = "";
         this.homeComponent.progress = (progress * 100).toFixed(2).toString() + "%";
         this.homeComponent.progressBarWidth = (progress * 100);

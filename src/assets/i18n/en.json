@@ -1,12 +1,34 @@
 {
-  "PAGES": {
-      "HOME": {
-          "TITLE": "App works !",
-          "GO_TO_DETAIL": "Go to Detail"
-      },
-      "DETAIL": {
-        "TITLE": "Detail page !",
-        "BACK_TO_HOME": "Back to Home"
-    }
+  "NAVBAR": {
+    "BUTTON-HOME": "Home",
+    "BUTTON-WEBSITE": "Website",
+    "BUTTON-CHANGELOG": "Changelog",
+    "BUTTON-ADDONS": "Addons",
+    "BUTTON-FORUMS": "Forums"
+  },
+  "STATUSBAR": {
+    "TEXT-IS": "IS",
+    "TEXT-ONLINE": "ONLINE",
+    "TEXT-OFFLINE": "OFFLINE"
+  },
+  "PRIMARY-BUTTON": {
+    "TEXT-RESUME": "RESUME",
+    "TEXT-INSTALL": "INSTALL",
+    "TEXT-INSTALLING": "INSTALLING",
+    "TEXT-UPDATE": "UPDATE",
+    "TEXT-DOWNLOADING": "DOWNLOADING",
+    "TEXT-START": "START GAME"
+  },
+  "SETTINGS": {
+    "TITLE": "Settings",
+    "TEXT-GENERAL": "General",
+    "TEXT-ENABLE-UPDATES": "Enable Automatic Updates",
+    "TEXT-RECOMMENDED": "Recommended",
+    "TEXT-GAME-LANGUAGE": "Game Language",
+    "TEXT-GAME-LOCATION": "Game Location",
+    "BUTTON-CHANGE-GAME-LOCATION": "CHANGE THE GAME LOCATION",
+    "BUTTON-CLEAR-PATH": "CLEAR THE PATH",
+    "BUTTON-RESET": "RESET",
+    "BUTTON-SAVE-CHANGES": "SAVE CHANGES"
   }
 }

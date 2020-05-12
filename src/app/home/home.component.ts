@@ -16,6 +16,7 @@ import { DownloadSystem } from '../general/downloadsystem';
 import { DownloadListCallback } from '../general/downloadlistcallback';
 import { DownloadFile } from '../general/downloadfile';
 import { VersionChecker } from '../general/versionchecker';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
@@ -30,7 +31,7 @@ export class HomeComponent implements OnInit, DownloadListCallback {
   public hasFilesToDownload : boolean = false;
   public isInstalling : boolean = false;
   public isUnzipping : boolean = false;
-  public buttonText : string = "START GAME";
+  public buttonText : string;
   
   public showPauseButton : boolean = true;
   public showPlayButton : boolean = true;
@@ -45,15 +46,20 @@ export class HomeComponent implements OnInit, DownloadListCallback {
               public cd: ChangeDetectorRef,
               private downloadListService : DownloadListService,
               private localSt : LocalStorageService,
-              private realmService : RealmService) 
+              private realmService : RealmService,
+              private translate : TranslateService) 
   {
     SettingsManager.getInstance().setLocalSt(this.localSt);
     ComponentRegistry.getInstance().register(ComponentRegistryEntry.HOME_COMPONENT, this);
+
+    this.translate.get('PRIMARY-BUTTON.TEXT-START').subscribe((result) => {
+      this.buttonText = result;
+    });
     
     DownloadSystem.getInstance().setInstallState(new DownloadInstallState(
       this,
       this.localSt,
-      this.downloadListService
+      this.downloadListService,
     ));
 
     downloadListService.observe(this);
@@ -135,6 +141,10 @@ export class HomeComponent implements OnInit, DownloadListCallback {
 
   OnPressCancelDownload() {
     this.CancelDownload();
+  }
+
+  public getTranslate() : TranslateService {
+    return this.translate;
   }
 
   public CancelDownload() : void {

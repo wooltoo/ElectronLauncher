@@ -9,12 +9,12 @@ import { ModalEntry } from '../general/modalentry';
 })
 export class ModalComponent implements OnInit {
 
-  title : String = "Troubleshooting";
-  text : String = "Would you like to initiate the client repair? This will take effect once the launcher has been relaunched."
-  singleButtonText : String = "OKAY";
+  title : String;
+  text : String;
+  singleButtonText : String;
 
-  buttonPositiveText : String = "CONFIRM";
-  buttonNegativeText : String = "CANCEL";
+  buttonPositiveText : String;
+  buttonNegativeText : String;
   
   show : boolean = false;
   shouldShowSingleButton : boolean = false;
@@ -35,7 +35,6 @@ export class ModalComponent implements OnInit {
     if (this.isInQueue(entry))
       return;
 
-    console.log("ENQUEUING: " + entry.getModal());
     this.queue.unshift(entry);
 
     if (!this.show) 

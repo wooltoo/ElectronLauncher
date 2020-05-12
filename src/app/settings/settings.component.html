@@ -1,7 +1,7 @@
 <div class="fadeIn animated">
-    <p id="settings-title">Settings</p>
+    <p id="settings-title">{{'SETTINGS.TITLE' | translate}}</p>
     <div id="settings">
-        <p id="settings-general" class="purple-text">General</p>
+        <p id="settings-general" class="purple-text">{{'SETTINGS.TEXT-GENERAL' | translate}}</p>
 
         <div (click)="OnPressHome()">
             <img id="settings-house" src="assets/settings/settings-top-right-home.png"/>
@@ -13,11 +13,11 @@
                     <img id="automatic-update-cross" *ngIf="toggleActive" src="assets/settings/settings-cross-button-cross.png">
                 </div>
             </button>
-            <p id="settings-enable-automatic-update">Enable Automatic Updates</p>
-            <p id="settings-recommended" class="purple-text">(Recommended)</p>
+            <p id="settings-enable-automatic-update">{{'SETTINGS.TEXT-ENABLE-UPDATES' | translate}}</p>
+            <p id="settings-recommended" class="purple-text">({{'SETTINGS.TEXT-RECOMMENDED' | translate}})</p>
         </div>
     
-        <p id="settings-game-language">Game Language</p>
+        <p id="settings-game-language">{{'SETTINGS.TEXT-GAME-LANGUAGE' | translate}}</p>
         <div class="dropdown">
             <button id="settings-dropdown-locale-button" class="btn btn-secondary dropdown disabled" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="settings-dropdown-text-color">English (US)</span>
@@ -29,18 +29,18 @@
             </div>
           </div>
     
-        <p id="settings-game-location" class="purple-text">Game Location</p>
+        <p id="settings-game-location" class="purple-text">{{'SETTINGS.TEXT-GAME-LOCATION' | translate}}</p>
     
         <div id="settings-line-two">
             <input id="settings-game-path-field" value="{{directoryPath}}" type="text" class="form-control" aria-describedby="emailHelp" disabled>
             <button id="settings-change-location-button" class="social-button btn my-2 my-sm-0" type="submit" (click)="OnPressChangeGameLocation()">
                 <div class="btn-content-wrapper">
-                    CHANGE THE GAME LOCATION
+                    {{'SETTINGS.BUTTON-CHANGE-GAME-LOCATION' | translate}}
                 </div>
             </button>
             <button id="settings-clear-path-button" class="social-button btn my-2 my-sm-0" type="submit" (click)="OnPressClearPath()">
                 <div class="btn-content-wrapper">
-                    CLEAR THE PATH
+                    {{'SETTINGS.BUTTON-CLEAR-PATH' | translate}}
                 </div>
             </button>
         </div>
@@ -48,12 +48,12 @@
         <div id="settings-line-three">
             <button id="settings-reset-button" class="social-button btn my-2 my-sm-0" type="submit" (click)="OnPressReset()">
                 <div class="btn-content-wrapper">
-                    RESET
+                    {{'SETTINGS.BUTTON-RESET' | translate}}
                 </div>
             </button>
             <button id="settings-save-button" class="social-button btn my-2 my-sm-0" type="submit" (click)="OnPressSaveChanges()">
                 <div class="btn-content-wrapper">
-                    SAVE CHANGES
+                    {{'SETTINGS.BUTTON-SAVE-CHANGES' | translate}}
                 </div>
             </button>
         </div>
