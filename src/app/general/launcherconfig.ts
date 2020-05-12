@@ -1,7 +1,7 @@
 export class LauncherConfig 
 {
     // The launcher's version.
-    static VERSION : number = 0.91;
+    static VERSION : number = 0.90;
 
     // The project's website.
     static WEBSITE : string = "http://www.website.com";
@@ -21,8 +21,8 @@ export class LauncherConfig
     // How often the launcher updates news (MS).
     static INTERVAL_CHECK_FOR_NEWS : number = 2000;
 
-    // How often the launcher should update the settings panel game directory (MS).
-    static INTERVAL_UPDATE_SETTINGS_GAME_DIRECTORY = 500;
+    // How often the launcher should update the settings panel  (MS).
+    static INTERVAL_UPDATE_SETTINGS = 500;
 
     // Interval to check for a new Youtube video to be shown (MS).
     static INTERVAL_CHECK_FOR_YOUTUBE_VIDEO = 2500;

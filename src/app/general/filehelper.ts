@@ -2,6 +2,8 @@ import * as fs from 'fs';
 
 import * as nodeDiskInfo from 'node-disk-info';
 import { LauncherConfig } from './launcherconfig';
+import { DownloadFile } from './downloadfile';
+import { ClientHelper } from './clienthelper';
 
 export class FileHelper 
 {
@@ -13,15 +15,10 @@ export class FileHelper
     public static getFreeSpace(directory : string) : number {
         let drive = directory.substring(0, directory.indexOf(':') + 1);
 
-        try {
-            const disks = nodeDiskInfo.getDiskInfoSync();
-            for (const disk of disks) {
-                if (disk.mounted === drive) 
-                    return disk.available;
-            }
-        } catch (e) {
-            console.error(e);
-        }
+        const disks = nodeDiskInfo.getDiskInfoSync();
+        for (const disk of disks) 
+            if (disk.mounted === drive) 
+                return disk.available;
 
         return -1;
     }
@@ -52,5 +49,9 @@ export class FileHelper
 
     public static hasEnoughSpaceToInstallPatches(directory : string) : boolean {
         return FileHelper.hasEnoughFreeSpace(directory, LauncherConfig.PATCH_FILE_SIZE);
+    }
+
+    public static hasEnoughSpaceFor(downloadFile : DownloadFile) : boolean {
+        return FileHelper.hasEnoughFreeSpace(ClientHelper.getInstance().getClientDirectory(), downloadFile.getFileSize());
     }
 }

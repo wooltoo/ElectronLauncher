@@ -5,6 +5,8 @@ import { ComponentRegistry, ComponentRegistryEntry } from '../general/componentr
 import { FileHelper } from '../general/filehelper';
 import { ClientHelper } from '../general/clienthelper';
 import { LauncherConfig } from '../general/launcherconfig';
+import { ModalEntrySingle, ModalEntryDouble } from '../general/modalentry';
+import { Modals } from '../general/modals';
 
 @Component({
   selector: 'app-landing',
@@ -39,22 +41,28 @@ export class LandingComponent implements OnInit {
       this.modalComponent = <ModalComponent> ComponentRegistry.getInstance().get(ComponentRegistryEntry.MODAL_COMPONENT);
 
     if (!ClientHelper.hasClientInDirectory(directory)) {
-      this.modalComponent.ShowSingle(
+      let modal : ModalEntrySingle = new ModalEntrySingle(
+        Modals.LANDING_COULD_NOT_FIND_CLIENT,
         "Could not find client",
         "The launcher could not detect a client in your selected directory. Please choose another directory or press download.",
         "CONTINUE",
         () => {}
       );
+
+      this.modalComponent.enqueue(modal);
       return;
     } 
 
     if (!FileHelper.hasEnoughSpaceToInstallPatches(directory)) {
-      this.modalComponent.ShowSingle(
+      let modal : ModalEntrySingle = new ModalEntrySingle(
+        Modals.LANDING_NOT_ENOUGH_DISK_SPACE,
         "Not enough disk space",
         "There is not enough disk space to install the required patches. Please make some space available and try again.",
         "CONTINUE",
         () => {}
       );
+      
+      this.modalComponent.enqueue(modal);
       return;
     }
 
@@ -75,7 +83,8 @@ export class LandingComponent implements OnInit {
       this.modalComponent = <ModalComponent> ComponentRegistry.getInstance().get(ComponentRegistryEntry.MODAL_COMPONENT);
     
     if (!FileHelper.isDirectoryEmpty(directory)) {
-      this.modalComponent.ShowDouble(
+      let modal : ModalEntryDouble = new ModalEntryDouble(
+        Modals.LANDING_DIRECTORY_NOT_EMPTY,
         "Directory not empty",
         "Would you like to continue? This can cause problems down the road.",
         "CANCEL",
@@ -86,16 +95,21 @@ export class LandingComponent implements OnInit {
           this.OnPressGo();
         }
       );
+
+      this.modalComponent.enqueue(modal);
       return;
     }
     
     if (!FileHelper.hasEnoughSpaceToInstallClient(directory)) {
-      this.modalComponent.ShowSingle(
+      let modal : ModalEntrySingle = new ModalEntrySingle(
+        Modals.LANDING_NOT_ENOUGH_DISK_SPACE_CLIENT,
         "Not enough disk space", 
         "There is not enough disk space to install the client. Please make some space available and try again.",
         "CONTINUE",
         () => {}
       );
+
+      this.modalComponent.enqueue(modal);
       return;
     }
       

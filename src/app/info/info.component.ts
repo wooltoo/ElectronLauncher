@@ -40,7 +40,6 @@ export class InfoComponent implements OnInit {
     if (this.videoUrl == url)
       return;
 
-    console.log("Setting video!");
     this.videoUrl = url;
     this.video = this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }

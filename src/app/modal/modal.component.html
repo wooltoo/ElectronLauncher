@@ -1,4 +1,4 @@
-<div *ngIf="show" id="app-modal">
+<div *ngIf="show" id="app-modal" class="fadeIn animated">
     <div id="app-modal-blur"></div>
     <div id="app-modal-background">
         <p id="app-modal-titel">
@@ -7,12 +7,12 @@
         <p id="app-modal-text">
             {{text}}
         </p>
-        <div *ngIf="showSingleButton">
+        <div *ngIf="shouldShowSingleButton">
             <button id="modal-single-button" type="button" class="btn btn-secondary btn-lg btn-block positive-button" (click)="OnPressSingleButton()">
                 {{singleButtonText}}
             </button>
         </div>
-        <div *ngIf="showDoubleButtons" id="modal-double-button-container">
+        <div *ngIf="shouldShowDoubleButtons" id="modal-double-button-container">
             <button id="modal-double-button-negative" type="button" class="btn btn-secondary btn-lg btn-block negative-button" (click)="OnPressDoubleButtonNegative()">
                 {{buttonNegativeText}}
             </button>

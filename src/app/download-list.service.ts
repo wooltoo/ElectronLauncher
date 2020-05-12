@@ -63,7 +63,8 @@ export class DownloadListService {
       json.forEach(obj => {
         let type : DownloadFileType = <any>DownloadFileType[obj['type']];
         let extract = obj['extract'] === 'true' ? true : false;
-        let file = new DownloadFile(obj['_id'], obj['name'], type, obj['md5-checksum'], obj['resource'], obj['file-name'], extract, obj['target']);
+
+        let file = new DownloadFile(obj['_id'], obj['name'], type, obj['md5-checksum'], obj['resource'], obj['file-name'], extract, obj['target'], obj['file-size']);
         if (file.getType() == DownloadFileType.client) 
           this.client = file;
         else 

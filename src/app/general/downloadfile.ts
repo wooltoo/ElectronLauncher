@@ -19,7 +19,8 @@ export class DownloadFile
                 private resource : string,
                 private fileName : string,
                 private extract : boolean,
-                private target : string) 
+                private target : string,
+                private fileSize : number) 
     { 
     
     }
@@ -67,6 +68,10 @@ export class DownloadFile
 
     public setTarget(target: string) : void {
         this.target = target;
+    }
+
+    public getFileSize() : number {
+        return this.fileSize;
     }
 
     // Fetches the full local path of this DownloadFile.

@@ -1,6 +1,8 @@
 import { ComponentRegistryEntry, ComponentRegistry } from "./componentregistry";
 import { ModalComponent } from "../modal/modal.component";
 import { LauncherConfig } from "./launcherconfig";
+import { ModalEntrySingle } from "./modalentry";
+import { Modals } from "./modals";
 
 const { remote } = require("electron");
 const request = require('request');
@@ -17,7 +19,6 @@ export class VersionChecker {
             }
             
             let version = json['version'];
-
             if (LauncherConfig.VERSION < version)
                 this.showModal();
           }
@@ -27,9 +28,9 @@ export class VersionChecker {
 
     private static showModal() : void {
         setTimeout(() => {
-            console.log("CHECKING");
-            let modal : ModalComponent = <ModalComponent>ComponentRegistry.getInstance().get(ComponentRegistryEntry.MODAL_COMPONENT);
-            modal.ShowSingle(
+            let modalComponent : ModalComponent = <ModalComponent>ComponentRegistry.getInstance().get(ComponentRegistryEntry.MODAL_COMPONENT);
+            let modal : ModalEntrySingle = new ModalEntrySingle(
+                Modals.VERSION_CHECKER_NEW_VERSION_AVAILABLE,
                 "A new launcher version is available",
                 "Please download the new launcher from http://talesoftime.com/launcher.exe",
                 "EXIT",
@@ -37,6 +38,7 @@ export class VersionChecker {
                     remote.BrowserWindow.getFocusedWindow().close();
                 }
             );
+            modalComponent.enqueue(modal);
         }, 500);
     }
 }

@@ -8,6 +8,12 @@ import { ClientHelper } from './clienthelper';
 import { InstallState } from './installstate';
 import { ZipInstaller } from './zipinstaller';
 import { DownloadFileFilter } from './downloadfilefilter';
+import { FileHelper } from './filehelper';
+import { ModalComponent } from '../modal/modal.component';
+import { ComponentRegistry, ComponentRegistryEntry } from './componentregistry';
+import { Setting, SettingsManager } from './settingsmanager';
+import { ModalEntrySingle } from './modalentry';
+import { Modals } from './modals';
 
 export class DownloadHelper
 {
@@ -71,8 +77,6 @@ export class DownloadHelper
     }
 
     private downloadNext() : void {
-        const { remote } = require('electron');
-
         let item : DownloadFile = this.downloadFiles.pop();
         if (item == undefined || item == null && this.downloading)
         {
@@ -92,6 +96,31 @@ export class DownloadHelper
         cDownloadConfig.url = item.getResource();
         cDownloadConfig.downloadFolder = item.getLocalDirectory();
         
+        this.downloadWithSpace(cDownloadConfig);
+    }
+
+    private downloadWithSpace(downloadConfig : any) : void {
+        if (FileHelper.hasEnoughSpaceFor(this.downloadFile)) {
+            this.startDownload(downloadConfig);
+            return;
+        }
+
+        let modalComponent : ModalComponent = <ModalComponent>ComponentRegistry.getInstance().get(ComponentRegistryEntry.MODAL_COMPONENT);
+        let modal : ModalEntrySingle = new ModalEntrySingle(
+            Modals.DOWNLOAD_HELPER_NOT_ENOUGH_SPACE,
+            "Not enough space available",
+            "You do not have enough disk space available to install the required files. Auto-patching has been disabled. Please make some space available.",
+            "CONTINUE",
+            () => {
+                SettingsManager.getInstance().setSetting(Setting.SHOULD_AUTO_PATCH, false);
+            }
+        );
+        modalComponent.enqueue(modal);
+    }
+
+    private startDownload(cDownloadConfig : any) : void {
+        const { remote } = require('electron');
+
         this.onStart();
         remote.require("electron-download-manager").download(cDownloadConfig, (error, info) => {
             if (error) console.log("Error: " + error);
@@ -126,7 +155,7 @@ export class DownloadHelper
         this.downloadItem.cancel();
         this.downloadItem = null;
         this.downloading = false;
-        this.onInterrupt();
+        this.callback.OnDownloadInterrupt();
     }
 
     public pause() : void {
@@ -134,7 +163,7 @@ export class DownloadHelper
             return;
 
         this.downloadItem.pause();
-        this.onPause();
+        this.callback.OnDownloadPause();
     }
 
     public resume() : void {
@@ -142,34 +171,14 @@ export class DownloadHelper
             return;
 
         this.downloadItem.resume();
-        this.onResume();
+        this.callback.OnDownloadResume();
     }
 
     private onProgress(progress, item) : void
     {
         this.downloadItem = item;
-        this.onDownloadSpeedUpdate(progress.speedBytes);
-        this.onDownloadProgressUpdate(progress.progress)
-    }
-
-    private onDownloadSpeedUpdate(downloadSpeed) : void {
-        this.callback.OnDownloadSpeedUpdate(downloadSpeed);
-    }
-
-    private onDownloadProgressUpdate(progress) : void {
-        this.callback.OnDownloadProgressUpdate(progress);
-    }
-
-    private onPause() : void {
-        this.callback.OnDownloadPause();
-    }
-
-    private onInterrupt() : void {
-        this.callback.OnDownloadInterrupt();
-    }
-
-    private onResume() : void {
-        this.callback.OnDownloadResume();
+        this.callback.OnDownloadSpeedUpdate(progress.speedBytes);
+        this.callback.OnDownloadProgressUpdate(progress.progress);
     }
 
     private onStart() : void {
@@ -178,7 +187,6 @@ export class DownloadHelper
     }
 
     private onFinished() : void {
-        console.log("FINISHED!");
         this.downloading = false;
         this.callback.OnDownloadFinished();
     }

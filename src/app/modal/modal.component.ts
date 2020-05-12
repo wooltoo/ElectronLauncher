@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ComponentRegistry, ComponentRegistryEntry } from '../general/componentregistry';
+import { ModalEntry } from '../general/modalentry';
 
 @Component({
   selector: 'app-modal',
@@ -16,57 +17,112 @@ export class ModalComponent implements OnInit {
   buttonNegativeText : String = "CANCEL";
   
   show : boolean = false;
-  showSingleButton : boolean = false;
-  showDoubleButtons : boolean = true;
+  shouldShowSingleButton : boolean = false;
+  shouldShowDoubleButtons : boolean = false;
 
   onPressSingleFunc : () => void =  null;
   onPressPositiveFunc : () => void = null;
   onPressNegativeFunc : () => void = null;
 
+  queue : ModalEntry[] = [];
+
   constructor() { }
   ngOnInit(): void {
-    console.log("REGISTERING");
     ComponentRegistry.getInstance().register(ComponentRegistryEntry.MODAL_COMPONENT, this);
   }
 
-  public ShowSingle(title : string, text : string, singleButtonText : string, onPressSingleFunc: () => void) : void {
-    this.title = title;
-    this.text = text;
-    this.singleButtonText = singleButtonText;
-    this.onPressSingleFunc = onPressSingleFunc;
-    this.showSingleButton = true;
-    this.showDoubleButtons = false;
+  public enqueue(entry : ModalEntry) : void {
+    if (this.isInQueue(entry))
+      return;
+
+    console.log("ENQUEUING: " + entry.getModal());
+    this.queue.unshift(entry);
+
+    if (!this.show) 
+      this.showNext();
+  }
+
+  private showNext() : void {
+    if (this.queue.length < 1)
+      return;
+
+    let entry : ModalEntry = this.queue[this.queue.length - 1];
+    entry.prepare(this);
     this.show = true;
   }
 
-  public ShowDouble(title : string, text : string, buttonNegativeText : string, buttonPositiveText : string,
-                    onPressNegativeFunc: () => void, onPressPositiveFunc: () => void) : void {
+  private isInQueue(entry : ModalEntry) {
+    for (let modal of this.queue) 
+      if (modal.isSame(entry))
+        return true;
+
+    return false;
+  }
+
+  public setTitle(title : string) {
     this.title = title;
+  }
+
+  public setText(text : string) {
     this.text = text;
-    this.buttonPositiveText = buttonPositiveText;
-    this.buttonNegativeText = buttonNegativeText;
+  }
+
+  public setSingleButtonText(text : string) {
+    this.singleButtonText = text;
+  }
+
+  public setPositiveButtonText(text : string) {
+    this.buttonPositiveText = text;
+  }
+
+  public setNegativeButtonText(text : string) {
+    this.buttonNegativeText = text;
+  }
+
+  public setOnPressSingleButtonFunc(onPressSingleButtonFunc : any) {
+    this.onPressSingleFunc = onPressSingleButtonFunc;
+  }
+
+  public setOnPressPositiveFunc(onPressPositiveFunc : any) {
     this.onPressPositiveFunc = onPressPositiveFunc;
+  }
+
+  public setOnPressNegativeFunc(onPressNegativeFunc : any) {
     this.onPressNegativeFunc = onPressNegativeFunc;
-    this.showSingleButton = false;
-    this.showDoubleButtons = true;
-    this.show = true;
+  }
+
+  public showSingleButton() : void {
+    this.shouldShowSingleButton = true;
+  }
+
+  public showDoubleButtons() : void {
+    this.shouldShowDoubleButtons = true;
   }
 
   private OnPressSingleButton() : void {
     this.onPressSingleFunc();
-    this.show = false;
-    this.showSingleButton = false;
+    this.queue.pop();
+    this.hideAll();
+    this.showNext();
   }
 
   private OnPressDoubleButtonNegative() : void {
     this.onPressNegativeFunc();
-    this.show = false;
-    this.showDoubleButtons = false;
+    this.queue.pop();
+    this.hideAll();
+    this.showNext();
   }
 
   private OnPressDoubleButtonPositive() : void {
     this.onPressPositiveFunc();
+    this.queue.pop();
+    this.hideAll();
+    this.showNext();
+  }
+
+  private hideAll() {
     this.show = false;
-    this.showDoubleButtons = false;
+    this.shouldShowDoubleButtons = false;
+    this.shouldShowSingleButton = false;
   }
 }

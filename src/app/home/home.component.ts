@@ -114,7 +114,6 @@ export class HomeComponent implements OnInit, DownloadListCallback {
   }
 
   OnPressStartButton() {
-    console.log("DownloadState: " + this.state);
     if (this.hasFilesToDownload) {
       if (this.state == DownloadState.WAITING_FOR_DOWNLOAD)
         this.Download();
