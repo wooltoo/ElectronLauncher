@@ -1,17 +1,17 @@
-<p id="welcome-text">Welcome to Tales of Time</p>
-<p id="ready-text" class="purple-color">Are you ready, Adventurer?</p>
+<p id="welcome-text">{{'LANDING.TITLE' | translate}}</p>
+<p id="ready-text" class="purple-color">{{'LANDING.SUB-TITLE' | translate}}</p>
 <div class="primary-container-bg">
     <button id="download-button" type="button" class="btn btn-secondary btn-lg btn-block" (click)="OnPressDownload()">
-        DOWNLOAD
+        {{'LANDING.BUTTON-DOWNLOAD' | translate}}
     </button>
-    <p id="download-game-text" class="purple-color">Download the game client to get started!</p>
-    <p id="already-have-text" class="purple-color">Do you already have world of Warcraft?</p>
-    <p id="only-works-with-text">*ONLY WORKS WITH WOTLK 3.3.5a</p>
+    <p id="download-game-text" class="purple-color">{{'LANDING.BUTTON-DOWNLOAD-SUBTEXT' | translate}}</p>
+    <p id="already-have-text" class="purple-color">{{'LANDING.TEXT-OWN-PROMPT' | translate}}</p>
+    <p id="only-works-with-text">*{{'LANDING.TEXT-ONLY-WORKS-WITH' | translate}}</p>
     <img id="arrox" src="assets/welcome/arrox.png"/>
     <div (click)="OnPressSelectGamePath()">
         <input id="select-game-field" value="{{clientDirectory}}" type="text" class="form-control" aria-describedby="emailHelp" disabled>
     </div>
     <button id="go-button" type="button" class="btn btn-secondary btn-lg btn-block" (click)="OnPressGo()">
-        GO
+        {{'LANDING.BUTTON-GO' | translate}}
     </button>
 </div>

@@ -14,6 +14,8 @@ import { ComponentRegistry, ComponentRegistryEntry } from './componentregistry';
 import { Setting, SettingsManager } from './settingsmanager';
 import { ModalEntrySingle } from './modalentry';
 import { Modals } from './modals';
+import { TranslateServiceHolder } from './translateserviceholder';
+import { TranslateService } from '@ngx-translate/core';
 
 export class DownloadHelper
 {
@@ -105,12 +107,13 @@ export class DownloadHelper
             return;
         }
 
+        let translate : TranslateService = TranslateServiceHolder.getInstance().getService();
         let modalComponent : ModalComponent = <ModalComponent>ComponentRegistry.getInstance().get(ComponentRegistryEntry.MODAL_COMPONENT);
         let modal : ModalEntrySingle = new ModalEntrySingle(
             Modals.DOWNLOAD_HELPER_NOT_ENOUGH_SPACE,
-            "Not enough space available",
-            "You do not have enough disk space available to install the required files. Auto-patching has been disabled. Please make some space available.",
-            "CONTINUE",
+            translate.instant('MODALS.DOWNLOAD-HELPER-NOT-ENOUGH-SPACE.TITLE'),
+            translate.instant('MODALS.DOWNLOAD-HELPER-NOT-ENOUGH-SPACE.TEXT'),
+            translate.instant('MODALS.DOWNLOAD-HELPER-NOT-ENOUGH-SPACE.BUTTON-SINGLE'),
             () => {
                 SettingsManager.getInstance().setSetting(Setting.SHOULD_AUTO_PATCH, false);
             }

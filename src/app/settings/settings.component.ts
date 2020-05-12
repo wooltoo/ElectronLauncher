@@ -9,6 +9,7 @@ import { DownloadSystem } from '../general/downloadsystem';
 import { ModalComponent } from '../modal/modal.component';
 import { ModalEntrySingle, ModalEntryDouble } from '../general/modalentry';
 import { Modals } from '../general/modals';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-settings',
@@ -22,7 +23,9 @@ export class SettingsComponent implements OnInit {
   modalComponent : ModalComponent = null;
   hasSaved : boolean = true;
 
-  constructor(private localSt : LocalStorageService) { }
+  constructor(private localSt : LocalStorageService,
+              private translate : TranslateService )
+  { }
 
   ngOnInit(): void {
     ComponentRegistry.getInstance().register(ComponentRegistryEntry.SETTINGS_COMPONENT, this);
@@ -56,9 +59,9 @@ export class SettingsComponent implements OnInit {
     {
       let modal : ModalEntrySingle = new ModalEntrySingle(
         Modals.SETTINGS_INVALID_SETTING,
-        "Invalid setting",
-        "You must choose a client directory before you can save your settings.",
-        "CONTINUE",
+        this.translate.instant('MODALS.INVALID-SETTING.TITLE'),
+        this.translate.instant('MODALS.INVALID-SETTING.TEXT'),
+        this.translate.instant('MODALS.INVALID-SETTING.BUTTON-SINGLE'),
         () => {}
       );
 
@@ -72,9 +75,9 @@ export class SettingsComponent implements OnInit {
 
     let modal : ModalEntrySingle = new ModalEntrySingle(
       Modals.SETTINGS_SAVED,
-      "Save changes",
-      "Settings saved successfully.",
-      "CONFIRM",
+      this.translate.instant('MODALS.SETTINGS-SAVED.TITLE'),
+      this.translate.instant('MODALS.SETTINGS-SAVED.TEXT'),
+      this.translate.instant('MODALS.SETTINGS-SAVED.BUTTON-SINGLE'),
       () => {}
     );
 
@@ -87,12 +90,12 @@ export class SettingsComponent implements OnInit {
 
     let modal : ModalEntryDouble = new ModalEntryDouble(
       Modals.SETTINGS_RESET,
-      "Reset Settings",
-      "This will reset your launcher settings to the default. All changes made will be wiped.",
-      "CANCEL",
-      "RESET",
-      () => {},
-      () => { this.Reset(); }
+      this.translate.instant('MODALS.SETTINGS-RESET.TITLE'),
+      this.translate.instant('MODALS.SETTINGS-RESET.TEXT'),
+      this.translate.instant('MODALS.SETTINGS-RESET.BUTTON-NEGATIVE'),
+      this.translate.instant('MODALS.SETTINGS-RESET.BUTTON-POSITIVE'),
+      () => { this.Reset(); },
+      () => {}
     );
 
     this.modalComponent.enqueue(modal);
@@ -111,18 +114,18 @@ export class SettingsComponent implements OnInit {
 
         let modal : ModalEntryDouble = new ModalEntryDouble(
           Modals.SETTINGS_COULD_NOT_FIND_CLIENT,
-          "Could not find client",
-          "The launcher could not detect a client in your selected directory. Would you like to install a client?",
-          "CANCEL",
-          "CONFIRM",
-          () => {},
+          this.translate.instant('MODALS.SETTINGS-COULD-NOT-FIND-CLIENT.TITLE'),
+          this.translate.instant('MODALS.SETTINGS-COULD-NOT-FIND-CLIENT.TEXT'),
+          this.translate.instant('MODALS.SETTINGS-COULD-NOT-FIND-CLIENT.BUTTON-POSITIVE'),
+          this.translate.instant('MODALS.SETTINGS-COULD-NOT-FIND-CLIENT.BUTTON-NEGATIVE'),
           () => {
             this.directoryPath = selectedDir;
             ClientHelper.getInstance().clearClientDirectory();
             ClientHelper.getInstance().setRequestedClientDirectory(this.directoryPath);
             DownloadSystem.getInstance().downloadAll();
             this.hasSaved = true;
-          }
+          },
+          () => {}
         ); 
 
         this.modalComponent.enqueue(modal);

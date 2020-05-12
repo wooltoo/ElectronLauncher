@@ -17,6 +17,7 @@ import { DownloadListCallback } from '../general/downloadlistcallback';
 import { DownloadFile } from '../general/downloadfile';
 import { VersionChecker } from '../general/versionchecker';
 import { TranslateService } from '@ngx-translate/core';
+import { TranslateServiceHolder} from '../general/translateserviceholder';
 
 @Component({
   selector: 'app-home',
@@ -49,8 +50,10 @@ export class HomeComponent implements OnInit, DownloadListCallback {
               private realmService : RealmService,
               private translate : TranslateService) 
   {
+    TranslateServiceHolder.getInstance().setTranslateService(translate);
     SettingsManager.getInstance().setLocalSt(this.localSt);
     ComponentRegistry.getInstance().register(ComponentRegistryEntry.HOME_COMPONENT, this);
+    VersionChecker.setTranslate(this.translate);
 
     this.translate.get('PRIMARY-BUTTON.TEXT-START').subscribe((result) => {
       this.buttonText = result;

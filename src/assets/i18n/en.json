@@ -1,4 +1,14 @@
 {
+  "LANDING": {
+    "TITLE": "Welcome to Tales of Times",
+    "SUB-TITLE": "Are you ready, Adventurer?",
+    "BUTTON-DOWNLOAD": "DOWNLOAD",
+    "BUTTON-DOWNLOAD-SUBTEXT": "Download the game client to get started!",
+    "TEXT-OWN-PROMPT": "Do you already have world of Warcraft?",
+    "TEXT-ONLY-WORKS-WITH": "ONLY WORKS WITH WOTLK 3.3.5a",
+    "BUTTON-GO": "GO",
+    "TEXT-SELECT-PATH": "SELECT GAME PATH"
+  },
   "NAVBAR": {
     "BUTTON-HOME": "Home",
     "BUTTON-WEBSITE": "Website",
@@ -30,5 +40,60 @@
     "BUTTON-CLEAR-PATH": "CLEAR THE PATH",
     "BUTTON-RESET": "RESET",
     "BUTTON-SAVE-CHANGES": "SAVE CHANGES"
+  },
+  "MODALS": {
+    "INVALID-SETTING": {
+      "TITLE": "Invalid settingg",
+      "TEXT": "You must choose a client directory before you can save your settings.",
+      "BUTTON-SINGLE": "CONTINUE"
+    },
+    "SETTINGS-RESET": {
+      "TITLE": "Reset Settings",
+      "TEXT": "This will reset your launcher settings to the default. All changes made will be wiped.",
+      "BUTTON-NEGATIVE": "RESET",
+      "BUTTON-POSITIVE": "CANCEL"
+    },
+    "SETTINGS-SAVED": {
+      "TITLE": "Save changes",
+      "TEXT": "Settings saved successfully.",
+      "BUTTON-SINGLE": "CONFIRM"
+    },
+    "SETTINGS-COULD-NOT-FIND-CLIENT": {
+      "TITLE": "Could not find client",
+      "TEXT": "The launcher could not detect a client in your selected directory. Would you like to install a client?",
+      "BUTTON-NEGATIVE": "CANCEL",
+      "BUTTON-POSITIVE": "CONFIRM"
+    },
+    "LANDING-COULD-NOT-FIND-CLIENT": {
+      "TITLE": "Could not find client",
+      "TEXT": "The launcher could not detect a client in your selected directory. Please choose another directory or press download.",
+      "BUTTON-SINGLE": "CONTINUE"
+    },
+    "LANDING-NOT-ENOUGH-DISK-SPACE": {
+      "TITLE": "Not enough disk space",
+      "TEXT": "There is not enough disk space to install the required patches. Please make some space available and try again.",
+      "BUTTON-SINGLE": "CONTINUE"
+    },
+    "LANDING-DIRECTORY-NOT-EMPTY": {
+      "TITLE": "Directory not empty",
+      "TEXT": "Would you like to continue? This can cause problems down the road.",
+      "BUTTON-NEGATIVE": "CANCEL",
+      "BUTTON-POSITIVE": "CONFIRM"
+    },
+    "LANDING-NOT-ENOUGH-DISK-SPACE-CLIENT": {
+      "TITLE": "Not enough disk space",
+      "TEXT": "There is not enough disk space to install the client. Please make some space available and try again.",
+      "BUTTON-SINGLE": "CONTINUE"
+    },
+    "VERSION-CHECKER-NEW-VERSION-AVAILABLE": {
+      "TITLE": "A new launcher version is available",
+      "TEXT": "Please download the new launcher from http://talesoftime.com/launcher.exe",
+      "BUTTON-SINGLE": "EXIT"
+    },
+    "DOWNLOAD-HELPER-NOT-ENOUGH-SPACE": {
+      "TITLE": "Not enough space available",
+      "TEXT": "You do not have enough disk space available to install the required files. Auto-patching has been disabled. Please make some space available.",
+      "BUTTON-SINGLE": "CONTINUE"
+    }
   }
 }

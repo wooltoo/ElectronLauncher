@@ -4,9 +4,9 @@ import { ModalComponent } from '../modal/modal.component';
 import { ComponentRegistry, ComponentRegistryEntry } from '../general/componentregistry';
 import { FileHelper } from '../general/filehelper';
 import { ClientHelper } from '../general/clienthelper';
-import { LauncherConfig } from '../general/launcherconfig';
 import { ModalEntrySingle, ModalEntryDouble } from '../general/modalentry';
 import { Modals } from '../general/modals';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-landing',
@@ -15,15 +15,20 @@ import { Modals } from '../general/modals';
 })
 export class LandingComponent implements OnInit {
   
-  clientDirectory : string = "SELECT GAME PATH";
+  clientDirectory : string;
   hasSelectedPath : boolean = false;
 
   modalComponent : ModalComponent = null;
 
-  constructor(@Inject(HomeComponent) private homeComponent : HomeComponent) {
-  }
+  constructor(@Inject(HomeComponent) private homeComponent : HomeComponent,
+                                     private translate : TranslateService)
+  { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.translate.get('LANDING.TEXT-SELECT-PATH').subscribe((result) => {
+      this.clientDirectory = result;
+    });
+  }
 
   OnPressGo() : void {
     if (!this.hasSelectedPath)
@@ -43,9 +48,9 @@ export class LandingComponent implements OnInit {
     if (!ClientHelper.hasClientInDirectory(directory)) {
       let modal : ModalEntrySingle = new ModalEntrySingle(
         Modals.LANDING_COULD_NOT_FIND_CLIENT,
-        "Could not find client",
-        "The launcher could not detect a client in your selected directory. Please choose another directory or press download.",
-        "CONTINUE",
+        this.translate.instant('MODALS.LANDING-COULD-NOT-FIND-CLIENT.TITLE'),
+        this.translate.instant('MODALS.LANDING-COULD-NOT-FIND-CLIENT.TEXT'),
+        this.translate.instant('MODALS.LANDING-COULD-NOT-FIND-CLIENT.BUTTON-SINGLE'),
         () => {}
       );
 
@@ -56,9 +61,9 @@ export class LandingComponent implements OnInit {
     if (!FileHelper.hasEnoughSpaceToInstallPatches(directory)) {
       let modal : ModalEntrySingle = new ModalEntrySingle(
         Modals.LANDING_NOT_ENOUGH_DISK_SPACE,
-        "Not enough disk space",
-        "There is not enough disk space to install the required patches. Please make some space available and try again.",
-        "CONTINUE",
+        this.translate.instant('MODALS.LANDING-NOT-ENOUGH-DISK-SPACE.TITLE'),
+        this.translate.instant('MODALS.LANDING-NOT-ENOUGH-DISK-SPACE.TEXT'),
+        this.translate.instant('MODALS.LANDING-NOT-ENOUGH-DISK-SPACE.BUTTON-SINGLE'),
         () => {}
       );
       
@@ -85,15 +90,15 @@ export class LandingComponent implements OnInit {
     if (!FileHelper.isDirectoryEmpty(directory)) {
       let modal : ModalEntryDouble = new ModalEntryDouble(
         Modals.LANDING_DIRECTORY_NOT_EMPTY,
-        "Directory not empty",
-        "Would you like to continue? This can cause problems down the road.",
-        "CANCEL",
-        "CONFIRM",
-        () => {},
+        this.translate.instant('MODALS.LANDING-DIRECTORY-NOT-EMPTY.TITLE'),
+        this.translate.instant('MODALS.LANDING-DIRECTORY-NOT-EMPTY.TEXT'),
+        this.translate.instant('MODALS.LANDING-DIRECTORY-NOT-EMPTY.BUTTON-POSITIVE'),
+        this.translate.instant('MODALS.LANDING-DIRECTORY-NOT-EMPTY.BUTTON-NEGATIVE'),
         () => {
           this.PickGamePath(directory);
           this.OnPressGo();
-        }
+        },
+        () => {}
       );
 
       this.modalComponent.enqueue(modal);
@@ -103,9 +108,9 @@ export class LandingComponent implements OnInit {
     if (!FileHelper.hasEnoughSpaceToInstallClient(directory)) {
       let modal : ModalEntrySingle = new ModalEntrySingle(
         Modals.LANDING_NOT_ENOUGH_DISK_SPACE_CLIENT,
-        "Not enough disk space", 
-        "There is not enough disk space to install the client. Please make some space available and try again.",
-        "CONTINUE",
+        this.translate.instant('MODALS.LANDING-NOT-ENOUGH-DISK-SPACE-CLIENT.TITLE'),
+        this.translate.instant('MODALS.LANDING-NOT-ENOUGH-DISK-SPACE-CLIENT.TEXT'),
+        this.translate.instant('MODALS.LANDING-NOT-ENOUGH-DISK-SPACE-CLIENT.BUTTON-SINGLE'),
         () => {}
       );
 
