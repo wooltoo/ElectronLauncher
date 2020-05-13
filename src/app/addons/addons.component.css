@@ -23,3 +23,16 @@
     outline: none !important;
     box-shadow: none !important;
 }  
+
+.search-results {
+    height:400px;
+    margin-top:10px;
+    overflow-y:scroll;
+    overflow-x:hidden;
+    scroll-snap-type: y proximity;
+}
+
+::-webkit-scrollbar {
+    width: 0px;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}

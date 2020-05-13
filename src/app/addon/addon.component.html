@@ -1,4 +1,4 @@
-<div class="addon">
+<div *ngIf="visible" class="addon">
     <div class="addon-aligned-container">
         <div class="addon-icon-background">
             <div class="addon-icon">
@@ -8,6 +8,15 @@
         <div class="addon-text-container">
             <span class="addon-title">{{title}}</span>
             <span class="addon-description">{{description}}</span>
+        </div>
+        <div class="addon-button-container">
+            <button *ngIf='downloaded' class="btn my-2 my-sm-0 navbar-button addon-button-download-base addon-button-downloaded" type="submit" (click)="OnPressDownloadButton()">
+                {{'ADDONS.BUTTON-DOWNLOADED' | translate}}
+            </button>
+
+            <button *ngIf='!downloaded' class="btn my-2 my-sm-0 navbar-button addon-button-download-base addon-button-download" type="submit" (click)="OnPressDownloadButton()">
+                {{'ADDONS.BUTTON-DOWNLOAD' | translate}}
+            </button>
         </div>
     </div>
 </div>

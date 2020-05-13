@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Addon } from '../general/addon';
+import { AddonComponent } from '../addon/addon.component';
 
 @Component({
   selector: 'app-addons',
@@ -8,11 +9,16 @@ import { Addon } from '../general/addon';
   styleUrls: ['./addons.component.css']
 })
 export class AddonsComponent implements OnInit {
+  @ViewChildren(AddonComponent) viewChildren!: QueryList<AddonComponent>;
+
   addons : Addon[] = [];
+  filter : string = "";  
 
   constructor(private translate : TranslateService) { }
 
   ngOnInit(): void {
+    this.prepareSearchField();
+
     this.addons.push(
       new Addon(
         'Bartender', 
@@ -42,4 +48,36 @@ export class AddonsComponent implements OnInit {
     );
   }
 
+  onScrollDown() : void {
+    this.addons.push(
+      new Addon(
+        'Gladius', 
+        'Gladius adds enemy unit frames to arenas for easier targeting and focusing. It is highly configurable and you can disable most features of this addon.'
+      )
+    );
+  }
+
+  onScrollUp() : void {
+    console.log("OnScrollUp!");
+  }
+
+  private prepareSearchField() : void {
+    $('#addons-search-field').on('change keydown paste input', () => {
+      if (this.filter != $('#addons-search-field').val()) {
+        this.filter = $('#addons-search-field').val();
+        this.filterAddons();
+      }
+    });
+  }
+
+  private filterAddons() : void {
+    let activeFilter = this.filter.toLowerCase();
+    this.viewChildren.forEach((addonComponent : AddonComponent) => {
+      let lowerTitle = addonComponent.getTitle().toLowerCase();
+      if (lowerTitle.indexOf(activeFilter) != -1) {
+        addonComponent.show();
+      } else 
+        addonComponent.hide();
+    });
+  }
 }

@@ -1,8 +1,18 @@
-<div id="addons-container" class="fadeInDown animate">
+<div id="addons-container" class="fadeInUp animated">
     <p id="addons-container-title">{{'ADDONS.TITLE' | translate}}</p>
     <input id="addons-search-field" type="text" class="form-control is-valid" placeholder="{{'ADDONS.FIELD-SEARCH-ADDONS' | translate}}">
 
-    <div *ngFor="let addon of addons">
-        <app-addon [title]='addon.getName()' [description]='addon.getDescription()'></app-addon>
+    <div 
+      class="search-results"
+      infiniteScroll
+      [infiniteScrollDistance]="2"
+      [infiniteScrollThrottle]="50"
+      (scrolled)="onScrollDown()"
+      (scrolledUp)="onScrollUp()"
+      [scrollWindow]="false">
+        <div *ngFor="let addon of addons">
+            <app-addon [title]='addon.getName()' [description]='addon.getDescription()' [downloaded]='false'></app-addon>
+        </div>
     </div>
+
 </div>

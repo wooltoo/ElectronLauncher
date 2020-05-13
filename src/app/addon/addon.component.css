@@ -3,6 +3,9 @@
     width:1023px;
     height:104px;
     margin-left:-10px;
+    position:relative;
+    top:-9px;
+    scroll-snap-align: start;
 }
 
 .addon-aligned-container {
@@ -56,4 +59,26 @@ p > .addon-title {
     top:-7px;
     line-height:11px;
     margin-top:6px;
+}
+.addon-button-container {
+    width:185px;
+    height:78px;
+    display:inline-block;
+    position:relative;
+    bottom:20px;
+}
+
+.addon-button-download-base {
+    height:54px;
+    color:white;
+    vertical-align: center;
+    width:162px;
+}
+
+.addon-button-downloaded {
+    background: url("assets/addons/addons-addon-download-button-dark.png") no-repeat;
+}
+
+.addon-button-download {
+    background: url("assets/addons/addons-addon-download-button-light.png") no-repeat;
 }

@@ -99,6 +99,7 @@
     "electron-dl": "^3.0.0",
     "electron-download-manager": "^2.1.2",
     "md5-file": "^5.0.0",
+    "ngx-infinite-scroll": "^9.0.0",
     "ngx-webstorage": "^5.0.0",
     "node-disk-info": "^1.0.4",
     "request": "^2.88.2",

@@ -43,7 +43,9 @@
   },
   "ADDONS": {
     "TITLE": "Addons",
-    "FIELD-SEARCH-ADDONS": "Search Addons..."
+    "FIELD-SEARCH-ADDONS": "Search Addons...",
+    "BUTTON-DOWNLOADED": "DOWNLOADED",
+    "BUTTON-DOWNLOAD": "DOWNLOAD"
   },
   "MODALS": {
     "INVALID-SETTING": {

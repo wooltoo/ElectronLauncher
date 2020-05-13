@@ -5,6 +5,7 @@ import { HomeRoutingModule } from './home-routing.module';
 
 import { HomeComponent } from './home.component';
 import { SharedModule } from '../shared/shared.module';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { NavbarComponent } from '../navbar/navbar.component';
 import { InfoComponent } from '../info/info.component';
@@ -29,7 +30,7 @@ import { AddonComponent } from '../addon/addon.component';
     AddonsComponent,
     AddonComponent
   ],
-  imports: [CommonModule, SharedModule, HomeRoutingModule],
+  imports: [CommonModule, SharedModule, HomeRoutingModule, InfiniteScrollModule],
   schemas: [
     NO_ERRORS_SCHEMA
   ]
