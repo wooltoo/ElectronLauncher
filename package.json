@@ -93,11 +93,13 @@
   },
   "dependencies": {
     "@fortawesome/angular-fontawesome": "^0.6.1",
+    "@types/jquery": "^3.3.38",
     "decompress-zip": "^0.2.2",
     "dotenv": "^8.2.0",
     "electron-context-menu": "^1.0.0",
     "electron-dl": "^3.0.0",
     "electron-download-manager": "^2.1.2",
+    "jquery": "^3.5.1",
     "md5-file": "^5.0.0",
     "ngx-infinite-scroll": "^9.0.0",
     "ngx-webstorage": "^5.0.0",

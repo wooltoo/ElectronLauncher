@@ -3,6 +3,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { Addon } from '../general/addon';
 import { AddonComponent } from '../addon/addon.component';
 
+import * as $ from 'jquery';
+
 @Component({
   selector: 'app-addons',
   templateUrl: './addons.component.html',
@@ -64,7 +66,7 @@ export class AddonsComponent implements OnInit {
   private prepareSearchField() : void {
     $('#addons-search-field').on('change keydown paste input', () => {
       if (this.filter != $('#addons-search-field').val()) {
-        this.filter = $('#addons-search-field').val();
+        this.filter = $('#addons-search-field').val().toString();
         this.filterAddons();
       }
     });
