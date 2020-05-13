@@ -1,0 +1,8 @@
+<div id="addons-container" class="fadeInDown animate">
+    <p id="addons-container-title">{{'ADDONS.TITLE' | translate}}</p>
+    <input id="addons-search-field" type="text" class="form-control is-valid" placeholder="{{'ADDONS.FIELD-SEARCH-ADDONS' | translate}}">
+
+    <div *ngFor="let addon of addons">
+        <app-addon [title]='addon.getName()' [description]='addon.getDescription()'></app-addon>
+    </div>
+</div>

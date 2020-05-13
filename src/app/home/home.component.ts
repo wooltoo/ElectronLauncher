@@ -42,6 +42,7 @@ export class HomeComponent implements OnInit, DownloadListCallback {
   public showLanding : boolean = true;
   public showInfo : boolean = false;
   public showSettings : boolean = false;
+  public showAddons : boolean = false;
 
   constructor(
               public cd: ChangeDetectorRef,
@@ -122,6 +123,12 @@ export class HomeComponent implements OnInit, DownloadListCallback {
     this.showInfoPage();
   }
 
+  public OnPressAddonsButton() : void {
+    if (this.showLanding) return;
+
+    this.showAddonsPage();
+  }
+
   OnPressStartButton() {
     if (this.hasFilesToDownload) {
       if (this.state == DownloadState.WAITING_FOR_DOWNLOAD)
@@ -170,9 +177,15 @@ export class HomeComponent implements OnInit, DownloadListCallback {
     this.showInfo = true;
   }
 
+  private showAddonsPage() : void {
+    this.hideAll();
+    this.showAddons = true;
+  }
+
   private hideAll() {
     this.showInfo = false;
     this.showLanding = false;
+    this.showAddons = false;
     this.hideSettings();
   }
 

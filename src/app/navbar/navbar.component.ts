@@ -35,4 +35,8 @@ export class NavbarComponent implements OnInit {
   OnPressHome() : void {
     this.homeComponent.OnPressHomeButton();
   }
+
+  OnPressAddons() : void {
+    this.homeComponent.OnPressAddonsButton();
+  }
 }

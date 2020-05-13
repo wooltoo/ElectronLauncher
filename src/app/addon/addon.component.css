@@ -1,0 +1,59 @@
+.addon {
+    background: url('assets/addons/addons-addon-background.png') no-repeat;
+    width:1023px;
+    height:104px;
+    margin-left:-10px;
+}
+
+.addon-aligned-container {
+    margin-left:10px;
+    padding-top:10px;
+}
+
+.addon-icon-background {
+    display:inline-block;
+    background: url('assets/addons/addons-addon-icon-background.png') no-repeat;
+    width:48px;
+    height:48px;
+    margin: 15px 15px 15px 15px;
+}
+
+.addon-icon {
+    display:inline-block;
+    background: url('assets/addons/addons-example-icon.png') no-repeat;
+    width:42px;
+    height:42px;
+    margin-top:3px;
+    margin-left:3px;
+}
+
+.addon-text-container {
+    display:inline-block;
+    vertical-align: top;
+    width:735px;
+}
+
+p > .addon-title {
+    margin-block-end: 0;
+}
+
+.addon-title {
+    vertical-align: top;
+    margin-top: 10px !important;
+    display:inline-block;
+    font-size:20px;
+    color:rgb(211,161,255);
+    width:100%;
+}
+
+.addon-description {
+    vertical-align: top;
+    display:inline-block;
+    color:white;
+    font-size:14px;
+    margin-bottom:0px;
+    position:relative;
+    top:-7px;
+    line-height:11px;
+    margin-top:6px;
+}

@@ -41,9 +41,13 @@
     "BUTTON-RESET": "RESET",
     "BUTTON-SAVE-CHANGES": "SAVE CHANGES"
   },
+  "ADDONS": {
+    "TITLE": "Addons",
+    "FIELD-SEARCH-ADDONS": "Search Addons..."
+  },
   "MODALS": {
     "INVALID-SETTING": {
-      "TITLE": "Invalid settingg",
+      "TITLE": "Invalid setting",
       "TEXT": "You must choose a client directory before you can save your settings.",
       "BUTTON-SINGLE": "CONTINUE"
     },

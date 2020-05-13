@@ -13,6 +13,8 @@ import { StatusBarComponent } from '../statusbar/statusbar.component'
 import { LandingComponent } from '../landing/landing.component';
 import { SettingsComponent } from '../settings/settings.component';
 import { ModalComponent } from '../modal/modal.component';
+import { AddonsComponent } from '../addons/addons.component';
+import { AddonComponent } from '../addon/addon.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { ModalComponent } from '../modal/modal.component';
     StatusBarComponent,
     LandingComponent,
     SettingsComponent,
-    ModalComponent
+    ModalComponent,
+    AddonsComponent,
+    AddonComponent
   ],
   imports: [CommonModule, SharedModule, HomeRoutingModule],
   schemas: [

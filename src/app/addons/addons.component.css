@@ -1,0 +1,25 @@
+#addons-container {
+    margin:0 auto;
+    width:1000px;
+}
+
+#addons-container-title {
+    text-align:center;
+    color:white;
+    font-size:48.78px;
+}
+
+#addons-search-field {
+    background: url('assets/addons/addons-background-searchbar.png') no-repeat;
+    width:181px;
+    height:30px;
+    border-radius: 0 !important;
+    border-color: rgba(0,0,0,0);
+    outline:none;
+    color: rgb(62,62,62);
+}
+
+#addons-search-field:focus, #addons-search-field:active {
+    outline: none !important;
+    box-shadow: none !important;
+}  
