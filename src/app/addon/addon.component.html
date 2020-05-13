@@ -2,12 +2,13 @@
     <div class="addon-aligned-container">
         <div class="addon-icon-background">
             <div class="addon-icon">
+                <img src="{{addon.getIconResource()}}"/>
             </div>
         </div>
 
         <div class="addon-text-container">
-            <span class="addon-title">{{title}}</span>
-            <span class="addon-description">{{description}}</span>
+            <span class="addon-title">{{addon.getName()}}</span>
+            <span class="addon-description">{{addon.getDescription()}}</span>
         </div>
         <div class="addon-button-container">
             <button *ngIf='downloaded' class="btn my-2 my-sm-0 navbar-button addon-button-download-base addon-button-downloaded" type="submit" (click)="OnPressDownloadButton()">

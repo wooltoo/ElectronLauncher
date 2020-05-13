@@ -23,11 +23,13 @@
 
 .addon-icon {
     display:inline-block;
-    background: url('assets/addons/addons-example-icon.png') no-repeat;
-    width:42px;
-    height:42px;
     margin-top:3px;
     margin-left:3px;
+}
+
+.addon-icon > img {
+    width:42px;
+    height:42px;
 }
 
 .addon-text-container {
@@ -71,8 +73,14 @@ p > .addon-title {
 .addon-button-download-base {
     height:54px;
     color:white;
-    vertical-align: center;
     width:162px;
+    position:relative;  
+    top:17.5px;
+}
+
+.addon-button-download-base:hover {
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 .addon-button-downloaded {

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Addon } from '../general/addon';
 
 @Component({
   selector: 'app-addon',
@@ -7,8 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class AddonComponent implements OnInit {
 
-  @Input() private title : string;
-  @Input() private description: string;
+  @Input() private addon : Addon;
   @Input() private downloaded : boolean;
 
   visible : boolean = true;
@@ -31,7 +31,7 @@ export class AddonComponent implements OnInit {
     this.visible = true;
   }
 
-  public getTitle() : string {
-    return this.title;
+  public getAddon() : Addon {
+    return this.addon;
   }
 }

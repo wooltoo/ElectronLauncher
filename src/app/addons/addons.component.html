@@ -10,9 +10,7 @@
       (scrolled)="onScrollDown()"
       (scrolledUp)="onScrollUp()"
       [scrollWindow]="false">
-        <div *ngFor="let addon of addons">
-            <app-addon [title]='addon.getName()' [description]='addon.getDescription()' [downloaded]='false'></app-addon>
-        </div>
+        <app-addon *ngFor="let addon of addons" [addon]='addon' [downloaded]='false'></app-addon>
     </div>
 
 </div>

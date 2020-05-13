@@ -27,6 +27,9 @@ export class LauncherConfig
     // Interval to check for a new Youtube video to be shown (MS).
     static INTERVAL_CHECK_FOR_YOUTUBE_VIDEO = 2500;
 
+    // How often the launcher should fetch addons (MS).
+    static INTERVAL_FETCH_ADDONS = 5000;
+
     // The name of the client remote resource.
     static CLIENT_RESOURCE_NAME : string = "client";
 
