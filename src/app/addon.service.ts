@@ -76,17 +76,17 @@ export class AddonService {
     let addon : Addon = this.addons[json['id']];
 
     let modified = false;
-    if (addon.getName() !== json['name']) {
+    if (addon.getName() != json['name']) {
       addon.setName(json['name']);
       modified = true;
     }
 
-    if (addon.getDescription() !== json['description']) {
+    if (addon.getDescription() != json['description']) {
       addon.setDescription(json['description']);
       modified = true;
     }
 
-    if (addon.getIconResource() !== json['icon-resource']) {
+    if (addon.getIconResource() != json['icon-resource']) {
       addon.setIconResource(json['icon-resource']);
       modified = true;
     }
