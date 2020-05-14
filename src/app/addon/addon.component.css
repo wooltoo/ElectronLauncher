@@ -75,9 +75,11 @@ p > .addon-title {
     width:162px;
     position:relative;  
     top:17.5px;
+    border: 0;
+    border-radius: 0;
 }
 
-.addon-button-download-base:hover {
+.addon-button-download-base:focus, .addon-button-download-base:active {
     outline: none !important;
     box-shadow: none !important;
 }

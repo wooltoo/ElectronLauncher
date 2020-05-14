@@ -39,6 +39,7 @@ export class AddonService {
         return;
       }
       
+      let hasBeenModified = false;
       let beforeCount = this.getAddons().length;
       body.forEach(addonData => {
         let id = addonData['id'];
@@ -48,12 +49,15 @@ export class AddonService {
           let addon : Addon = this.constructAddon(addonData);
           this.addons[addon.getId()] = addon;
         } else {
-          this.updateAddon(addonData);
+          if (this.updateAddon(addonData))
+            hasBeenModified = true;
         }
       });
 
-      if (beforeCount !== this.getAddons().length)
+      let addedNewAddon = beforeCount !== this.getAddons().length;
+      if (addedNewAddon || hasBeenModified) {
         this.notifyUpdate();
+      }
     });
   }
 
@@ -68,17 +72,26 @@ export class AddonService {
     return addon;
   }
 
-  private updateAddon(json : Object) : void {
+  private updateAddon(json : Object) : boolean {
     let addon : Addon = this.addons[json['id']];
 
-    if (addon.getName() !== json['name'])
+    let modified = false;
+    if (addon.getName() !== json['name']) {
       addon.setName(json['name']);
+      modified = true;
+    }
 
-    if (addon.getDescription() !== json['description'])
+    if (addon.getDescription() !== json['description']) {
       addon.setDescription(json['description']);
+      modified = true;
+    }
 
-    if (addon.getIconResource() !== json['icon-resource'])
+    if (addon.getIconResource() !== json['icon-resource']) {
       addon.setIconResource(json['icon-resource']);
+      modified = true;
+    }
+
+    return modified;
   }
 
   private notifyUpdate() : void {

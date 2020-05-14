@@ -158,7 +158,7 @@
     -webkit-app-region: no-drag;
 }
 
-.right-menu-item:hover {
+.right-menu-item:hover, .right-menu-item:active {
     background: none;
 }
 
