@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Addon } from '../general/addon';
+import { LauncherConfig } from '../general/launcherconfig';
 
 @Component({
   selector: 'app-addon',
@@ -9,19 +10,16 @@ import { Addon } from '../general/addon';
 export class AddonComponent implements OnInit {
 
   @Input() private addon : Addon;
-  @Input() private downloaded : boolean;
-
   visible : boolean = true;
+  downloaded : boolean = false;
 
   public constructor() { }
 
   ngOnInit(): void {
-    this.downloaded = Math.ceil(Math.random() * 2) == 1 ? true : false;
+    this.runDownloadedCheck();
   }
 
-  OnPressDownloadButton() {
-
-  }
+  OnPressDownloadButton() { }
 
   public hide() : void {
     this.visible = false;
@@ -33,5 +31,11 @@ export class AddonComponent implements OnInit {
 
   public getAddon() : Addon {
     return this.addon;
+  }
+
+  private runDownloadedCheck() : void {
+    setInterval(() => {
+      this.downloaded = this.addon.isInstalled();
+    }, LauncherConfig.INTERVAL_INVESTIGATE_ADDON_STATUS);
   }
 }

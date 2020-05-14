@@ -1,5 +1,9 @@
 import { DownloadFile } from "./downloadfile";
 
+import * as fs from 'fs';
+import * as path  from 'path';
+import { ClientHelper } from "./clienthelper";
+
 export class Addon 
 {
     downloadFile : DownloadFile;
@@ -8,8 +12,22 @@ export class Addon
                 private id : number,
                 private name : string,
                 private description : string,
-                private iconResource : string) 
+                private iconResource : string,
+                private folderName : string) 
     { }
+
+    public isInstalled() : boolean {
+        return fs.existsSync(this.getFolderPath());
+    }
+
+    public getFolderPath() : string {
+        return path.join(
+            ClientHelper.getInstance().getClientDirectory(),
+            'Interface',
+            'AddOns',
+            this.getFolderName()
+        );
+    }
 
     public getId() : number {
         return this.id;
@@ -45,5 +63,13 @@ export class Addon
 
     public setIconResource(iconResource : string) {
         this.iconResource = iconResource;
+    }
+
+    public getFolderName() : string {
+        return this.folderName;
+    }
+
+    public setFolderName(folderName : string) : void {
+        this.folderName = folderName;
     }
 }

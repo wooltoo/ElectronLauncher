@@ -66,7 +66,8 @@ export class AddonService {
       Number(json['id']),
       json['name'],
       json['description'],
-      json['icon-resource']
+      json['icon-resource'],
+      json['folder-name']
     );
 
     return addon;
@@ -88,6 +89,11 @@ export class AddonService {
 
     if (addon.getIconResource() != json['icon-resource']) {
       addon.setIconResource(json['icon-resource']);
+      modified = true;
+    }
+
+    if (addon.getFolderName() != json['folder-name']) {
+      addon.setFolderName(json['folder-name']);
       modified = true;
     }
 

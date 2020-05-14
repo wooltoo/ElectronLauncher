@@ -33,6 +33,9 @@ export class LauncherConfig
     // How often the launcher should fetch addons (MS).
     static INTERVAL_FETCH_ADDONS = 5000;
 
+    // How often the launcher should investigate if a addon is installed (MS).
+    static INTERVAL_INVESTIGATE_ADDON_STATUS = 1000;
+
     // The name of the client remote resource.
     static CLIENT_RESOURCE_NAME : string = "client";
 

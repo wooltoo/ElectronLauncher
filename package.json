@@ -1,11 +1,11 @@
 {
   "name": "angular-electron",
-  "version": "7.0.4",
-  "description": "Angular 9 with Electron (Typescript + SASS + Hot Reload)",
-  "homepage": "https://github.com/maximegris/angular-electron",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "",
   "author": {
-    "name": "Maxime GRIS",
-    "email": "maxime.gris@gmail.com"
+    "name": "Fractional",
+    "email": ""
   },
   "keywords": [
     "angular",
