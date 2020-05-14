@@ -18,8 +18,11 @@ export class LauncherConfig
     // How often the launcher checks for new patches added on the remote host (MS).
     static INTERVAL_CHECK_FOR_NEW_REMOTE_FILES : number = 10000;
     
-    // How often the launcher updates news (MS).
+    // How often the launcher updates news locally from news service information (MS).
     static INTERVAL_CHECK_FOR_NEWS : number = 2000;
+
+    // How often the launchers check for new news on the remote host (MS).
+    static INTERVAL_CHECK_FOR_NEWS_REMOTE : number = 2500;
 
     // How often the launcher should update the settings panel  (MS).
     static INTERVAL_UPDATE_SETTINGS = 500;

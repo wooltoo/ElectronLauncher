@@ -2,7 +2,8 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { NewsEntryService } from '../news-entry.service';
 import { NewsEntry } from '../news-entry';
 import { LauncherConfig } from '../general/launcherconfig';
-import {DomSanitizer} from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
+import { NewsServiceCallback } from '../general/newsservicecallback';
 
 const request = require('request');
 
@@ -11,7 +12,7 @@ const request = require('request');
   templateUrl: './info.component.html',
   styleUrls: ['./info.component.css']
 })
-export class InfoComponent implements OnInit {
+export class InfoComponent implements OnInit, NewsServiceCallback {
 
   newsEntries : NewsEntry[] = [];
   showLoadingSpinner : boolean = true;
@@ -22,14 +23,13 @@ export class InfoComponent implements OnInit {
               private changeDetectorRef : ChangeDetectorRef,
               private sanitizer : DomSanitizer) 
   {
+    newsEntryService.observe(this);
     this.setVideo(LauncherConfig.DEFAULT_YOUTUBE_VIDEO);
-
     this.checkForYoutubeVideo();
     this.startCheckForYoutubeVideo();
   }
 
   ngOnInit(): void {
-    setTimeout(() => { this.getEntries(); }, 1000);
     setInterval(
       () => { this.getEntries(); },
       LauncherConfig.INTERVAL_CHECK_FOR_NEWS
@@ -44,16 +44,12 @@ export class InfoComponent implements OnInit {
     this.video = this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
+  OnNewsUpdated(news: NewsEntry[]): void {
+    this.getEntries();
+  }
+
   getEntries() : void {
-    let news : NewsEntry[] = this.newsEntryService.getNews();
-    if (!this.differsFromLoaded(news)) 
-      return;
-
-    this.newsEntries.length = 0;
-    news.forEach((entry : NewsEntry) => {
-      this.newsEntries.push(entry);
-    });
-
+    this.newsEntries = this.newsEntryService.getNews();
     this.showLoadingSpinner = false;
   }
 

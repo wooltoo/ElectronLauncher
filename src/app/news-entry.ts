@@ -1,23 +1,39 @@
 export class NewsEntry {
-    title : string;
-    datetime : string;
-    text : string;
+    constructor(private id : number,
+                private title : string, 
+                private datetime : string, 
+                private text : string) 
+    { }
 
-    constructor(title, datetime, text) {
-        this.title = title;
-        this.datetime = datetime;
-        this.text = text;
+    public getId() : number {
+        return this.id;
     }
 
-    getTitle() : string {
+    public getTitle() : string {
         return this.title;
     }
 
-    getDateTime() : string {
+    public getDateTime() : string {
         return this.datetime;
     }
 
-    getText() : string {
+    public getText() : string {
         return this.text;
+    }
+
+    public setId(id : number) : void {
+        this.id = id;
+    }
+
+    public setTitle(title : string) : void {
+        this.title = title;
+    }
+
+    public setDateTime(dateTime : string) : void {
+        this.datetime = dateTime;
+    }
+
+    public setText(text : string) : void {
+        this.text = text;
     }
 }
