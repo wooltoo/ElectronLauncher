@@ -1,11 +1,10 @@
 .addon {
     background: url('assets/addons/addons-addon-background.png') no-repeat;
     width:1023px;
-    height:104px;
+    height:90px;
     margin-left:-10px;
-    position:relative;
     top:-9px;
-    scroll-snap-align: start;
+    /*scroll-snap-align: top;*/
 }
 
 .addon-aligned-container {

@@ -1,6 +1,8 @@
 #addons-container {
     margin:0 auto;
     width:1000px;
+    top:35px;
+    position: relative;
 }
 
 #addons-container-title {
@@ -25,11 +27,11 @@
 }  
 
 .search-results {
-    height:416px;
+    height:410px;
     margin-top:10px;
     overflow-y:scroll;
     overflow-x:hidden;
-    scroll-snap-type: y mandatory;
+    /*scroll-snap-type: y mandatory;*/
 }
 
 ::-webkit-scrollbar {

@@ -40,20 +40,23 @@
     font-size:14px;
     padding:0;
     background: url("assets/navbar/navbar-button-dark.png");
+    transition: all .2s ease-in-out;
 }
 
 .app-navbar-btn:hover {
-    transition: all .2s ease-in-out;
-    transition-duration: 1000ms;
-    background: url("assets/navbar/navbar-button-dark-hover.png") no-repeat;
+    background: url("assets/navbar/navbar-button-dark-hl.png") no-repeat;
+}
+
+.app-navbar-btn:active {
+    background: url("assets/navbar/navbar-button-dark-pd.png") no-repeat;
 }
 
 .app-navbar-btn-inner {
-    animation: moving-back .6s forwards;
+    animation: moving-back .3s forwards;
 }
 
-.app-navbar-btn:hover .app-navbar-btn-inner {
-    animation: moving .6s forwards;
+.app-navbar-btn:active .app-navbar-btn-inner {
+    animation: moving .3s forwards;
 }
 
 @keyframes moving-back {
@@ -76,8 +79,17 @@
 }
 
 .app-navbar-btn-active {
-    background: url("assets/navbar/navbar-button-light.png")
+    background: url("assets/navbar/navbar-button-light.png") no-repeat;
 }
+
+.app-navbar-btn-active:hover {
+    background:url("assets/navbar/navbar-button-light-hl.png") no-repeat;;
+}
+
+.app-navbar-btn-active:active {
+    background:url("assets/navbar/navbar-button-light-pd.png") no-repeat;
+}
+
 .app-navbar-li-margin {
     margin-right:20px;
 }

@@ -46,7 +46,17 @@
     margin-left:670px;/*-30px offset due to bad img*/
     position:relative;
     top:70px; /*-30px offset due to bad img*/
+    transition: all .2s ease-in-out;
 }
+
+#download-button:hover {
+    background: url("assets/welcome/button-hl.png");
+}
+
+#download-button:active {
+    background: url("assets/welcome/button-pd.png");
+}
+
 
 #select-game-field {
     background: url("assets/welcome/select-game-path-button.png");
@@ -61,6 +71,15 @@
     left:785px;
     top:54px;
     text-align:center;
+    transition: all .2s ease-in-out;
+}
+
+#select-game-field:hover {
+    background: url("assets/welcome/select-game-path-button-hl.png");
+}
+
+#select-game-field:active {
+    background: url("assets/welcome/select-game-path-button-pd.png");
 }
 
 #download-game-text {
@@ -113,4 +132,13 @@
     top:7px;
     padding:0;
     font-size:11pt;
+    transition: all .2s ease-in-out;
+}
+
+#go-button:hover {
+    background: url("assets/welcome/go-button-hl.png");
+}
+
+#go-button:active {
+    background: url("assets/welcome/go-button-pd.png");
 }
