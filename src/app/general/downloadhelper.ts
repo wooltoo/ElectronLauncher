@@ -1,7 +1,6 @@
-import { DownloadItem, webContents } from 'electron';
+import { DownloadItem } from 'electron';
 import { DownloadFile } from '../general/downloadfile';
 import { DownloadListService } from '../download-list.service';
-import { DownloadListServiceState } from './downloadlistservicestate';
 import { LauncherConfig } from './launcherconfig'
 import { FileRemover } from '../general/fileremover'
 import { ClientHelper } from './clienthelper';
@@ -16,8 +15,9 @@ import { ModalEntrySingle } from './modalentry';
 import { Modals } from './modals';
 import { TranslateServiceHolder } from './translateserviceholder';
 import { TranslateService } from '@ngx-translate/core';
+import { DownloadListObserver } from './downloadlistobserver';
 
-export class DownloadHelper
+export class DownloadHelper implements DownloadListObserver
 {
     downloading : boolean = false;
 
@@ -33,9 +33,10 @@ export class DownloadHelper
     downloadFile : DownloadFile;
     downloadFiles : DownloadFile[] = [];
 
+    isCheckingForFilesToDownload : boolean = false;
+
     constructor(private callback : InstallState, private downloadListService : DownloadListService) { 
-        this.checkForFilesToDownload();
-        this.checkForFilesToDownloadWrapper();
+        downloadListService.observe(this);
         this.downloadConfig.downloadFolder = ClientHelper.getInstance().getClientDirectory();
     }
 
@@ -52,6 +53,9 @@ export class DownloadHelper
     }
 
     public download() : void {
+        if (this.isDownloading())
+            return;
+
         if (this.downloadFiles.length > 0)
             this.downloadNext();
     }
@@ -60,22 +64,24 @@ export class DownloadHelper
         return this.downloading;
     }
 
-    private checkForFilesToDownload() : void {
-        if (!ClientHelper.getInstance().hasClientInstalled())
+    private startCheckForFilesToDownload() : void {
+        if (this.isCheckingForFilesToDownload)
             return;
 
-        if (this.downloadListService.getState() == DownloadListServiceState.READY) {
+        setInterval(() => {
+            if (!ClientHelper.getInstance().hasClientInstalled())
+            return;
+
             let filter : DownloadFileFilter = new DownloadFileFilter(this.downloadListService);
             this.callback.OnFilesToDownloadResult(
                 filter.getFilesToInstall().length > 0
             );
-        }
+        }, LauncherConfig.INTERVAL_CHECK_FOR_PATCH_TO_DL);
+        this.isCheckingForFilesToDownload = true;
     }
 
-    private checkForFilesToDownloadWrapper() : void {
-        setInterval(() => {
-            this.checkForFilesToDownload();
-        }, LauncherConfig.INTERVAL_CHECK_FOR_PATCH_TO_DL);
+    OnNewFilesFetched(downloadFiles: DownloadFile[]): void {
+        this.startCheckForFilesToDownload();
     }
 
     private downloadNext() : void {

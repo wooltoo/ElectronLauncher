@@ -1,5 +1,5 @@
 import { DownloadFile } from "./downloadfile";
 
-export interface DownloadListCallback {
+export interface DownloadListObserver {
     OnNewFilesFetched(downloadFiles : DownloadFile[]) : void;
 }

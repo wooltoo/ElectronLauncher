@@ -1,7 +1,8 @@
-import { Injectable, ɵConsole } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { LauncherConfig } from './general/launcherconfig';
 import { Addon } from './general/addon';
-import { AddonServiceCallback } from './general/addonservicecallback';
+import { AddonServiceObserver } from './general/addonserviceobserver';
+import { DownloadListService } from './download-list.service';
 
 const request = require("request");
 
@@ -9,22 +10,21 @@ const request = require("request");
   providedIn: 'root'
 })
 export class AddonService {
-
+W
   //Key: addon ID, Value: Addon
   addons : Object = {};
-
-  callbacks : AddonServiceCallback[] = [];
+  callbacks : AddonServiceObserver[] = [];
+  addonDownloadFiles : Object = null;
 
   constructor() { 
     this.fetchAddons();
-
     setInterval(
       () => { this.fetchAddons(); },
       LauncherConfig.INTERVAL_FETCH_ADDONS
     );
   }
 
-  public observe(addonServiceCallback : AddonServiceCallback) : void {
+  public observe(addonServiceCallback : AddonServiceObserver) : void {
     this.callbacks.push(addonServiceCallback);
   }
 
@@ -40,7 +40,6 @@ export class AddonService {
       }
       
       let hasBeenModified = false;
-      let beforeCount = this.getAddons().length;
       body.forEach(addonData => {
         let id = addonData['id'];
         
@@ -48,14 +47,14 @@ export class AddonService {
         {
           let addon : Addon = this.constructAddon(addonData);
           this.addons[addon.getId()] = addon;
+          hasBeenModified = true;
         } else {
           if (this.updateAddon(addonData))
             hasBeenModified = true;
         }
       });
 
-      let addedNewAddon = beforeCount !== this.getAddons().length;
-      if (addedNewAddon || hasBeenModified) {
+      if (hasBeenModified) {
         this.notifyUpdate();
       }
     });
@@ -67,7 +66,8 @@ export class AddonService {
       json['name'],
       json['description'],
       json['icon-resource'],
-      json['folder-name']
+      json['folder-name'],
+      json['download-file'],
     );
 
     return addon;
@@ -94,6 +94,11 @@ export class AddonService {
 
     if (addon.getFolderName() != json['folder-name']) {
       addon.setFolderName(json['folder-name']);
+      modified = true;
+    }
+
+    if (addon.getDownloadFileId() != json['download-file']) {
+      addon.setDownloadFileId(json['download-file']);
       modified = true;
     }
 

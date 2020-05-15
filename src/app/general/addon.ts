@@ -13,7 +13,8 @@ export class Addon
                 private name : string,
                 private description : string,
                 private iconResource : string,
-                private folderName : string) 
+                private folderName : string,
+                private downloadFileId : number) 
     { }
 
     public isInstalled() : boolean {
@@ -71,5 +72,13 @@ export class Addon
 
     public setFolderName(folderName : string) : void {
         this.folderName = folderName;
+    }
+
+    public getDownloadFileId() : number {
+        return this.downloadFileId;
+    }
+
+    public setDownloadFileId(id : number) : void {
+        this.downloadFileId = id;
     }
 }

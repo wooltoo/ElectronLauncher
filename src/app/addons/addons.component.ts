@@ -5,14 +5,14 @@ import { AddonComponent } from '../addon/addon.component';
 import { AddonService } from '../addon.service';
 
 import * as $ from 'jquery';
-import { AddonServiceCallback } from '../general/addonservicecallback';
+import { AddonServiceObserver } from '../general/addonserviceobserver';
 
 @Component({
   selector: 'app-addons',
   templateUrl: './addons.component.html',
   styleUrls: ['./addons.component.css']
 })
-export class AddonsComponent implements OnInit, AddonServiceCallback {
+export class AddonsComponent implements OnInit, AddonServiceObserver {
   @ViewChildren(AddonComponent) viewChildren!: QueryList<AddonComponent>;
 
   addons : Addon[] = [];
@@ -53,6 +53,7 @@ export class AddonsComponent implements OnInit, AddonServiceCallback {
 
   private filterAddons() : void {
     let activeFilter = this.filter.toLowerCase();
+
     this.viewChildren.forEach((addonComponent : AddonComponent) => {
       let lowerName = addonComponent.getAddon().getName().toLowerCase();
       if (lowerName.indexOf(activeFilter) != -1) {
@@ -64,6 +65,7 @@ export class AddonsComponent implements OnInit, AddonServiceCallback {
 
   private addAddon(newAddon : Addon) : void {
     let addon : Addon = this.addons.find(addon => addon.getId() == newAddon.getId());
-    if (!addon) this.addons.push(newAddon);
+    if (!addon)
+      this.addons.push(newAddon);
   }
 }

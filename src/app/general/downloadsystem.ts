@@ -49,20 +49,30 @@ export class DownloadSystem
 
     // Should download all files, e.g. patches/exes/addons that are missing or have mismatching MD5.
     public downloadAll() : void {
-        if (!this.downloadHelper) return;
-        if (this.downloadHelper.isDownloading()) return;
-
         if (!ClientHelper.getInstance().hasClientInstalled()) 
             this.addClientDownload();
-        else 
+        else {
             this.downloadHelper.add(this.downloadFileFilter.getFilesToInstall());
+        }
         
+        this.start();
+    }
+
+    public start() : boolean {
+        if (!this.downloadHelper)
+            return false;
+
         this.downloadHelper.download();
+        return true;
+    }
+
+    public isDownloading() : boolean {
+        return this.downloadHelper.isDownloading();
     }
 
     // Adds client to be downloaded.
     private addClientDownload() : void {
-        // Clear old client files.
+        // Clear old client download files.
         FileRemover.remove(
             path.join(ClientHelper.getInstance().getRequestedClientDirectory(), LauncherConfig.CLIENT_FILE_NAME)
         );

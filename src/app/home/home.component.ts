@@ -13,7 +13,7 @@ import { SettingsManager, Setting } from '../general/settingsmanager';
 import { RealmListChanger } from '../general/realmlistchanger';
 import { RealmService } from '../realm.service';
 import { DownloadSystem } from '../general/downloadsystem';
-import { DownloadListCallback } from '../general/downloadlistcallback';
+import { DownloadListObserver } from '../general/downloadlistobserver';
 import { DownloadFile } from '../general/downloadfile';
 import { VersionChecker } from '../general/versionchecker';
 import { TranslateService } from '@ngx-translate/core';
@@ -24,7 +24,7 @@ import { TranslateServiceHolder} from '../general/translateserviceholder';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit, DownloadListCallback {
+export class HomeComponent implements OnInit, DownloadListObserver {
   public state : DownloadState = DownloadState.LOADING;
   public downloadSpeed : string = "9.67 MB/s"
   public progress : string = "10%";

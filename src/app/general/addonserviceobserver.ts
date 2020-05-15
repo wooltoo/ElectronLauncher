@@ -1,5 +1,5 @@
 import { Addon } from './addon';
 
-export interface AddonServiceCallback {
+export interface AddonServiceObserver {
     OnAddonsUpdated(addons : Addon[]) : void;
 }

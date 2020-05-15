@@ -100,6 +100,11 @@
       "TITLE": "Not enough space available",
       "TEXT": "You do not have enough disk space available to install the required files. Auto-patching has been disabled. Please make some space available.",
       "BUTTON-SINGLE": "CONTINUE"
+    },
+    "ADDON-COULD-NOT-FIND-DOWNLOADFILE": {
+      "TITLE": "Could not fetch download data.",
+      "TEXT": "The server could not locate the required download data for the addon. Please check your internet connection or get in touch with us.",
+      "BUTTON-SINGLE": "CONTINUE"
     }
   }
 }

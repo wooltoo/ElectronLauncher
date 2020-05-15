@@ -2,28 +2,38 @@ import { Injectable } from '@angular/core';
 import { DownloadFile, DownloadFileType } from './general/downloadfile';
 import { DownloadListServiceState } from './general/downloadlistservicestate';
 import { LauncherConfig } from './general/launcherconfig';
-import { DownloadListCallback } from './general/downloadlistcallback';
+import { DownloadListObserver } from './general/downloadlistobserver';
+import { DownloadFileUpdater } from './general/downloadfileupdater';
+import { DownloadFileUtil } from './general/downloadfileutil';
+import * as request from 'request';
 
-const request = require('request');
+/**
+ * DownloadListService is responsible for providing storage and retrieval functionality for DownloadFiles.
+ * This service will keep the client's DownloadFile data in sync with the servers. 
+ * 
+ * @author Fredriksa @ Github
+*/
 
 @Injectable({
   providedIn: 'root'
 })
 export class DownloadListService {
-
-  callbacks : DownloadListCallback[] = [];
-  files : DownloadFile[] = null;
+  callbacks : DownloadListObserver[] = [];
+  
+  files : Object = {};
   client : DownloadFile = null;
+
   state : DownloadListServiceState = DownloadListServiceState.RETRIEVING_INFORMATION;
 
   constructor()
   { 
     this.fetchRemoteFiles();
-
-    if (LauncherConfig.SHOULD_CHECK_FOR_NEW_REMOTE_FILES) 
-      this.checkForRemoteFiles();
+    this.checkForRemoteFiles();
   }
 
+  /**
+   * Starts checking for remote files. 
+   */
   private checkForRemoteFiles() : void {
     setInterval(
       () => {
@@ -32,23 +42,42 @@ export class DownloadListService {
     );
   }
 
+  /**
+   * Fetches all the resource and patch DownloadFiles.
+   * @returns An DownloadFile[] for all the resource and patch DownloadFiles 
+   */
   public getFiles() : DownloadFile[] {
-    return this.files;
+    return (<any>Object).values(this.files);
   }
 
+  /**
+   * Fetches the DownloadFile for the client.
+   * @returns The client DownloadFile.
+   */
   public getClient() : DownloadFile {
     return this.client;
   }
 
+  /**
+   * Fetches current state.
+   * @returns state The current state of the download list service.
+   */
   public getState() : DownloadListServiceState {
     return this.state;
   }
 
-  public observe(downloadListCallback : DownloadListCallback) : void {
-    if (!this.callbacks.includes(downloadListCallback))
-      this.callbacks.push(downloadListCallback);
+  /**
+   * Adds an observer to the download list service.
+   * @param downloadListObserver The observer to be added.
+   */
+  public observe(downloadListObserver : DownloadListObserver) : void {
+    if (!this.callbacks.includes(downloadListObserver))
+      this.callbacks.push(downloadListObserver);
   }
 
+  /**
+   * Fetches remote files.
+   */
   private fetchRemoteFiles() : void {
     request.get({
       url: LauncherConfig.BACKEND_HOST + '/files',
@@ -59,40 +88,78 @@ export class DownloadListService {
         return;
       }
 
-      this.clearResources();
-      json.forEach(obj => {
-        let type : DownloadFileType = <any>DownloadFileType[obj['type']];
-        let extract = obj['extract'] === 'true' ? true : false;
+      this.processFileResponse(json);
+      if (this.state == DownloadListServiceState.RETRIEVING_INFORMATION) {
+        this.state = DownloadListServiceState.READY;
+      }
+    });
+  }
 
-        let file = new DownloadFile(obj['_id'], obj['name'], type, obj['md5-checksum'], obj['resource'], obj['file-name'], extract, obj['target'], obj['file-size']);
-        if (file.getType() == DownloadFileType.client) 
-          this.client = file;
-        else 
-          this.files.push(file);
-      });
-
-      if (this.files.length > 0)
-        this.notifyNewFilesFetched();
+  /**
+   * Processes the JSON file response from the backend server.
+   * Starts the process to add/update downloadfiles.
+   * @param json The JSON data to process. 
+   */
+  private processFileResponse(json : any) {
+    let modified = false;
+    json.forEach(obj => {
+      let file : DownloadFile = DownloadFileUtil.constructFromJSON(obj);
       
-      this.updateState();
+      if (file.getType() == DownloadFileType.client) {
+        this.client = file;
+      }
+      else {
+        if (this.updateOrAddFile(file, obj))
+          modified = true;
+      }
     });
+
+    if (modified) {
+      console.log("MODIFIED DOWNLOADFILES!!");
+      this.notifyFilesUpdated();
+    }
+  }
+  
+  /**
+   * Updates or adds a DownloadFile to its belonging container.
+   * @param file The file to be added.
+   * @param json The JSON data used to modify the file.
+   * @returns true if a file has been added or modified false if not.
+   */
+  private updateOrAddFile(file : DownloadFile, json : Object) : boolean {
+    if (this.files.hasOwnProperty(file.getId())) 
+      return this.updateFile(json);
+
+      
+    this.files[file.getId()] = file;
+    return true;
   }
 
-  private notifyNewFilesFetched() : void {
+
+  /**
+   * Updates the target DownloadFile in DownloadListService based
+   * on the values in the JSON object.
+   * 
+   * E.g, if the title differs in the json object the download file
+   * instance will be updated.
+   * 
+   * @param json The JSON object containing information for the download file.
+   * @returns true if changes have been made false if not.
+   */
+  private updateFile(json : Object) : boolean {
+    let type : DownloadFileType = <any>DownloadFileType[json['type']];
+    let currFile : DownloadFile = this.files[json['id']];
+
+    return DownloadFileUpdater.update(currFile, json);
+  }
+
+  /**
+   * Notifies all observers that the download files 
+   * list has been updated together with all the files.
+   */
+  private notifyFilesUpdated() : void {
     this.callbacks.forEach((callback) => {
-      callback.OnNewFilesFetched(this.files);
+      callback.OnNewFilesFetched(this.getFiles());
     });
-  }
-
-  private updateState() : void {
-    if (this.files != null && this.client != null)
-      this.state = DownloadListServiceState.READY;
-    else
-      this.state = DownloadListServiceState.RETRIEVING_INFORMATION;
-  }
-
-  private clearResources() : void {
-    this.files = [];
-    this.client = null;
   }
 }

@@ -13,10 +13,9 @@ export class LauncherConfig
     // How often the launcher checks if a patch is missing locally (MS).
     static INTERVAL_CHECK_FOR_PATCH_TO_DL : number = 1000; 
 
-    // Decides if the launcher should check for new patches on the remote host.
-    static SHOULD_CHECK_FOR_NEW_REMOTE_FILES : boolean = true;
     // How often the launcher checks for new patches added on the remote host (MS).
-    static INTERVAL_CHECK_FOR_NEW_REMOTE_FILES : number = 10000;
+    //static INTERVAL_CHECK_FOR_NEW_REMOTE_FILES : number = 10000;
+    static INTERVAL_CHECK_FOR_NEW_REMOTE_FILES : number = 3000;
     
     // How often the launcher updates news locally from news service information (MS).
     static INTERVAL_CHECK_FOR_NEWS : number = 2000;
