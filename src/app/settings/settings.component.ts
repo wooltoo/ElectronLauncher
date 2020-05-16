@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { LocalStorageService } from 'ngx-webstorage';
 import { LauncherConfig } from '../general/launcherconfig';
 import { ClientHelper } from '../general/clienthelper';
 import { ComponentRegistryEntry, ComponentRegistry } from '../general/componentregistry';
@@ -20,11 +19,9 @@ export class SettingsComponent implements OnInit {
 
   toggleActive : boolean = true;
   directoryPath : string = "";
-  modalComponent : ModalComponent = null;
   hasSaved : boolean = true;
 
-  constructor(private localSt : LocalStorageService,
-              private translate : TranslateService )
+  constructor(private translate : TranslateService )
   { }
 
   ngOnInit(): void {
@@ -35,8 +32,11 @@ export class SettingsComponent implements OnInit {
   }
 
   private LoadSettings() : void {
-    if (ClientHelper.getInstance().hasClientInstalled()) 
-      this.directoryPath = ClientHelper.getInstance().getClientDirectory();
+    if (ClientHelper.getInstance().hasClientInstalled())  {
+      let dir : string | undefined | null =  ClientHelper.getInstance().getClientDirectory();
+      if (dir)
+        this.directoryPath = dir;
+    }
 
     this.toggleActive = SettingsManager.getInstance().getSetting(Setting.SHOULD_AUTO_PATCH);
   }
@@ -53,8 +53,6 @@ export class SettingsComponent implements OnInit {
   }
 
   OnPressSaveChanges() : void {
-    this.prepareModalComponent();
-
     if (this.directoryPath === " ") 
     {
       let modal : ModalEntrySingle = new ModalEntrySingle(
@@ -65,7 +63,8 @@ export class SettingsComponent implements OnInit {
         () => {}
       );
 
-      this.modalComponent.enqueue(modal);
+      let modalComponent : ModalComponent = <ModalComponent> ComponentRegistry.getInstance().get(ComponentRegistryEntry.MODAL_COMPONENT);
+      modalComponent.enqueue(modal);
       return;
     }
 
@@ -82,12 +81,11 @@ export class SettingsComponent implements OnInit {
     );
 
     this.hasSaved = true;
-    this.modalComponent.enqueue(modal);
+    let modalComponent : ModalComponent = <ModalComponent> ComponentRegistry.getInstance().get(ComponentRegistryEntry.MODAL_COMPONENT);
+    modalComponent.enqueue(modal);
   }
 
   OnPressReset() : void {
-    this.prepareModalComponent();
-
     let modal : ModalEntryDouble = new ModalEntryDouble(
       Modals.SETTINGS_RESET,
       this.translate.instant('MODALS.SETTINGS-RESET.TITLE'),
@@ -98,7 +96,8 @@ export class SettingsComponent implements OnInit {
       () => {}
     );
 
-    this.modalComponent.enqueue(modal);
+    let modalComponent : ModalComponent = <ModalComponent> ComponentRegistry.getInstance().get(ComponentRegistryEntry.MODAL_COMPONENT);
+    modalComponent.enqueue(modal);
   }
 
   OnPressClearPath() : void {
@@ -110,8 +109,6 @@ export class SettingsComponent implements OnInit {
     let selectedDir = this.SelectGameDirectory();
     if (selectedDir != null && selectedDir != undefined) {
       if (!ClientHelper.hasClientInDirectory(selectedDir)) {
-        this.prepareModalComponent();
-
         let modal : ModalEntryDouble = new ModalEntryDouble(
           Modals.SETTINGS_COULD_NOT_FIND_CLIENT,
           this.translate.instant('MODALS.SETTINGS-COULD-NOT-FIND-CLIENT.TITLE'),
@@ -119,16 +116,19 @@ export class SettingsComponent implements OnInit {
           this.translate.instant('MODALS.SETTINGS-COULD-NOT-FIND-CLIENT.BUTTON-POSITIVE'),
           this.translate.instant('MODALS.SETTINGS-COULD-NOT-FIND-CLIENT.BUTTON-NEGATIVE'),
           () => {
-            this.directoryPath = selectedDir;
+            if (selectedDir)
+              this.directoryPath = selectedDir;
+            
             ClientHelper.getInstance().clearClientDirectory();
             ClientHelper.getInstance().setRequestedClientDirectory(this.directoryPath);
-            DownloadSystem.getInstance().downloadAll();
+            DownloadSystem.getInstance().queueAll().start();
             this.hasSaved = true;
           },
           () => {}
         ); 
 
-        this.modalComponent.enqueue(modal);
+       let modalComponent : ModalComponent = <ModalComponent> ComponentRegistry.getInstance().get(ComponentRegistryEntry.MODAL_COMPONENT);
+        modalComponent.enqueue(modal);
       } 
     }
   }
@@ -137,7 +137,9 @@ export class SettingsComponent implements OnInit {
     setInterval(() => {
       if (ClientHelper.getInstance().hasClientInstalled()) {
         if (this.directoryPath == "") {
-          this.directoryPath = ClientHelper.getInstance().getClientDirectory()
+          let directory : string | undefined | null = ClientHelper.getInstance().getClientDirectory();
+          if (directory)
+            this.directoryPath = directory;
         }
       }
 
@@ -158,16 +160,13 @@ export class SettingsComponent implements OnInit {
     this.toggleActive = true;
   }
 
-  private SelectGameDirectory() : string {
+  private SelectGameDirectory() : string | null {
     const {dialog} = require('electron').remote;
     let dir = dialog.showOpenDialogSync({ properties: ['openDirectory']});
 
-    if (dir == undefined || dir.length == 0) return;
+    if (dir == undefined || dir.length == 0)
+      return null;
+    
     return dir[0];
-  }
-
-  private prepareModalComponent() : void {
-    if (!this.modalComponent)
-      this.modalComponent = <ModalComponent> ComponentRegistry.getInstance().get(ComponentRegistryEntry.MODAL_COMPONENT);
   }
 }

@@ -19,6 +19,8 @@
     border-color: rgba(0,0,0,0);
     outline:none;
     color: rgb(62,62,62);
+    position:relative;
+    left:-1px;
 }
 
 #addons-search-field:focus, #addons-search-field:active {

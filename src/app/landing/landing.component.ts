@@ -15,10 +15,8 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class LandingComponent implements OnInit {
   
-  clientDirectory : string;
+  clientDirectory : string = '';
   hasSelectedPath : boolean = false;
-
-  modalComponent : ModalComponent = null;
 
   constructor(@Inject(HomeComponent) private homeComponent : HomeComponent,
                                      private translate : TranslateService)
@@ -42,8 +40,6 @@ export class LandingComponent implements OnInit {
     if (directory == undefined)
       return;
 
-    if (!this.modalComponent)
-      this.modalComponent = <ModalComponent> ComponentRegistry.getInstance().get(ComponentRegistryEntry.MODAL_COMPONENT);
 
     if (!ClientHelper.hasClientInDirectory(directory)) {
       let modal : ModalEntrySingle = new ModalEntrySingle(
@@ -54,7 +50,8 @@ export class LandingComponent implements OnInit {
         () => {}
       );
 
-      this.modalComponent.enqueue(modal);
+      let modalComponent : ModalComponent = <ModalComponent> ComponentRegistry.getInstance().get(ComponentRegistryEntry.MODAL_COMPONENT);
+      modalComponent.enqueue(modal);
       return;
     } 
 
@@ -67,7 +64,8 @@ export class LandingComponent implements OnInit {
         () => {}
       );
       
-      this.modalComponent.enqueue(modal);
+      let modalComponent : ModalComponent = <ModalComponent> ComponentRegistry.getInstance().get(ComponentRegistryEntry.MODAL_COMPONENT);
+      modalComponent.enqueue(modal);
       return;
     }
 
@@ -81,11 +79,8 @@ export class LandingComponent implements OnInit {
 
   OnPressDownload() : void {
     let directory = this.SelectDirectory();
-    if (directory == undefined)
+    if (directory == null)
       return;
-    
-    if (!this.modalComponent)
-      this.modalComponent = <ModalComponent> ComponentRegistry.getInstance().get(ComponentRegistryEntry.MODAL_COMPONENT);
     
     if (!FileHelper.isDirectoryEmpty(directory)) {
       let modal : ModalEntryDouble = new ModalEntryDouble(
@@ -95,13 +90,16 @@ export class LandingComponent implements OnInit {
         this.translate.instant('MODALS.LANDING-DIRECTORY-NOT-EMPTY.BUTTON-POSITIVE'),
         this.translate.instant('MODALS.LANDING-DIRECTORY-NOT-EMPTY.BUTTON-NEGATIVE'),
         () => {
-          this.PickGamePath(directory);
-          this.OnPressGo();
+          if (directory !== null) {
+            this.PickGamePath(directory);
+            this.OnPressGo();
+          }
         },
         () => {}
       );
 
-      this.modalComponent.enqueue(modal);
+      let modalComponent : ModalComponent = <ModalComponent> ComponentRegistry.getInstance().get(ComponentRegistryEntry.MODAL_COMPONENT);
+      modalComponent.enqueue(modal);
       return;
     }
     
@@ -114,7 +112,8 @@ export class LandingComponent implements OnInit {
         () => {}
       );
 
-      this.modalComponent.enqueue(modal);
+      let modalComponent : ModalComponent = <ModalComponent> ComponentRegistry.getInstance().get(ComponentRegistryEntry.MODAL_COMPONENT);
+      modalComponent.enqueue(modal);
       return;
     }
       
@@ -126,11 +125,13 @@ export class LandingComponent implements OnInit {
     this.homeComponent.OnSelectClientDownload(directory);
   }
 
-  SelectDirectory() : string {
+  SelectDirectory() : string | null {
     const {dialog} = require('electron').remote;
     let dir = dialog.showOpenDialogSync({ properties: ['openDirectory']});
 
-    if (dir == undefined || dir.length == 0) return;
+    if (dir == undefined || dir.length == 0) 
+      return null;
+
     return dir[0];
   }
 }

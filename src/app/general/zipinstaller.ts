@@ -3,23 +3,32 @@ import { DownloadFile } from "./downloadfile";
 
 export class ZipInstaller
 {
-    constructor(private installCallback : InstallCallback) { }
+    constructor(private installCallback : InstallCallback | undefined) { }
 
-    public async install(downloadFile : DownloadFile, directory : string, completeFunc = null) {
+    public async install(downloadFile : DownloadFile, directory : string, completeFunc : (() => void) | null = null) {
         let clientFile = directory + '/' + downloadFile.getFileName();
         const AdmZip = require('../../custom_modules/adm-zip/adm-zip.js');
         let zip = new AdmZip(clientFile);
 
-        this.installCallback.OnInstallExtractionBegin();
-        zip.extractAllToAsync(directory, true, (error) => {
-            if (error) console.log(error);
+        if (this.installCallback)
+            this.installCallback.OnInstallExtractionBegin();
+
+        zip.extractAllToAsync(directory, true, (_error: any) => {
+            if (_error) 
+                console.log(_error);
         }, (currCount : number, fileCount : number, progress : number) => {
-            this.installCallback.OnInstallProgressUpdate(downloadFile, progress, currCount, fileCount);
+
+            if (this.installCallback)
+                this.installCallback.OnInstallProgressUpdate(downloadFile, progress, currCount, fileCount);
+            
             if (progress == 1) {
-                this.installCallback.OnInstallExtractionCompleted(downloadFile);
-                if (completeFunc)
+                if (this.installCallback)
+                    this.installCallback.OnInstallExtractionCompleted(downloadFile);
+                
+                    if (completeFunc)
                     completeFunc();
             }
         });
+
     }
 }

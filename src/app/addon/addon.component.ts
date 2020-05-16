@@ -17,9 +17,10 @@ import { DownloadSystem } from '../general/downloadsystem';
 })
 export class AddonComponent implements OnInit {
 
-  @Input() private addon : Addon;
+  @Input() private addon! : Addon;
   visible : boolean = true;
   downloaded : boolean = false;
+  downloading : boolean = false;
 
   public constructor(private translate : TranslateService) { }
 
@@ -31,11 +32,14 @@ export class AddonComponent implements OnInit {
     if (this.downloaded || this.addon.isInstalled()) 
       return false;
 
+    this.downloading = true;
+
     DownloadFileUtil.fetchDownloadFile(
       this.addon.getDownloadFileId(), 
      
-      (downloadfile : DownloadFile) => { 
-        this.onFetchDownloadFileSuccess(downloadfile) 
+      (downloadfile : DownloadFile | null) => {
+        if (downloadfile) 
+          this.onFetchDownloadFileSuccess(downloadfile) 
       },
       
       () => {
@@ -79,7 +83,12 @@ export class AddonComponent implements OnInit {
 
   private runDownloadedCheck() : void {
     setInterval(() => {
-      this.downloaded = this.addon.isInstalled();
+      if (this.addon.isInstalled()) {
+        this.downloaded = true;
+        this.downloading = false;
+      } else if (!this.downloading) {
+        this.downloaded = false;
+      }
     }, LauncherConfig.INTERVAL_INVESTIGATE_ADDON_STATUS);
   }
 }

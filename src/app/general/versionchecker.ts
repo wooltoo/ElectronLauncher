@@ -20,7 +20,7 @@ export class VersionChecker {
         request.get({
             url: LauncherConfig.BACKEND_HOST + '/version',
             json: true
-          }, (error, response, json) => {
+          }, (_error: any, _response: any, json: { [x: string]: any; } | undefined) => {
             if (json == undefined) {
               console.log("Fetch version was undefined!");
               return;
@@ -43,7 +43,11 @@ export class VersionChecker {
                 this.translate.instant('MODALS.VERSION-CHECKER-NEW-VERSION-AVAILABLE.TEXT'),
                 this.translate.instant('MODALS.VERSION-CHECKER-NEW-VERSION-AVAILABLE.BUTTON-SINGLE'),
                 () => {
-                    remote.BrowserWindow.getFocusedWindow().close();
+                    let window : Electron.BrowserWindow | null = remote.BrowserWindow.getFocusedWindow();
+                    if (!window)
+                        return;
+
+                   window.close();
                 }
             );
             modalComponent.enqueue(modal);

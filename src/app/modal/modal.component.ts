@@ -9,20 +9,20 @@ import { ModalEntry } from '../general/modalentry';
 })
 export class ModalComponent implements OnInit {
 
-  title : String;
-  text : String;
-  singleButtonText : String;
+  title : String = '';
+  text : String = '';
+  singleButtonText : String = '';
 
-  buttonPositiveText : String;
-  buttonNegativeText : String;
+  buttonPositiveText : String = '';
+  buttonNegativeText : String = '';
   
   show : boolean = false;
   shouldShowSingleButton : boolean = false;
   shouldShowDoubleButtons : boolean = false;
 
-  onPressSingleFunc : () => void =  null;
-  onPressPositiveFunc : () => void = null;
-  onPressNegativeFunc : () => void = null;
+  onPressSingleFunc : (() => void) | null =  null;
+  onPressPositiveFunc : (() => void) | null = null;
+  onPressNegativeFunc : (() => void) | null = null;
 
   queue : ModalEntry[] = [];
 
@@ -78,15 +78,15 @@ export class ModalComponent implements OnInit {
     this.buttonNegativeText = text;
   }
 
-  public setOnPressSingleButtonFunc(onPressSingleButtonFunc : any) {
+  public setOnPressSingleButtonFunc(onPressSingleButtonFunc : () => void) {
     this.onPressSingleFunc = onPressSingleButtonFunc;
   }
 
-  public setOnPressPositiveFunc(onPressPositiveFunc : any) {
+  public setOnPressPositiveFunc(onPressPositiveFunc : () => void) {
     this.onPressPositiveFunc = onPressPositiveFunc;
   }
 
-  public setOnPressNegativeFunc(onPressNegativeFunc : any) {
+  public setOnPressNegativeFunc(onPressNegativeFunc : () => void) {
     this.onPressNegativeFunc = onPressNegativeFunc;
   }
 
@@ -99,6 +99,9 @@ export class ModalComponent implements OnInit {
   }
 
   private OnPressSingleButton() : void {
+    if (!this.onPressSingleFunc)
+      throw new Error('OnPressSingleButton was undefined or null.');
+
     this.onPressSingleFunc();
     this.queue.pop();
     this.hideAll();
@@ -106,6 +109,9 @@ export class ModalComponent implements OnInit {
   }
 
   private OnPressDoubleButtonNegative() : void {
+    if (!this.onPressNegativeFunc)
+      throw new Error('OnPressNegativeFunc was undefined or null.');  
+
     this.onPressNegativeFunc();
     this.queue.pop();
     this.hideAll();
@@ -113,6 +119,9 @@ export class ModalComponent implements OnInit {
   }
 
   private OnPressDoubleButtonPositive() : void {
+    if (!this.onPressPositiveFunc)
+      throw new Error('OnPressPositiveFunc was undefined or null.');
+
     this.onPressPositiveFunc();
     this.queue.pop();
     this.hideAll();

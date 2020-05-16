@@ -5,7 +5,7 @@ import { LauncherConfig } from './general/launcherconfig';
 import { DownloadListObserver } from './general/downloadlistobserver';
 import { DownloadFileUpdater } from './general/downloadfileupdater';
 import { DownloadFileUtil } from './general/downloadfileutil';
-import * as request from 'request';
+const request = require('request');
 
 /**
  * DownloadListService is responsible for providing storage and retrieval functionality for DownloadFiles.
@@ -20,8 +20,8 @@ import * as request from 'request';
 export class DownloadListService {
   callbacks : DownloadListObserver[] = [];
   
-  files : Object = {};
-  client : DownloadFile = null;
+  files : Record<number, DownloadFile> = {};
+  client : DownloadFile | null = null;
 
   state : DownloadListServiceState = DownloadListServiceState.RETRIEVING_INFORMATION;
 
@@ -54,7 +54,7 @@ export class DownloadListService {
    * Fetches the DownloadFile for the client.
    * @returns The client DownloadFile.
    */
-  public getClient() : DownloadFile {
+  public getClient() : DownloadFile | null {
     return this.client;
   }
 
@@ -82,7 +82,7 @@ export class DownloadListService {
     request.get({
       url: LauncherConfig.BACKEND_HOST + '/files',
       json: true
-    }, (error, response, json) => {
+    }, (_error: any, _response: any, json: undefined) => {
       if (json == undefined) {
         console.log("Fetch files was undefined!");
         return;
@@ -102,9 +102,11 @@ export class DownloadListService {
    */
   private processFileResponse(json : any) {
     let modified = false;
-    json.forEach(obj => {
-      let file : DownloadFile = DownloadFileUtil.constructFromJSON(obj);
-      
+    json.forEach((obj : any) => {
+      let file : DownloadFile | null = DownloadFileUtil.constructFromJSON(obj);
+      if (!file)
+        throw new Error('DownloadListService.ts could not construct file from JSON.');
+
       if (file.getType() == DownloadFileType.client) {
         this.client = file;
       }
@@ -146,7 +148,7 @@ export class DownloadListService {
    * @param json The JSON object containing information for the download file.
    * @returns true if changes have been made false if not.
    */
-  private updateFile(json : Object) : boolean {
+  private updateFile(json : any) : boolean {
     let type : DownloadFileType = <any>DownloadFileType[json['type']];
     let currFile : DownloadFile = this.files[json['id']];
 

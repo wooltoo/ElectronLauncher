@@ -7,17 +7,23 @@ export class LocalizationDetector
     private static localeCandidates = ['frFr', 'deDE', 'enGB', 'enUS', 'itIT', 'koKR', 'zhCN', 'zhTW', 'ruRU', 'esES', 'esMX', 'ptBR'];
 
     public static find() : string {
-        let found : string = null; 
-        let dataDirectory = path.join(ClientHelper.getInstance().getClientDirectory(), 'Data');
+        let dir : string | undefined | null = ClientHelper.getInstance().getClientDirectory();
+        if (!dir)
+            throw new Error('Could not find locale because client install directory could not be located.');
 
+        let dataDirectory = path.join(dir, 'Data');
+
+        let found : string = '';
         this.localeCandidates.forEach((candidate) => {
             let checkPath = path.join(dataDirectory, candidate);
             if (fs.existsSync(checkPath)) {
                 found = candidate;
-                return found;  
             }
         });
 
-        return "not found";
+        if (found === '')
+            throw new Error('Could not find locale for client.');
+
+        return found;
     }
 }

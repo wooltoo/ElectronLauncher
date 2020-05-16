@@ -11,7 +11,11 @@ export class RealmListChanger
 
         let locale = LocalizationDetector.find();
 
-        let dataPath = path.join(ClientHelper.getInstance().getClientDirectory(), 'Data');
+        let dir : string | undefined | null = ClientHelper.getInstance().getClientDirectory();
+        if(!dir)
+            throw new Error('Could not set realmlist as client directory could not be located.');
+
+        let dataPath = path.join(dir, 'Data');
         let localePath = path.join(dataPath, locale);
         let realmListPath = path.join(localePath, 'realmlist.wtf');
         

@@ -12,7 +12,7 @@ export class DownloadFileUpdater {
      * @param json The JSON information to be checked against.
      * @returns true if a value has been updated and false if not.
      */
-    public static update(file : DownloadFile, json : Object) : boolean {
+    public static update(file : DownloadFile, json : any) : boolean {
         let modified = false;
 
         if (file.getType() != <any>DownloadFileType[json['type']]) {

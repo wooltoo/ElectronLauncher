@@ -9,7 +9,9 @@
     <p id="only-works-with-text">*{{'LANDING.TEXT-ONLY-WORKS-WITH' | translate}}</p>
     <img id="arrox" src="assets/welcome/arrox.png"/>
     <div (click)="OnPressSelectGamePath()">
-        <input id="select-game-field" value="{{clientDirectory}}" type="text" class="form-control" aria-describedby="emailHelp" disabled>
+        <button id="select-game-button" type="button" class="btn btn-secondary btn-lg btn-block">
+            {{clientDirectory}}
+        </button>
     </div>
     <button id="go-button" type="button" class="btn btn-secondary btn-lg btn-block" (click)="OnPressGo()">
         {{'LANDING.BUTTON-GO' | translate}}

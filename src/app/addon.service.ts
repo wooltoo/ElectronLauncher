@@ -10,11 +10,10 @@ const request = require("request");
   providedIn: 'root'
 })
 export class AddonService {
-W
   //Key: addon ID, Value: Addon
-  addons : Object = {};
+  //Key: addon ID, Value: Addon
+  addons : Record<number, Addon> = {};
   callbacks : AddonServiceObserver[] = [];
-  addonDownloadFiles : Object = null;
 
   constructor() { 
     this.fetchAddons();
@@ -33,7 +32,7 @@ W
   }
 
   private fetchAddons() : void {
-    request.get({url: LauncherConfig.BACKEND_HOST + '/addons', json: true}, (error, response, body) => {
+    request.get({url: LauncherConfig.BACKEND_HOST + '/addons', json: true}, (_error: any, _response: any, body: any[] | undefined) => {
       if (body == undefined) {
         console.log("Addons was undefined!");
         return;
@@ -60,7 +59,7 @@ W
     });
   }
 
-  private constructAddon(json : Object) : Addon {
+  private constructAddon(json : any) : Addon {
     let addon : Addon = new Addon(
       Number(json['id']),
       json['name'],
@@ -73,7 +72,7 @@ W
     return addon;
   }
 
-  private updateAddon(json : Object) : boolean {
+  private updateAddon(json : any) : boolean {
     let addon : Addon = this.addons[json['id']];
 
     let modified = false;

@@ -8,9 +8,9 @@ import { NewsEntry } from '../news-entry';
 })
 export class NewsEntryComponent implements OnInit {
 
-  @Input() title : string;
-  @Input() datetime : string;
-  @Input() text : string;
+  @Input() title : string | undefined;
+  @Input() datetime : string | undefined;
+  @Input() text : string | undefined;
 
   constructor() {
   }

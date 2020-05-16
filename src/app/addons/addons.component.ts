@@ -45,7 +45,8 @@ export class AddonsComponent implements OnInit, AddonServiceObserver {
   private prepareSearchField() : void {
     $('#addons-search-field').on('change keydown paste input', () => {
       if (this.filter != $('#addons-search-field').val()) {
-        this.filter = $('#addons-search-field').val().toString();
+        let val : any = $('#addons-search-field').val();
+        this.filter = val.toString();
         this.filterAddons();
       }
     });
@@ -64,7 +65,7 @@ export class AddonsComponent implements OnInit, AddonServiceObserver {
   }
 
   private addAddon(newAddon : Addon) : void {
-    let addon : Addon = this.addons.find(addon => addon.getId() == newAddon.getId());
+    let addon : Addon | undefined = this.addons.find(addon => addon.getId() == newAddon.getId());
     if (!addon)
       this.addons.push(newAddon);
   }

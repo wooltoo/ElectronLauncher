@@ -16,16 +16,24 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  openWebsite(suburl) {
+  openWebsite(suburl : string) : void {
     shell.openExternal(LauncherConfig.WEBSITE + suburl);
   }
 
-  minimizeWindow() {
-    remote.BrowserWindow.getFocusedWindow().minimize();
+  minimizeWindow() : void {
+    let window : Electron.BrowserWindow | null = remote.BrowserWindow.getFocusedWindow();
+    if (!window) 
+      return;
+
+    window.minimize();
   }
 
-  quitWindow() {
-    remote.BrowserWindow.getFocusedWindow().close();
+  quitWindow() : void {
+    let window : Electron.BrowserWindow | null = remote.BrowserWindow.getFocusedWindow();
+    if (!window) 
+      return;
+
+    window.close();
   }
 
   OnPressCogwheel() : void {

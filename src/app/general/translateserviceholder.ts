@@ -2,8 +2,8 @@ import { TranslateService } from '@ngx-translate/core';
 
 export class TranslateServiceHolder {
 
-    private static instance = null;
-    private translate : TranslateService;
+    private static instance : TranslateServiceHolder | null = null;
+    private translate : TranslateService | null = null;
 
     private constructor() { }
 
@@ -19,7 +19,7 @@ export class TranslateServiceHolder {
         this.translate = translate;
     }
 
-    public getService() : TranslateService {
+    public getService() : TranslateService | null {
         return this.translate;
     }
 }

@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { NewsEntryService } from '../news-entry.service';
 import { NewsEntry } from '../news-entry';
 import { LauncherConfig } from '../general/launcherconfig';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NewsServiceCallback } from '../general/newsservicecallback';
 
 const request = require('request');
@@ -16,8 +16,8 @@ export class InfoComponent implements OnInit, NewsServiceCallback {
 
   newsEntries : NewsEntry[] = [];
   showLoadingSpinner : boolean = true;
-  videoUrl : string;
-  video : any;
+  videoUrl : string = '';
+  video : SafeResourceUrl | undefined;
 
   constructor(private newsEntryService : NewsEntryService,
               private changeDetectorRef : ChangeDetectorRef,
@@ -76,7 +76,7 @@ export class InfoComponent implements OnInit, NewsServiceCallback {
     request.get({
       url: LauncherConfig.BACKEND_HOST + '/youtube-video',
       json: true
-    }, (error, response, json) => {
+    }, (_error: any, _response: any, json: { [x: string]: string; } | undefined) => {
       if (json == undefined) {
         console.log("Fetch youtube video response was undefined!");
         return;

@@ -12,15 +12,16 @@
         </div>
         <div class="addon-button-container">
             <button *ngIf='downloaded' class="btn my-2 my-sm-0 navbar-button addon-button-download-base addon-button-downloaded" type="submit" (click)="OnPressDownloadButton()">
-                <div class="spinner">
-                    <div class="double-bounce1"></div>
-                    <div class="double-bounce2"></div>
-                </div>
                 {{'ADDONS.BUTTON-DOWNLOADED' | translate}}
             </button>
 
             <button *ngIf='!downloaded' class="btn my-2 my-sm-0 navbar-button addon-button-download-base addon-button-download" type="submit" (click)="OnPressDownloadButton()">
-                {{'ADDONS.BUTTON-DOWNLOAD' | translate}}
+                <span *ngIf='downloading'>
+                    {{'ADDONS.BUTTON-DOWNLOADING' | translate}}
+                </span>
+                <span *ngIf='!downloading'>
+                    {{'ADDONS.BUTTON-DOWNLOAD' | translate}}
+                </span>
             </button>
         </div>
     </div>

@@ -10,8 +10,7 @@ const request = require("request");
 })
 export class NewsEntryService {
 
-  //Key: News ID, Value: NewsEntry
-  news : Object = {};
+  news: Record<number, NewsEntry> = {};
   callbacks : NewsServiceCallback[] = [];
 
   constructor() {
@@ -28,7 +27,7 @@ export class NewsEntryService {
   }
 
   public fetchNews() : void {
-    request.get({url: LauncherConfig.BACKEND_HOST + '/news', json: true}, (error, response, body) => {
+    request.get({url: LauncherConfig.BACKEND_HOST + '/news', json: true}, (_error: any, _response: any, body: any[] | undefined) => {
       if (body == undefined) {
         console.log("News was undefined.");
         return;

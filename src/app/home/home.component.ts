@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit, DownloadListObserver {
   public hasFilesToDownload : boolean = false;
   public isInstalling : boolean = false;
   public isUnzipping : boolean = false;
-  public buttonText : string;
+  public buttonText : string = '';
   
   public showPauseButton : boolean = true;
   public showPlayButton : boolean = true;
@@ -60,11 +60,13 @@ export class HomeComponent implements OnInit, DownloadListObserver {
       this.buttonText = result;
     });
     
-    DownloadSystem.getInstance().setInstallState(new DownloadInstallState(
-      this,
-      this.localSt,
-      this.downloadListService,
-    ));
+    DownloadSystem.getInstance()
+      .setDownloadListService(downloadListService)
+      .setInstallState(new DownloadInstallState(
+        this,
+        this.localSt,
+        this.downloadListService,
+      ));
 
     downloadListService.observe(this);
   }
@@ -83,23 +85,27 @@ export class HomeComponent implements OnInit, DownloadListObserver {
 
   OnNewFilesFetched(downloadFiles: DownloadFile[]): void { }
 
-  Download()
+  StartDownload()
   {
-    DownloadSystem.getInstance().downloadAll();
+    DownloadSystem.getInstance().start();
   }
 
   StartGame() : void {
     let changer = new RealmListChanger();
     changer.setRealmList(this.realmService.getRealms()[0].getRealmList());
 
-    let cmd = path.join(ClientHelper.getInstance().getClientDirectory(), 'Wow.exe');
+    let dir : string | undefined | null = ClientHelper.getInstance().getClientDirectory()
+    if (!dir)
+      throw new Error('Could not start Wow.exe because the game client directory could not be located');
+
+    let cmd = path.join(dir, 'Wow.exe');
     spawn(cmd, [], {detached: true});
   }
 
   // Called when the landing component picks a already installed game path.
   public OnPickGamePath(path : string) : void {
     ClientHelper.getInstance().setClientDirectory(path);
-    DownloadSystem.getInstance().downloadAll();
+    DownloadSystem.getInstance().queueAll().start();
     this.hideLanding();
   }
 
@@ -107,7 +113,7 @@ export class HomeComponent implements OnInit, DownloadListObserver {
   // path = selected client directory.
   public OnSelectClientDownload(path : string) : void {
     ClientHelper.getInstance().setRequestedClientDirectory(path);
-    DownloadSystem.getInstance().downloadAll();
+    DownloadSystem.getInstance().queueAll().start();
     this.hideLanding();
   }
 
@@ -132,7 +138,7 @@ export class HomeComponent implements OnInit, DownloadListObserver {
   OnPressStartButton() {
     if (this.hasFilesToDownload) {
       if (this.state == DownloadState.WAITING_FOR_DOWNLOAD)
-        this.Download();
+        this.StartDownload();
       else if (this.state == DownloadState.PAUSED)
         this.OnPressResumeDownload();
     } else 
@@ -199,7 +205,11 @@ export class HomeComponent implements OnInit, DownloadListObserver {
     if (!ClientHelper.getInstance().hasClientInstalled())
       return;
 
-    if (!ClientHelper.hasClientInDirectory(ClientHelper.getInstance().getClientDirectory())) {
+    let dir : string | undefined | null = ClientHelper.getInstance().getClientDirectory();
+    if (!dir)
+      throw new Error('Could not locate installed client directory');
+
+    if (!ClientHelper.hasClientInDirectory(dir)) {
       ClientHelper.getInstance().clearClientDirectory();
     }
   }

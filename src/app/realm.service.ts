@@ -21,12 +21,13 @@ export class RealmService {
   }
 
   fetchRealms() {
-    request.get(LauncherConfig.BACKEND_HOST + '/realms', (error, response, body) => {
+    request.get(LauncherConfig.BACKEND_HOST + '/realms', (_error: any, _response: any, body: string) => {
       this.realms = [];
       let json = JSON.parse(body);
 
-      json.forEach(obj => {
-        let status : RealmStatus = null; 
+      json.forEach((obj: { [x: string]: string; }) => {
+        let status : RealmStatus | null = null;
+
         if (obj['status'] == 'ONLINE')
           status = RealmStatus.ONLINE;
         else 

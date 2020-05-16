@@ -7,7 +7,7 @@ export enum ComponentRegistryEntry
 
 export class ComponentRegistry {
     private static instance : ComponentRegistry;
-    private registry : Object = {};
+    private registry : Record<number, any> = {};
 
     private constructor() { }
     public static getInstance() : ComponentRegistry {
@@ -21,7 +21,7 @@ export class ComponentRegistry {
         this.registry[key] = obj;
     }
 
-    public get(key : ComponentRegistryEntry) : Object {
+    public get(key : ComponentRegistryEntry) : any {
         return this.registry[key];
     } 
 }

@@ -10,11 +10,11 @@ import * as fs from 'fs';
   providedIn: 'root'
 })
 export class ElectronService {
-  ipcRenderer: typeof ipcRenderer;
-  webFrame: typeof webFrame;
-  remote: typeof remote;
-  childProcess: typeof childProcess;
-  fs: typeof fs;
+  ipcRenderer: typeof ipcRenderer | undefined;
+  webFrame: typeof webFrame | undefined;
+  remote: typeof remote | undefined;
+  childProcess: typeof childProcess | undefined;
+  fs: typeof fs | undefined;
 
   get isElectron(): boolean {
     return !!(window && window.process && window.process.type);

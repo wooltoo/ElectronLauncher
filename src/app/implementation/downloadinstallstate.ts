@@ -96,7 +96,12 @@ export class DownloadInstallState implements InstallState {
     OnDownloadFileFinished(downloadFile: DownloadFile) {
         if (downloadFile.getName() == LauncherConfig.CLIENT_RESOURCE_NAME) {
           let installer : ZipInstaller = new ZipInstaller(this);
-          installer.install(downloadFile, ClientHelper.getInstance().getRequestedClientDirectory());
+
+          let requestedDir = ClientHelper.getInstance().getRequestedClientDirectory();
+          if (!requestedDir)
+            throw new Error('Could not locate requested client directory for extraction of client files.');
+
+          installer.install(downloadFile, requestedDir);
         }
     }
 
@@ -114,19 +119,21 @@ export class DownloadInstallState implements InstallState {
         this.homeComponent.showDownloadBar = false;
 
         // Check if we have new files to download immediately.
-        DownloadSystem.getInstance().downloadAll();
+        DownloadSystem.getInstance().queueAll().start();
     }
 
     OnFilesToDownloadResult(hasFilesToCheckForDownload: boolean): void {
+        console.log("FILES TO DOWNLOAD RESULT: " + hasFilesToCheckForDownload);
         if (!hasFilesToCheckForDownload || !this.isIdle()) 
             return;
         
         if (SettingsManager.getInstance().getSetting(Setting.SHOULD_AUTO_PATCH)) {
-            DownloadSystem.getInstance().downloadAll();
+            DownloadSystem.getInstance().queueAll().start();
         } else {
             this.homeComponent.state = DownloadState.WAITING_FOR_DOWNLOAD;
             this.homeComponent.buttonText = this.translate.instant('PRIMARY-BUTTON.TEXT-UPDATE');
             this.homeComponent.hasFilesToDownload = true;
+            DownloadSystem.getInstance().queueAll();
         }
     }
 
@@ -153,6 +160,9 @@ export class DownloadInstallState implements InstallState {
         }
 
         this.homeComponent.isUnzipping = false;
+        console.log("REMOVING: " + downloadFile.getFullLocalPath());
+        FileRemover.remove(downloadFile.getFullLocalPath());
+        console.log("UNZIP COMPLETE!");
     }
 
     OnInstallProgressUpdate(downloadFile: DownloadFile, progress: number, currFile: number, fileCount: number): void {
@@ -169,17 +179,17 @@ export class DownloadInstallState implements InstallState {
         this.homeComponent.progressBarWidth = (progress * 100);
     }
 
-    GetDownloadListService(): DownloadListService {
-        return this.downloadListService;
-    }
-
     GetLocalStorageService(): LocalStorageService {
         return this.localSt;
     }
 
     private FinishedInstallingClient() : void {
+        let requestedDir = ClientHelper.getInstance().getRequestedClientDirectory();
+        if (!requestedDir)
+            throw new Error('Finished installing client but could not locate installed game client path.');
+
         ClientHelper.getInstance().setClientDirectory(
-            ClientHelper.getInstance().getRequestedClientDirectory()
+            requestedDir
         );
 
         const path = require('path');

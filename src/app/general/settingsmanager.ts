@@ -8,10 +8,10 @@ export enum Setting {
 export class SettingsManager {
     private static instance : SettingsManager;
     
-    private localSt : LocalStorageService;
+    private localSt : LocalStorageService | undefined;
 
-    private settingsMap : Object = {};
-    private settings : Object = {};
+    private settingsMap : Record<number, string> = {};
+    private settings : Record<number, any> = {};
 
     private constructor() { 
         this.prepareSettingsMap();
@@ -37,12 +37,19 @@ export class SettingsManager {
 
     public setSetting(setting : Setting, value : any) {
         this.settings[setting] = value;
-        this.localSt.store(this.settingsMap[setting], value);
+
+        if (!this.localSt)
+            throw new Error('Could not save setting ' + setting + '. Local storage is not set.');
+
+        this.localSt.store(this.settingToStorageString(setting), value);
     }
 
     private loadSettings() : void {
-        this.settings[Setting.CLIENT_DIRECTORY] = this.localSt.retrieve(this.settingsMap[Setting.CLIENT_DIRECTORY]);
-        this.settings[Setting.SHOULD_AUTO_PATCH] = this.localSt.retrieve(this.settingsMap[Setting.SHOULD_AUTO_PATCH]);
+        if (!this.localSt)
+            throw new Error('Could not load settings. Local storage is not set.');
+            
+        this.settings[Setting.CLIENT_DIRECTORY] = this.localSt.retrieve(this.settingToStorageString(Setting.CLIENT_DIRECTORY));
+        this.settings[Setting.SHOULD_AUTO_PATCH] = this.localSt.retrieve(this.settingToStorageString(Setting.SHOULD_AUTO_PATCH));
     }
 
     private setDefaults() : void {
@@ -53,5 +60,9 @@ export class SettingsManager {
     private prepareSettingsMap() : void {
         this.settingsMap[Setting.CLIENT_DIRECTORY] = 'clientDirectory';
         this.settingsMap[Setting.SHOULD_AUTO_PATCH] = 'shouldAutoPatch';
+    }
+
+    private settingToStorageString(setting : Setting) : string {
+        return this.settingsMap[setting];
     }
 }

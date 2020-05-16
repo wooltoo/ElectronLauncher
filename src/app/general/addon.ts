@@ -6,8 +6,6 @@ import { ClientHelper } from "./clienthelper";
 
 export class Addon 
 {
-    downloadFile : DownloadFile;
-
     constructor(
                 private id : number,
                 private name : string,
@@ -22,8 +20,12 @@ export class Addon
     }
 
     public getFolderPath() : string {
+        let dir : string | undefined | null = ClientHelper.getInstance().getClientDirectory();
+        if (!dir)
+            throw new Error('Could not get folder path for addon. Client installation directory not detected.');
+
         return path.join(
-            ClientHelper.getInstance().getClientDirectory(),
+            dir,
             'Interface',
             'AddOns',
             this.getFolderName()
@@ -48,14 +50,6 @@ export class Addon
 
     public setDescription(description : string) : void {
         this.description = description;
-    }
-
-    public setDownloadFile(downloadFile : DownloadFile) : void {
-        this.downloadFile = downloadFile;
-    }
-
-    public getDownloadFile() : DownloadFile {
-        return this.downloadFile;
     }
 
     public getIconResource() : string {

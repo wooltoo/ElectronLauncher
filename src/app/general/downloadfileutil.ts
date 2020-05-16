@@ -1,11 +1,12 @@
 import { DownloadFile, DownloadFileType } from './downloadfile';
 import { LauncherConfig } from './launcherconfig';
-import * as request from 'request';
+const request = require('request');
 
 export class DownloadFileUtil 
 {
-    public static constructFromJSON(json : any) : DownloadFile {
-        if (!json) return null;
+    public static constructFromJSON(json : any) : DownloadFile | null {
+        if (!json) 
+            return null;
 
         let type : DownloadFileType = <any>DownloadFileType[json['type']];
         let file = new DownloadFile(
@@ -23,13 +24,13 @@ export class DownloadFileUtil
         return file;
     }
 
-    public static fetchDownloadFile(id : number, successFunc : (downloadfile : DownloadFile) => void, errorFunc : () => void = undefined) : void {
+    public static fetchDownloadFile(id : number, successFunc : (downloadfile : DownloadFile | null) => void, errorFunc : (() => void) | undefined = undefined) : void {
         let query = {id: id};
         request.get({
             url: LauncherConfig.BACKEND_HOST + '/download-file',
             json: true,
             qs: query
-        }, (error, response, json) => {
+        }, (_error: any, _response: any, json: undefined) => {
             if (json == undefined) {
                 console.log("Fetch downloadfile from util was undefined!");
                 if (errorFunc)
@@ -38,7 +39,8 @@ export class DownloadFileUtil
             }
 
             if ((<any>Object).keys(json).length == 0) {
-                errorFunc();
+                if (errorFunc)
+                    errorFunc();
             }
 
             successFunc(

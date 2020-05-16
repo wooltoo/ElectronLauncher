@@ -52,6 +52,10 @@ export class FileHelper
     }
 
     public static hasEnoughSpaceFor(downloadFile : DownloadFile) : boolean {
-        return FileHelper.hasEnoughFreeSpace(ClientHelper.getInstance().getClientDirectory(), downloadFile.getFileSize());
+        let dir : string | undefined | null = ClientHelper.getInstance().getClientDirectory();
+        if (!dir)
+            throw new Error('Could not check if download file has enough space. Client installation directory could not be located.');
+
+        return FileHelper.hasEnoughFreeSpace(dir, downloadFile.getFileSize());
     }
 }

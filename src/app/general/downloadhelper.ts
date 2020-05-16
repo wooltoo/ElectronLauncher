@@ -24,20 +24,25 @@ export class DownloadHelper implements DownloadListObserver
     downloadConfig : any = {
         url: "",
         downloadFolder: "",
-        onProgress: (progress, item) => {
+        onProgress: (progress: any, item: any) => {
             this.onProgress(progress, item);
         }
     }
 
-    downloadItem : DownloadItem;
-    downloadFile : DownloadFile;
+    downloadItem : DownloadItem | undefined | null;
+    downloadFile : DownloadFile | undefined | null;
     downloadFiles : DownloadFile[] = [];
 
     isCheckingForFilesToDownload : boolean = false;
+    installState : InstallState | undefined;
 
-    constructor(private callback : InstallState, private downloadListService : DownloadListService) { 
+    constructor(private downloadListService : DownloadListService) { 
         downloadListService.observe(this);
         this.downloadConfig.downloadFolder = ClientHelper.getInstance().getClientDirectory();
+    }
+
+    public setInstallState(installState : InstallState) : void {
+        this.installState = installState;
     }
 
     public add(items : DownloadFile[]) : void
@@ -49,43 +54,29 @@ export class DownloadHelper implements DownloadListObserver
 
     public addSingle(item : DownloadFile) : void {
         if (!DownloadFile.existsInArray(item, this.downloadFiles))
-            this.downloadFiles.push(item);
+            this.downloadFiles.unshift(item);
     }
 
-    public download() : void {
+    public download() : boolean {
+        console.log("DownloadHelper # CALLED DOWNLOAD!");
         if (this.isDownloading())
-            return;
+            return false;
 
-        if (this.downloadFiles.length > 0)
-            this.downloadNext();
+        if (this.downloadFiles.length < 1)
+            return false;
+
+        this.downloadNext();
+        return true;
     }
 
     public isDownloading() : boolean {
         return this.downloading;
     }
 
-    private startCheckForFilesToDownload() : void {
-        if (this.isCheckingForFilesToDownload)
-            return;
-
-        setInterval(() => {
-            if (!ClientHelper.getInstance().hasClientInstalled())
-            return;
-
-            let filter : DownloadFileFilter = new DownloadFileFilter(this.downloadListService);
-            this.callback.OnFilesToDownloadResult(
-                filter.getFilesToInstall().length > 0
-            );
-        }, LauncherConfig.INTERVAL_CHECK_FOR_PATCH_TO_DL);
-        this.isCheckingForFilesToDownload = true;
-    }
-
-    OnNewFilesFetched(downloadFiles: DownloadFile[]): void {
-        this.startCheckForFilesToDownload();
-    }
+    OnNewFilesFetched(downloadFiles: DownloadFile[]): void { }
 
     private downloadNext() : void {
-        let item : DownloadFile = this.downloadFiles.pop();
+        let item : DownloadFile | undefined = this.downloadFiles.pop();
         if (item == undefined || item == null && this.downloading)
         {
             this.onFinished();
@@ -108,12 +99,18 @@ export class DownloadHelper implements DownloadListObserver
     }
 
     private downloadWithSpace(downloadConfig : any) : void {
+        if (!this.downloadFile)
+            throw new Error('Attempted to download undefined with space.');
+
         if (FileHelper.hasEnoughSpaceFor(this.downloadFile)) {
             this.startDownload(downloadConfig);
             return;
         }
 
-        let translate : TranslateService = TranslateServiceHolder.getInstance().getService();
+        let translate : TranslateService | null = TranslateServiceHolder.getInstance().getService();
+        if (!translate)
+            throw new Error('Attempted to show error modal translate service was null.');
+
         let modalComponent : ModalComponent = <ModalComponent>ComponentRegistry.getInstance().get(ComponentRegistryEntry.MODAL_COMPONENT);
         let modal : ModalEntrySingle = new ModalEntrySingle(
             Modals.DOWNLOAD_HELPER_NOT_ENOUGH_SPACE,
@@ -131,21 +128,29 @@ export class DownloadHelper implements DownloadListObserver
         const { remote } = require('electron');
 
         this.onStart();
-        remote.require("electron-download-manager").download(cDownloadConfig, (error, info) => {
-            if (error) console.log("Error: " + error);
+        remote.require("electron-download-manager").download(cDownloadConfig, (error: string, info: any) => {
+            if (error) 
+                throw new Error(error);
+
+            if (!this.downloadFile) 
+                throw new Error('Attempt to download undefined or null download file.');
             
-            this.callback.OnDownloadFileFinished(this.downloadFile);
+            if (this.installState)
+                this.installState.OnDownloadFileFinished(this.downloadFile);
+
             this.extract(this.downloadFile);
         });
     }
 
     private extract(downloadFile : DownloadFile) : void {
+        console.log("Extracting: " + downloadFile.getName());
         if (!downloadFile.getExtract()) {
             this.extractionComplete();
             return;
         }
 
-        let installer : ZipInstaller = new ZipInstaller(this.callback);
+        console.log("Extracting #2");
+        let installer : ZipInstaller = new ZipInstaller(this.installState);
         installer.install(downloadFile, downloadFile.getLocalDirectory(), () => {
             this.extractionComplete();
         });
@@ -160,43 +165,58 @@ export class DownloadHelper implements DownloadListObserver
         if (this.downloadItem == null || this.downloadItem == undefined)
             return;
 
+        console.log("INTERRUPTING");
         this.downloadFile = null;
         this.downloadItem.cancel();
         this.downloadItem = null;
         this.downloading = false;
-        this.callback.OnDownloadInterrupt();
+
+        if (this.installState)
+            this.installState.OnDownloadInterrupt();
     }
 
     public pause() : void {
         if (this.downloadItem == null)
             return;
 
+        console.log("PAUSE");
         this.downloadItem.pause();
-        this.callback.OnDownloadPause();
+
+        if (this.installState)
+            this.installState.OnDownloadPause();
     }
+
 
     public resume() : void {
         if (this.downloadItem == null)
             return;
 
         this.downloadItem.resume();
-        this.callback.OnDownloadResume();
+
+        if (this.installState)
+            this.installState.OnDownloadResume();
     }
 
-    private onProgress(progress, item) : void
+    private onProgress(progress: { speedBytes: any; progress: any; }, item: DownloadItem | null | undefined) : void
     {
         this.downloadItem = item;
-        this.callback.OnDownloadSpeedUpdate(progress.speedBytes);
-        this.callback.OnDownloadProgressUpdate(progress.progress);
+        if (this.installState) {
+            this.installState.OnDownloadSpeedUpdate(progress.speedBytes);
+            this.installState.OnDownloadProgressUpdate(progress.progress);
+        }
     }
 
     private onStart() : void {
         this.downloading = true;
-        this.callback.OnDownloadStart();
+
+        if (this.installState)
+            this.installState.OnDownloadStart();
     }
 
     private onFinished() : void {
         this.downloading = false;
-        this.callback.OnDownloadFinished();
+
+        if (this.installState)
+            this.installState.OnDownloadFinished();
     }
 }
