@@ -8,7 +8,7 @@ import { ComponentRegistry, ComponentRegistryEntry } from '../general/componentr
 import { ModalEntrySingle } from '../general/modalentry';
 import { Modals } from '../general/modals';
 import { TranslateService } from '@ngx-translate/core';
-import { DownloadSystem } from '../general/downloadsystem';
+import { AddonDownloadSystem } from '../general/addondownloadsystem'; 
 
 @Component({
   selector: 'app-addon',
@@ -61,10 +61,8 @@ export class AddonComponent implements OnInit {
   }
 
   private onFetchDownloadFileSuccess(downloadFile : DownloadFile) : void {
-    let downloadSystem : DownloadSystem = DownloadSystem.getInstance();
+    let downloadSystem : AddonDownloadSystem = AddonDownloadSystem.getInstance();
     downloadSystem.download([downloadFile]);
-    if (!downloadSystem.isDownloading()) 
-      downloadSystem.start();
   }
 
   private onFetchDownloadFileError() : void {
@@ -83,12 +81,21 @@ export class AddonComponent implements OnInit {
 
   private runDownloadedCheck() : void {
     setInterval(() => {
+      this.downloadCheck();
+    }, LauncherConfig.INTERVAL_INVESTIGATE_ADDON_STATUS);
+  }
+
+  private downloadCheck() : void {
+    try {
       if (this.addon.isInstalled()) {
         this.downloaded = true;
         this.downloading = false;
       } else if (!this.downloading) {
         this.downloaded = false;
-      }
-    }, LauncherConfig.INTERVAL_INVESTIGATE_ADDON_STATUS);
+      } 
+    } catch (e) {
+      this.downloaded = false;      
+      this.downloading = false;
+    }
   }
 }

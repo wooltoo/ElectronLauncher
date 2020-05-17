@@ -40,8 +40,11 @@ export class DownloadSystem
             throw new Error('DownloadListService is not set. Can not set install state.');
 
         this.installState = installState;
-        this.downloadHelper = new DownloadHelper(this.downloadListService);
+        
+        this.downloadHelper = new DownloadHelper();
+        this.downloadListService.observe(this.downloadHelper);
         this.downloadHelper.setInstallState(installState);
+
         this.downloadFileFilter = new DownloadFileFilter(this.downloadListService);
         this.installState.OnEnterState();
         return this;

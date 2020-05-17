@@ -160,9 +160,6 @@ export class DownloadInstallState implements InstallState {
         }
 
         this.homeComponent.isUnzipping = false;
-        console.log("REMOVING: " + downloadFile.getFullLocalPath());
-        FileRemover.remove(downloadFile.getFullLocalPath());
-        console.log("UNZIP COMPLETE!");
     }
 
     OnInstallProgressUpdate(downloadFile: DownloadFile, progress: number, currFile: number, fileCount: number): void {

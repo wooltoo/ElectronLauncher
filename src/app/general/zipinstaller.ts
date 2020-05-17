@@ -1,5 +1,6 @@
 import { InstallCallback } from "./installcallback";
 import { DownloadFile } from "./downloadfile";
+import { FileRemover } from "./fileremover";
 
 export class ZipInstaller
 {
@@ -22,10 +23,12 @@ export class ZipInstaller
                 this.installCallback.OnInstallProgressUpdate(downloadFile, progress, currCount, fileCount);
             
             if (progress == 1) {
+                FileRemover.remove(downloadFile.getFullLocalPath());
+
                 if (this.installCallback)
                     this.installCallback.OnInstallExtractionCompleted(downloadFile);
                 
-                    if (completeFunc)
+                if (completeFunc)
                     completeFunc();
             }
         });

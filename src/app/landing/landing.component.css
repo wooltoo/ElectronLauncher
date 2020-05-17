@@ -47,6 +47,7 @@
     position:relative;
     top:70px; /*-30px offset due to bad img*/
     transition: all .2s ease-in-out;
+    animation: moving-back .3s forwards;
 }
 
 #download-button:hover {
@@ -55,6 +56,10 @@
 
 #download-button:active {
     background: url("assets/welcome/button-pd.png");
+}
+
+#download-button:active > #download-button-inner {
+    animation: moving .3s forwards;
 }
 
 
@@ -80,6 +85,19 @@
 
 #select-game-button:active {
     background: url("assets/welcome/select-game-path-button-pd.png");
+}
+
+.inner-movedown-content {
+    animation: moving-back .3s forwards;
+    margin-bottom:0px !important;
+}
+
+#select-game-button:active > #inner-select-game-button {
+    animation: moving .3s forwards;
+}
+
+#go-button:active > #inner-go-button {
+    animation: moving .3s forwards;
 }
 
 #download-game-text {

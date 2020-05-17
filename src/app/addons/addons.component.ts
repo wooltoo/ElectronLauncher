@@ -57,7 +57,9 @@ export class AddonsComponent implements OnInit, AddonServiceObserver {
 
     this.viewChildren.forEach((addonComponent : AddonComponent) => {
       let lowerName = addonComponent.getAddon().getName().toLowerCase();
-      if (lowerName.indexOf(activeFilter) != -1) {
+      let lowerDescription = addonComponent.getAddon().getDescription().toLowerCase();
+
+      if (lowerName.indexOf(activeFilter) != -1 || lowerDescription.indexOf(activeFilter) != -1) {
         addonComponent.show();
       } else 
         addonComponent.hide();

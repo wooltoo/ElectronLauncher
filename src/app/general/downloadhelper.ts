@@ -36,8 +36,7 @@ export class DownloadHelper implements DownloadListObserver
     isCheckingForFilesToDownload : boolean = false;
     installState : InstallState | undefined;
 
-    constructor(private downloadListService : DownloadListService) { 
-        downloadListService.observe(this);
+    constructor() { 
         this.downloadConfig.downloadFolder = ClientHelper.getInstance().getClientDirectory();
     }
 

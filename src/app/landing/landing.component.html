@@ -2,7 +2,7 @@
 <p id="ready-text" class="purple-color">{{'LANDING.SUB-TITLE' | translate}}</p>
 <div class="primary-container-bg">
     <button id="download-button" type="button" class="btn btn-secondary btn-lg btn-block" (click)="OnPressDownload()">
-        {{'LANDING.BUTTON-DOWNLOAD' | translate}}
+        <p class="inner-movedown-content" id="download-button-inner">{{'LANDING.BUTTON-DOWNLOAD' | translate}}</p>
     </button>
     <p id="download-game-text" class="purple-color">{{'LANDING.BUTTON-DOWNLOAD-SUBTEXT' | translate}}</p>
     <p id="already-have-text" class="purple-color">{{'LANDING.TEXT-OWN-PROMPT' | translate}}</p>
@@ -10,10 +10,10 @@
     <img id="arrox" src="assets/welcome/arrox.png"/>
     <div (click)="OnPressSelectGamePath()">
         <button id="select-game-button" type="button" class="btn btn-secondary btn-lg btn-block">
-            {{clientDirectory}}
+            <p class="inner-movedown-content" id="inner-select-game-button">{{clientDirectory}}</p>
         </button>
     </div>
     <button id="go-button" type="button" class="btn btn-secondary btn-lg btn-block" (click)="OnPressGo()">
-        {{'LANDING.BUTTON-GO' | translate}}
+        <p id="inner-go-button" class="inner-movedown-content">{{'LANDING.BUTTON-GO' | translate}}</p>
     </button>
 </div>

@@ -3,6 +3,23 @@
     src: url("assets/fonts/friz-quadrata-std-medium.otf");
 }
 
+@keyframes moving-back {
+    from {transform:translateY(3px);}
+    to {transform:translateY(0px);}
+}
+
+@keyframes moving {
+    from {transform:translateY(0);}
+    to {transform:translateY(3px);}
+}
+
+*, *::after, *::before {
+	-webkit-user-select: none;
+	-webkit-user-drag: none;
+	-webkit-app-region: no-drag;
+	cursor: default;
+}
+
 #primary-container {
     height: 720px;
     font-family: frizQuadraStd;

@@ -25,7 +25,7 @@ const createLoadingScreen = () => {
       transparent: true
     })
   );
-  loadingScreen.resizable = true;
+  loadingScreen.resizable = false;
 
   loadingScreen.loadURL(url.format({
     pathname: path.join(__dirname, 'dist/assets/loading.html'),

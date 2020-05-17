@@ -21,7 +21,7 @@ var createLoadingScreen = function () {
         /// and set the transparency, to remove any window background color
         transparent: true
     }));
-    loadingScreen.resizable = true;
+    loadingScreen.resizable = false;
     loadingScreen.loadURL(url.format({
         pathname: path.join(__dirname, 'dist/assets/loading.html'),
         protocol: 'file:',

@@ -10,13 +10,20 @@
 
 .video-container {
     padding: 0;
-    height: 352px;
+    height: 368px;
+    width: 662px;
+    background: url("assets/info/video-background.png") no-repeat;
+    transition: all .2s ease-in-out;
 }
 
-.purple-border {
-    border-style:solid;
-    border-color: rgb(89, 61, 125);
-    border-width:1px;
+.video-container:hover {
+    background: url("assets/info/video-background-hl.png") no-repeat;
+}
+
+.video-tot {
+    margin-top:9px;
+    margin-left:8px;
+    width:645px;
 }
 
 #news-top {
@@ -26,6 +33,11 @@
     background-size:cover;
     max-width:349px;
     max-height:352px;
+    transition: all .2s ease-in-out;
+}
+
+#news-top:hover {
+    background: url("assets/news/news-background-r-hl.png") no-repeat;
 }
 
 #news-top-banner {
