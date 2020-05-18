@@ -34,27 +34,27 @@
         <div id="settings-line-two">
             <input id="settings-game-path-field" value="{{directoryPath}}" type="text" class="form-control" aria-describedby="emailHelp" disabled>
             <button id="settings-change-location-button" class="social-button btn my-2 my-sm-0" type="submit" (click)="OnPressChangeGameLocation()">
-                <div class="btn-content-wrapper">
+                <p class="inner-movedown-content" id="inner-settings-change-location-button">
                     {{'SETTINGS.BUTTON-CHANGE-GAME-LOCATION' | translate}}
-                </div>
+                </p>
             </button>
             <button id="settings-clear-path-button" class="social-button btn my-2 my-sm-0" type="submit" (click)="OnPressClearPath()">
-                <div class="btn-content-wrapper">
+                <p class="inner-movedown-content" id="inner-settings-clear-path-button">
                     {{'SETTINGS.BUTTON-CLEAR-PATH' | translate}}
-                </div>
+                </p>
             </button>
         </div>
     
         <div id="settings-line-three">
             <button id="settings-reset-button" class="social-button btn my-2 my-sm-0" type="submit" (click)="OnPressReset()">
-                <div class="btn-content-wrapper">
+                <p class="inner-movedown-content" id="inner-settings-reset-button">
                     {{'SETTINGS.BUTTON-RESET' | translate}}
-                </div>
+                </p>
             </button>
             <button id="settings-save-button" class="social-button btn my-2 my-sm-0" type="submit" (click)="OnPressSaveChanges()">
-                <div class="btn-content-wrapper">
+                <p class="inner-movedown-content" id="inner-settings-save-button">
                     {{'SETTINGS.BUTTON-SAVE-CHANGES' | translate}}
-                </div>
+                </p>
             </button>
         </div>
     </div>

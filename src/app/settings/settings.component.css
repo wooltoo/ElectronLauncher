@@ -136,6 +136,10 @@
     transition: all .2s ease-in-out;
 }
 
+#settings-change-location-button:active > #inner-settings-change-location-button {
+    animation: moving .3s forwards;
+}
+
 #settings-change-location-button:hover {
     background: url("assets/settings/settings-change-game-location-button-HL.png") no-repeat;
 }
@@ -153,6 +157,10 @@
     margin-left:15px;
     padding:0;
     transition: all .2s ease-in-out;
+}
+
+#settings-clear-path-button:active > #inner-settings-clear-path-button {
+    animation: moving .3s forwards;
 }
 
 #settings-clear-path-button:hover {
@@ -184,7 +192,15 @@
 
 #settings-reset-button:active {
     background: url("assets/settings/settings-reset-button-PD.png") no-repeat;
+}
 
+.inner-movedown-content {
+    animation: moving-back .3s forwards;
+    margin-bottom:0px !important;
+}
+
+#settings-reset-button:active > #inner-settings-reset-button {
+    animation: moving .3s forwards;
 }
 
 #settings-save-button {
@@ -204,6 +220,10 @@
 
 #settings-save-button:active {
     background: url("assets/settings/settings-save-button-PD.png") no-repeat;
+}
+
+#settings-save-button:active > #inner-settings-save-button {
+    animation: moving .3s forwards;
 }
 
 #settings-house {
