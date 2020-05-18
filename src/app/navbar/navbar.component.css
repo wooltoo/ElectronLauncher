@@ -64,10 +64,6 @@
     height:49px;
 }
 
-.social-button:hover {
-    color:white;
-}
-
 .app-navbar-btn-active {
     background: url("assets/navbar/navbar-button-light.png") no-repeat;
 }
@@ -168,4 +164,48 @@
 .fa-window-minimize {
     position:relative;
     top:-2px;
+}
+
+#youtube-icon {
+    background: url("assets/icons/youtube-icon.png") no-repeat;
+    width:24px;
+    height:17px;
+    transition: all .2s ease-in-out;
+}
+
+#youtube-icon:hover {
+    background: url("assets/icons/youtube-icon-HL.png") no-repeat;
+}
+
+#discord-icon {
+    background: url("assets/icons/discord-icon.png") no-repeat;
+    width:22px;
+    height:16px;
+    transition: all .2s ease-in-out; 
+}
+
+#discord-icon:hover {
+    background: url("assets/icons/discord-icon-HL.png") no-repeat;
+}
+
+#twitter-icon {
+    background: url("assets/icons/twitter-icon.png") no-repeat;
+    width:19px;
+    height:16px;
+    transition: all .2s ease-in-out; 
+}
+
+#twitter-icon:hover {
+    background: url("assets/icons/twitter-icon-HL.png") no-repeat;
+}
+
+#facebook-icon {
+    background: url("assets/icons/facebook-icon.png") no-repeat;
+    width:17px;
+    height:16px;
+    transition: all .2s ease-in-out; 
+}
+
+#facebook-icon:hover {
+    background: url("assets/icons/facebook-icon-HL.png") no-repeat;
 }

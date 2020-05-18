@@ -36,10 +36,6 @@
     transition: all .2s ease-in-out;
 }
 
-#news-top:hover {
-    background: url("assets/news/news-background-r-hl.png") no-repeat;
-}
-
 #news-top-banner {
     width: 100%;
 }

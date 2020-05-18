@@ -36,6 +36,15 @@
     border-radius:0 !important;
     border:0 !important;
     padding:0;
+    transition: all .2s ease-in-out;
+}
+
+#automatic-update-button:hover {
+    background:url("assets/settings/settings-cross-button-HL.png") no-repeat;
+}
+
+#automatic-update-button:active {
+    background:url("assets/settings/settings-cross-button-PD.png") no-repeat;
 }
 
 #automatic-update-button:focus, #automatic-update-button:active,
@@ -106,6 +115,15 @@
     border:0 !important;
     color:rgb(144, 96, 184);
     margin-bottom:13px;
+    transition: all .2s ease-in-out;
+}
+
+#settings-game-path-field:hover {
+    background: url("assets/settings/settings-game-path-field-bg-HL.png");
+}
+
+#settings-game-path-field:active {
+    background: url("assets/settings/settings-game-path-field-bg-PD.png");
 }
 
 #settings-change-location-button {
@@ -115,6 +133,15 @@
     border:0 !important;
     color:rgb(122, 68, 168);
     padding:0;
+    transition: all .2s ease-in-out;
+}
+
+#settings-change-location-button:hover {
+    background: url("assets/settings/settings-change-game-location-button-HL.png") no-repeat;
+}
+
+#settings-change-location-button:active {
+    background: url("assets/settings/settings-change-game-location-button-PD.png") no-repeat;
 }
 
 #settings-clear-path-button {
@@ -125,6 +152,15 @@
     color:rgb(122, 68, 168);
     margin-left:15px;
     padding:0;
+    transition: all .2s ease-in-out;
+}
+
+#settings-clear-path-button:hover {
+    background: url("assets/settings/settings-clear-path-button-HL.png") no-repeat;
+}
+
+#settings-clear-path-button:active {
+    background: url("assets/settings/settings-clear-path-button-PD.png") no-repeat;
 }
 
 #settings-line-three {
@@ -139,6 +175,16 @@
     color:rgb(209,51,51);
     margin-left:225px;
     padding: 0;
+    transition: all .2s ease-in-out;
+}
+
+#settings-reset-button:hover {
+    background: url("assets/settings/settings-reset-button-HL.png") no-repeat;
+}
+
+#settings-reset-button:active {
+    background: url("assets/settings/settings-reset-button-PD.png") no-repeat;
+
 }
 
 #settings-save-button {
@@ -149,6 +195,15 @@
     color:rgb(66,155,93);
     padding: 0;
     margin-left:15px;
+    transition: all .2s ease-in-out;
+}
+
+#settings-save-button:hover {
+    background: url("assets/settings/settings-save-button-HL.png") no-repeat;
+}
+
+#settings-save-button:active {
+    background: url("assets/settings/settings-save-button-PD.png") no-repeat;
 }
 
 #settings-house {
