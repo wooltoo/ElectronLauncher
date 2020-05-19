@@ -555,7 +555,10 @@ module.exports = function (/**String*/input) {
 			var entries = _zip.entries;
 			var i = entries.length;
 			let currCount = 0;
+			let x = 0;
 			entries.forEach(function (entry) {
+				x++;
+				console.log("Entry: " + x);
 				if (i <= 0) return; // Had an error already
 
 				var entryName = pth.normalize(entry.entryName.toString());
@@ -579,9 +582,6 @@ module.exports = function (/**String*/input) {
 					}
 
 					Utils.writeFileToAsync(sanitize(targetPath, entryName), content, overwrite, function (succ) {
-						currCount++;
-						let progress = currCount / entries.length;
-						progressCallback(currCount, entries.length, progress);
 						try {
 							fs.utimesSync(pth.resolve(targetPath, entryName), entry.header.time, entry.header.time);
 						} catch (err) {
@@ -595,9 +595,16 @@ module.exports = function (/**String*/input) {
 						}
 						if (--i === 0)
 							callback(undefined);
+						else {
+							currCount++;
+							let progress = currCount / entries.length;
+							progressCallback(currCount, entries.length, progress);
+						}
 					});
 				});
 			})
+
+			console.log("ADM ZIP FINISHED ######!!!");
 		},
 
 		/**

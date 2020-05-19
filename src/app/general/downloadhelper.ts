@@ -1,12 +1,9 @@
 import { DownloadItem } from 'electron';
 import { DownloadFile } from '../general/downloadfile';
-import { DownloadListService } from '../download-list.service';
-import { LauncherConfig } from './launcherconfig'
 import { FileRemover } from '../general/fileremover'
 import { ClientHelper } from './clienthelper';
 import { InstallState } from './installstate';
 import { ZipInstaller } from './zipinstaller';
-import { DownloadFileFilter } from './downloadfilefilter';
 import { FileHelper } from './filehelper';
 import { ModalComponent } from '../modal/modal.component';
 import { ComponentRegistry, ComponentRegistryEntry } from './componentregistry';
@@ -36,36 +33,39 @@ export class DownloadHelper implements DownloadListObserver
     isCheckingForFilesToDownload : boolean = false;
     installState : InstallState | undefined;
 
-    constructor() { 
-        this.downloadConfig.downloadFolder = ClientHelper.getInstance().getClientDirectory();
-    }
+    constructor() { }
 
     public setInstallState(installState : InstallState) : void {
         this.installState = installState;
     }
 
-    public add(items : DownloadFile[]) : void
+    public queue(items : DownloadFile[]) : void
     {
         items.forEach((item) => {
-            this.addSingle(item);
+            this.queueSingle(item);
         });
     }
 
-    public addSingle(item : DownloadFile) : void {
-        if (!DownloadFile.existsInArray(item, this.downloadFiles))
-            this.downloadFiles.unshift(item);
+    public queueSingle(item : DownloadFile, front : boolean = false) : void {
+        if (!DownloadFile.existsInArray(item, this.downloadFiles)) 
+        {
+            if (front) 
+                this.downloadFiles.push(item);
+            else 
+                this.downloadFiles.unshift(item);
+
+            console.log("QUEUEING!" + JSON.stringify(item));
+
+            this.start();
+        }
     }
 
-    public download() : boolean {
-        console.log("DownloadHelper # CALLED DOWNLOAD!");
-        if (this.isDownloading())
-            return false;
+    private start() : void {
+        if (this.isDownloading()) 
+            return;
 
-        if (this.downloadFiles.length < 1)
-            return false;
-
+        this.downloading = true;
         this.downloadNext();
-        return true;
     }
 
     public isDownloading() : boolean {
@@ -76,51 +76,32 @@ export class DownloadHelper implements DownloadListObserver
 
     private downloadNext() : void {
         let item : DownloadFile | undefined = this.downloadFiles.pop();
-        if (item == undefined || item == null && this.downloading)
+        if (!item && this.downloading)
         {
             this.onFinished();
             return;  
         } 
 
-        if (ClientHelper.getInstance().hasClientInstalled()) {
-            FileRemover.removeIfMD5Mismatch(
-                item.getFullLocalPath(),
-                item.getMD5()
-            );
-        }
+        console.log("Next to DL:" + item?.getName());
+        console.log("REST: " + JSON.stringify(this.downloadFiles));
 
+        if (!item) return;
+        this.removeOldFile(item);
         this.downloadFile = item;
-        let cDownloadConfig = Object.assign({}, this.downloadConfig);
-        cDownloadConfig.url = item.getResource();
-        cDownloadConfig.downloadFolder = item.getLocalDirectory();
-        
-        this.downloadWithSpace(cDownloadConfig);
+
+        this.downloadWithSpace(
+            item,
+            this.prepareDownloadConfig(item)
+        );
     }
 
-    private downloadWithSpace(downloadConfig : any) : void {
-        if (!this.downloadFile)
-            throw new Error('Attempted to download undefined with space.');
-
-        if (FileHelper.hasEnoughSpaceFor(this.downloadFile)) {
-            this.startDownload(downloadConfig);
+    private downloadWithSpace(file : DownloadFile, downloadConfig : any) : void {
+        if (!FileHelper.hasEnoughSpaceFor(file)) {
+            this.showNotEnoughSpace();
             return;
         }
 
-        let translate : TranslateService | null = TranslateServiceHolder.getInstance().getService();
-        if (!translate)
-            throw new Error('Attempted to show error modal translate service was null.');
-
-        let modalComponent : ModalComponent = <ModalComponent>ComponentRegistry.getInstance().get(ComponentRegistryEntry.MODAL_COMPONENT);
-        let modal : ModalEntrySingle = new ModalEntrySingle(
-            Modals.DOWNLOAD_HELPER_NOT_ENOUGH_SPACE,
-            translate.instant('MODALS.DOWNLOAD-HELPER-NOT-ENOUGH-SPACE.TITLE'),
-            translate.instant('MODALS.DOWNLOAD-HELPER-NOT-ENOUGH-SPACE.TEXT'),
-            translate.instant('MODALS.DOWNLOAD-HELPER-NOT-ENOUGH-SPACE.BUTTON-SINGLE'),
-            () => {
-                SettingsManager.getInstance().setSetting(Setting.SHOULD_AUTO_PATCH, false);
-            }
-        );
-        modalComponent.enqueue(modal);
+        this.startDownload(downloadConfig);
     }
 
     private startDownload(cDownloadConfig : any) : void {
@@ -137,21 +118,23 @@ export class DownloadHelper implements DownloadListObserver
             if (this.installState)
                 this.installState.OnDownloadFileFinished(this.downloadFile);
 
+            console.log("FINISHED DOWNLOADING: " + this.downloadFile.getName());
             this.extract(this.downloadFile);
         });
     }
 
     private extract(downloadFile : DownloadFile) : void {
-        console.log("Extracting: " + downloadFile.getName());
         if (!downloadFile.getExtract()) {
             this.extractionComplete();
+            console.log("COMPLETED IMMEDIATELY" + downloadFile.getName())
             return;
         }
 
-        console.log("Extracting #2");
+        console.log("STARTING EXTRACTION OF: " + downloadFile.getName());
         let installer : ZipInstaller = new ZipInstaller(this.installState);
         installer.install(downloadFile, downloadFile.getLocalDirectory(), () => {
             this.extractionComplete();
+            console.log("EXTRACTION COMPLETE: " + downloadFile.getName());
         });
     }
 
@@ -161,10 +144,9 @@ export class DownloadHelper implements DownloadListObserver
     }
 
     public interrupt() : void {
-        if (this.downloadItem == null || this.downloadItem == undefined)
+        if (!this.downloadItem)
             return;
 
-        console.log("INTERRUPTING");
         this.downloadFile = null;
         this.downloadItem.cancel();
         this.downloadItem = null;
@@ -175,19 +157,17 @@ export class DownloadHelper implements DownloadListObserver
     }
 
     public pause() : void {
-        if (this.downloadItem == null)
+        if (!this.downloadItem)
             return;
 
-        console.log("PAUSE");
         this.downloadItem.pause();
 
         if (this.installState)
             this.installState.OnDownloadPause();
     }
 
-
     public resume() : void {
-        if (this.downloadItem == null)
+        if (!this.downloadItem)
             return;
 
         this.downloadItem.resume();
@@ -198,7 +178,6 @@ export class DownloadHelper implements DownloadListObserver
 
     private onProgress(progress: { speedBytes: any; progress: any; }, item: DownloadItem | null | undefined) : void
     {
-        this.downloadItem = item;
         if (this.installState) {
             this.installState.OnDownloadSpeedUpdate(progress.speedBytes);
             this.installState.OnDownloadProgressUpdate(progress.progress);
@@ -206,16 +185,46 @@ export class DownloadHelper implements DownloadListObserver
     }
 
     private onStart() : void {
-        this.downloading = true;
-
         if (this.installState)
             this.installState.OnDownloadStart();
     }
-
-    private onFinished() : void {
+    private onFinished() : void {    
         this.downloading = false;
-
         if (this.installState)
             this.installState.OnDownloadFinished();
+    }
+
+    private removeOldFile(downloadFile : DownloadFile) : void {
+        if (ClientHelper.getInstance().hasClientInstalled()) {
+            FileRemover.removeIfMD5Mismatch(
+                downloadFile.getFullLocalPath(),
+                downloadFile.getMD5()
+            );
+        }
+    }
+
+    private prepareDownloadConfig(downloadFile : DownloadFile) : any {
+        let cDownloadConfig = Object.assign({}, this.downloadConfig);
+        cDownloadConfig.url = downloadFile.getResource();
+        cDownloadConfig.downloadFolder = downloadFile.getLocalDirectory();
+        return cDownloadConfig;
+    }
+
+    private showNotEnoughSpace() : void {
+        let translate : TranslateService | null = TranslateServiceHolder.getInstance().getService();
+        if (!translate)
+            throw new Error('Attempted to show error modal translate service was null.');
+
+        let modalComponent : ModalComponent = <ModalComponent>ComponentRegistry.getInstance().get(ComponentRegistryEntry.MODAL_COMPONENT);
+        let modal : ModalEntrySingle = new ModalEntrySingle(
+            Modals.DOWNLOAD_HELPER_NOT_ENOUGH_SPACE,
+            translate.instant('MODALS.DOWNLOAD-HELPER-NOT-ENOUGH-SPACE.TITLE'),
+            translate.instant('MODALS.DOWNLOAD-HELPER-NOT-ENOUGH-SPACE.TEXT'),
+            translate.instant('MODALS.DOWNLOAD-HELPER-NOT-ENOUGH-SPACE.BUTTON-SINGLE'),
+            () => {
+                SettingsManager.getInstance().setSetting(Setting.SHOULD_AUTO_PATCH, false);
+            }
+        );
+        modalComponent.enqueue(modal);
     }
 }

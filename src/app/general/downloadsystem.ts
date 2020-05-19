@@ -12,7 +12,7 @@ export class DownloadSystem
 {
     private static instance : DownloadSystem;
 
-    private downloadHelper : DownloadHelper | undefined;
+    private downloadHelper : DownloadHelper;
     private downloadFileFilter : DownloadFileFilter | undefined;
 
     private downloadListService : DownloadListService  | undefined;
@@ -20,6 +20,7 @@ export class DownloadSystem
     private isCheckingForFilesToDownload : boolean = false;
 
     private constructor() {
+        this.downloadHelper = new DownloadHelper();
         this.startCheckForFilesToDownload();
     }
 
@@ -41,7 +42,6 @@ export class DownloadSystem
 
         this.installState = installState;
         
-        this.downloadHelper = new DownloadHelper();
         this.downloadListService.observe(this.downloadHelper);
         this.downloadHelper.setInstallState(installState);
 
@@ -50,35 +50,27 @@ export class DownloadSystem
         return this;
     }
 
-    public download(files : DownloadFile[]) : DownloadSystem {
-        if (!this.downloadHelper)
-            throw new Error('Can not download files. DownloadHelper is not set.');
+    public queueFront(file : DownloadFile) : DownloadSystem {
+        this.downloadHelper.queueSingle(file, true);
+        return this;
+    }
 
-        this.downloadHelper.add(files);
+    public queue(files : DownloadFile[]) : DownloadSystem {
+        this.downloadHelper.queue(files);
         return this;
     }
 
     public pause() : DownloadSystem {
-        if (!this.downloadHelper)
-            throw new Error('Can not pause download system. DownloadHelper is not set.');
-
         this.downloadHelper.pause();
         return this;
     }
 
     public resume() : DownloadSystem {
-        if (!this.downloadHelper)
-            throw new Error('Can not resume download system. DownloadHelper is not set.');
-
-
         this.downloadHelper.resume();
         return this;
     }
 
     public cancel() : DownloadSystem {
-        if (!this.downloadHelper)
-            throw new Error('Can not cancel download system. DownloadHelper is not set.');
-
         this.downloadHelper.interrupt();
         return this;
     }
@@ -91,22 +83,12 @@ export class DownloadSystem
         }
 
         if (this.downloadFileFilter)
-            this.download(this.downloadFileFilter.getFilesToInstall());
+            this.queue(this.downloadFileFilter.getFilesToInstall());
 
         return this;
     }
 
-    public start() : boolean {
-        if (!this.downloadHelper)
-            return false;
-
-        return this.downloadHelper.download();
-    }
-
     public isDownloading() : boolean {
-        if (!this.downloadHelper)
-            throw new Error('Can not check if download system is downloading. Download helper is not set.');
-
         return this.downloadHelper.isDownloading();
     }
 
@@ -124,9 +106,6 @@ export class DownloadSystem
         if (!this.downloadListService)
             throw new Error('Can not add client download. Download list service is not set.')    
         
-        if (!this.downloadHelper)
-            throw new Error('Can not add client download. Download helper is not set.');
-
         let client : DownloadFile | null = this.downloadListService.getClient();
         if (!client)
             throw new Error('Could not fetch client download file.');
@@ -137,7 +116,7 @@ export class DownloadSystem
             throw new Error('Could not locate target directory.');
 
         client.setTarget(targetDir);
-        this.downloadHelper.addSingle(client);
+        this.downloadHelper.queueSingle(client);
     }
 
     private startCheckForFilesToDownload() : void {
