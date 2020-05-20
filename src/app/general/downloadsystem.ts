@@ -7,6 +7,7 @@ import { FileRemover } from './fileremover';
 import * as path from 'path';
 import { LauncherConfig } from './launcherconfig';
 import { DownloadListService } from '../download-list.service';
+import { TouchBarScrubber } from 'electron';
 
 export class DownloadSystem
 {
@@ -76,15 +77,16 @@ export class DownloadSystem
     }
 
     // Should download all files, e.g. patches/exes/resources that are missing or have mismatching MD5.
-    public queueAll() : DownloadSystem {    
-        if (!ClientHelper.getInstance().hasClientInstalled()) {
-            this.addClientDownload();
-            return this;
-        }
+    public queueClient() : DownloadSystem {    
+        this.addClientDownload();
+        return this;
+    }
 
-        if (this.downloadFileFilter)
-            this.queue(this.downloadFileFilter.getFilesToInstall());
+    public queuePatches() : DownloadSystem {
+        if (!this.downloadFileFilter)
+            throw new Error('Could not get files to install');
 
+        this.queue(this.downloadFileFilter.getFilesToInstall());
         return this;
     }
 

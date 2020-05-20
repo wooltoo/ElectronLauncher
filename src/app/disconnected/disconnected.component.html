@@ -1,0 +1,26 @@
+<div id="disconnected-container" [ngClass]="{'click-through': clickThrough}">
+    <h1 id="disconnected-primary-text">
+        {{ statusText }}
+    </h1>
+
+    <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+    <p id="disconnected-know-text">
+        {{ 'DISCONNECTED.PROBLEMS-CONTACT' | translate }}
+    </p>
+
+    <div id="disconnected-contact-container">
+        <a class="remove-blue-a" id="disconnected-discord" (click)="openWebsite('/discord')">
+            <div class="disconnected-discord-icon"></div>
+            <p>Discord</p>
+        </a>
+
+        <a class="remove-blue-a" id="disconnected-twitter" (click)="openWebsite('/twitter')">
+            <div class="disconnected-twitter-icon"></div>
+            <p>Twitter</p>
+        </a>
+    </div>
+</div>

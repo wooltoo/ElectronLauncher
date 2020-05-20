@@ -77,10 +77,8 @@ export class InfoComponent implements OnInit, NewsServiceCallback {
       url: LauncherConfig.BACKEND_HOST + '/youtube-video',
       json: true
     }, (_error: any, _response: any, json: { [x: string]: string; } | undefined) => {
-      if (json == undefined) {
-        console.log("Fetch youtube video response was undefined!");
+      if (json == undefined) 
         return;
-      }
 
       this.setVideo(json['video']);
     });

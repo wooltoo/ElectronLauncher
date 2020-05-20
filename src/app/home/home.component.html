@@ -4,9 +4,13 @@
   </video>
 
   <div id="purple-hue"></div>
+  
+  <app-disconnected></app-disconnected>
+
   <app-modal></app-modal>
   <app-navbar></app-navbar>
   <app-statusbar></app-statusbar>
+
   <app-info [ngClass]="{'hidden' : showInfo == false}"></app-info>
   <app-landing [ngClass]="{'hidden' : showLanding == false}"></app-landing>
   <app-settings [ngClass]="{'hidden' : showSettings == false}"></app-settings>

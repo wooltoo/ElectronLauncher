@@ -54,8 +54,6 @@ export class DownloadHelper implements DownloadListObserver
             else 
                 this.downloadFiles.unshift(item);
 
-            console.log("QUEUEING!" + JSON.stringify(item));
-
             this.start();
         }
     }
@@ -81,9 +79,6 @@ export class DownloadHelper implements DownloadListObserver
             this.onFinished();
             return;  
         } 
-
-        console.log("Next to DL:" + item?.getName());
-        console.log("REST: " + JSON.stringify(this.downloadFiles));
 
         if (!item) return;
         this.removeOldFile(item);
@@ -118,7 +113,6 @@ export class DownloadHelper implements DownloadListObserver
             if (this.installState)
                 this.installState.OnDownloadFileFinished(this.downloadFile);
 
-            console.log("FINISHED DOWNLOADING: " + this.downloadFile.getName());
             this.extract(this.downloadFile);
         });
     }
@@ -126,15 +120,12 @@ export class DownloadHelper implements DownloadListObserver
     private extract(downloadFile : DownloadFile) : void {
         if (!downloadFile.getExtract()) {
             this.extractionComplete();
-            console.log("COMPLETED IMMEDIATELY" + downloadFile.getName())
             return;
         }
 
-        console.log("STARTING EXTRACTION OF: " + downloadFile.getName());
         let installer : ZipInstaller = new ZipInstaller(this.installState);
         installer.install(downloadFile, downloadFile.getLocalDirectory(), () => {
             this.extractionComplete();
-            console.log("EXTRACTION COMPLETE: " + downloadFile.getName());
         });
     }
 

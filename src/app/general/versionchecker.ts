@@ -21,10 +21,8 @@ export class VersionChecker {
             url: LauncherConfig.BACKEND_HOST + '/version',
             json: true
           }, (_error: any, _response: any, json: { [x: string]: any; } | undefined) => {
-            if (json == undefined) {
-              console.log("Fetch version was undefined!");
+            if (json == undefined) 
               return;
-            }
             
             let version = json['version'];
             if (LauncherConfig.VERSION < version)

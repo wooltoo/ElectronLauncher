@@ -88,6 +88,9 @@ function createWindow(): BrowserWindow {
     win.show();
   });
 
+  //Menu.setApplicationMenu(Menu.buildFromTemplate([])) <- removes CMD + R (refresh) on OS X
+  //win.removeMenu(); <- Removes CTRL + R (refresh) on Windows
+
   return win;
 }
 

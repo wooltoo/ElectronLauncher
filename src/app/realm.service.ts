@@ -22,6 +22,12 @@ export class RealmService {
 
   fetchRealms() {
     request.get(LauncherConfig.BACKEND_HOST + '/realms', (_error: any, _response: any, body: string) => {
+      if (body == undefined) 
+        return;
+      
+      if (_error)
+        throw new Error(_error);
+
       this.realms = [];
       let json = JSON.parse(body);
 

@@ -29,12 +29,10 @@ export class AddonComponent implements OnInit {
   }
 
   public OnPressDownloadButton() {
-    console.log("THIS downloaded" + this.downloaded);
     if (this.downloaded || this.addon.isInstalled()) 
       return false;
 
     this.downloading = true;
-
     DownloadFileUtil.fetchDownloadFile(
       this.addon.getDownloadFileId(), 
      
@@ -63,7 +61,7 @@ export class AddonComponent implements OnInit {
 
   private onFetchDownloadFileSuccess(downloadFile : DownloadFile) : void {
     let downloadSystem : DownloadSystem = DownloadSystem.getInstance();
-    downloadSystem.queueFront(downloadFile);
+    downloadSystem.queue([downloadFile]);
   }
 
   private onFetchDownloadFileError() : void {

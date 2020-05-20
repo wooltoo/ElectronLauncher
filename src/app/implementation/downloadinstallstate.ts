@@ -61,7 +61,6 @@ export class DownloadInstallState implements InstallState {
     OnDownloadProgressUpdate(downloadProgress: any): void {
         this.homeComponent.progressBarWidth = downloadProgress;
         this.homeComponent.progress = DownloadInfoFormatter.formatProgress(downloadProgress);
-        console.log("UPDATED");
     }
 
     OnDownloadPause(): void {
@@ -120,7 +119,7 @@ export class DownloadInstallState implements InstallState {
         this.homeComponent.showDownloadBar = false;
 
         // Check if we have new files to download immediately.
-        DownloadSystem.getInstance().queueAll();
+        DownloadSystem.getInstance().queuePatches();
     }
 
     OnFilesToDownloadResult(hasFilesToCheckForDownload: boolean): void {
@@ -128,12 +127,11 @@ export class DownloadInstallState implements InstallState {
             return;
         
         if (SettingsManager.getInstance().getSetting(Setting.SHOULD_AUTO_PATCH)) {
-            DownloadSystem.getInstance().queueAll();
+            DownloadSystem.getInstance().queuePatches();
         } else {
             this.homeComponent.state = DownloadState.WAITING_FOR_DOWNLOAD;
             this.homeComponent.buttonText = this.translate.instant('PRIMARY-BUTTON.TEXT-UPDATE');
             this.homeComponent.hasFilesToDownload = true;
-            DownloadSystem.getInstance().queueAll();
         }
     }
 

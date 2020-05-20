@@ -87,7 +87,7 @@ export class HomeComponent implements OnInit, DownloadListObserver {
 
   StartDownload()
   {
-    DownloadSystem.getInstance().queueAll();
+    DownloadSystem.getInstance().queuePatches();
   }
 
   StartGame() : void {
@@ -105,7 +105,7 @@ export class HomeComponent implements OnInit, DownloadListObserver {
   // Called when the landing component picks a already installed game path.
   public OnPickGamePath(path : string) : void {
     ClientHelper.getInstance().setClientDirectory(path);
-    DownloadSystem.getInstance().queueAll();
+    DownloadSystem.getInstance().queuePatches();
     this.hideLanding();
   }
 
@@ -113,7 +113,7 @@ export class HomeComponent implements OnInit, DownloadListObserver {
   // path = selected client directory.
   public OnSelectClientDownload(path : string) : void {
     ClientHelper.getInstance().setRequestedClientDirectory(path);
-    DownloadSystem.getInstance().queueAll();
+    DownloadSystem.getInstance().queueClient();
     this.hideLanding();
   }
 

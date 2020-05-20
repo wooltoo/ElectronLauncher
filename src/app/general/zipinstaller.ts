@@ -22,7 +22,6 @@ export class ZipInstaller
                 console.log(_error);
             
             // This function is called when all the files have been extracted (assuming _error is undefined).
-            console.log("FINISHED EXTRACTING: " + downloadFile.getFileName());
             FileRemover.remove(downloadFile.getFullLocalPath());
 
             if (this.installCallback)
@@ -33,8 +32,6 @@ export class ZipInstaller
         }, (currCount : number, fileCount : number, progress : number) => {
             if (this.installCallback)
                 this.installCallback.OnInstallProgressUpdate(downloadFile, progress, currCount, fileCount);
-
-            console.log("PROGRESS FOR: " + progress + " - " + downloadFile.getFileName());
         });
         
 

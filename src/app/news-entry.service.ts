@@ -28,10 +28,8 @@ export class NewsEntryService {
 
   public fetchNews() : void {
     request.get({url: LauncherConfig.BACKEND_HOST + '/news', json: true}, (_error: any, _response: any, body: any[] | undefined) => {
-      if (body == undefined) {
-        console.log("News was undefined.");
+      if (body == undefined)
         return;
-      }
 
       let hasBeenModified = false;
       let beforeCount = this.getNews().length;

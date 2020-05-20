@@ -555,10 +555,7 @@ module.exports = function (/**String*/input) {
 			var entries = _zip.entries;
 			var i = entries.length;
 			let currCount = 0;
-			let x = 0;
 			entries.forEach(function (entry) {
-				x++;
-				console.log("Entry: " + x);
 				if (i <= 0) return; // Had an error already
 
 				var entryName = pth.normalize(entry.entryName.toString());
@@ -604,7 +601,6 @@ module.exports = function (/**String*/input) {
 				});
 			})
 
-			console.log("ADM ZIP FINISHED ######!!!");
 		},
 
 		/**

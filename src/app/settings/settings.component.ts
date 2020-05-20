@@ -121,7 +121,7 @@ export class SettingsComponent implements OnInit {
             
             ClientHelper.getInstance().clearClientDirectory();
             ClientHelper.getInstance().setRequestedClientDirectory(this.directoryPath);
-            DownloadSystem.getInstance().queueAll();
+            DownloadSystem.getInstance().queueClient();
             this.hasSaved = true;
           },
           () => {}

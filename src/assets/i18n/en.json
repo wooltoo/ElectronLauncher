@@ -9,6 +9,11 @@
     "BUTTON-GO": "GO",
     "TEXT-SELECT-PATH": "SELECT GAME PATH"
   },
+  "DISCONNECTED": {
+    "STATUS": "CONNECTING",
+    "STATUS-CHANGED": "ATTEMPTING TO CONNECT",
+    "PROBLEMS-CONTACT": "Connection problems? Let us know!"
+  },
   "NAVBAR": {
     "BUTTON-HOME": "Home",
     "BUTTON-WEBSITE": "Website",

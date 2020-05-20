@@ -32,7 +32,6 @@ export class DownloadFileUtil
             qs: query
         }, (_error: any, _response: any, json: undefined) => {
             if (json == undefined) {
-                console.log("Fetch downloadfile from util was undefined!");
                 if (errorFunc)
                     errorFunc();
                 return null;

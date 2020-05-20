@@ -16,6 +16,8 @@ import { SettingsComponent } from '../settings/settings.component';
 import { ModalComponent } from '../modal/modal.component';
 import { AddonsComponent } from '../addons/addons.component';
 import { AddonComponent } from '../addon/addon.component';
+import { DisconnectedComponent } from '../disconnected/disconnected.component';
+
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import { AddonComponent } from '../addon/addon.component';
     SettingsComponent,
     ModalComponent,
     AddonsComponent,
-    AddonComponent
+    AddonComponent,
+    DisconnectedComponent
   ],
   imports: [CommonModule, SharedModule, HomeRoutingModule, InfiniteScrollModule],
   schemas: [

@@ -83,11 +83,9 @@ export class DownloadListService {
       url: LauncherConfig.BACKEND_HOST + '/files',
       json: true
     }, (_error: any, _response: any, json: undefined) => {
-      if (json == undefined) {
-        console.log("Fetch files was undefined!");
+      if (json == undefined) 
         return;
-      }
-
+      
       this.processFileResponse(json);
       if (this.state == DownloadListServiceState.RETRIEVING_INFORMATION) {
         this.state = DownloadListServiceState.READY;
@@ -116,10 +114,8 @@ export class DownloadListService {
       }
     });
 
-    if (modified) {
-      console.log("MODIFIED DOWNLOADFILES!!");
+    if (modified) 
       this.notifyFilesUpdated();
-    }
   }
   
   /**

@@ -34,7 +34,6 @@ export class AddonService {
   private fetchAddons() : void {
     request.get({url: LauncherConfig.BACKEND_HOST + '/addons', json: true}, (_error: any, _response: any, body: any[] | undefined) => {
       if (body == undefined) {
-        console.log("Addons was undefined!");
         return;
       }
       
