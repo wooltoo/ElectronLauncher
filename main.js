@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var electron_1 = require("electron");
 var path = require("path");
 var url = require("url");
+var connectionstatus_1 = require("./src/app/general/connectionstatus");
 var contextMenu = require('electron-context-menu');
 contextMenu(); // adds right click inspect in dev mode
 var win = null;
@@ -10,6 +11,12 @@ var args = process.argv.slice(1), serve = args.some(function (val) { return val 
 var DownloadManager = require("electron-download-manager");
 DownloadManager.register();
 require('dotenv').config();
+/* CONNECTION STATUS START */
+var connection = new connectionstatus_1.ConnectionStatus();
+electron_1.ipcMain.on('is-online', function (event, arg) {
+    event.returnValue = connection.isConnected();
+});
+/* CONNECTION STATUS END */
 var loadingScreen = null;
 var createLoadingScreen = function () {
     loadingScreen = new electron_1.BrowserWindow(Object.assign({
@@ -75,6 +82,8 @@ function createWindow() {
             loadingScreen.close();
         win.show();
     });
+    //Menu.setApplicationMenu(Menu.buildFromTemplate([])) <- removes CMD + R (refresh) on OS X
+    //win.removeMenu(); <- Removes CTRL + R (refresh) on Windows
     return win;
 }
 try {

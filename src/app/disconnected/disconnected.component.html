@@ -1,4 +1,4 @@
-<div id="disconnected-container" [ngClass]="{'click-through': clickThrough}">
+<div id="disconnected-container" [ngClass]="{'click-through': clickThrough, 'hidden': !visible}">
     <h1 id="disconnected-primary-text">
         {{ statusText }}
     </h1>

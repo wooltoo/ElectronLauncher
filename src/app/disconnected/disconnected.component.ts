@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LauncherConfig } from '../general/launcherconfig';
+import { ipcRenderer } from 'electron';
 
 const request = require('request');
 const { shell } = require('electron')
@@ -12,14 +13,13 @@ const { shell } = require('electron')
 })
 export class DisconnectedComponent implements OnInit {
 
-  online : boolean = false;
-  clickThrough : boolean = false;
+  online : boolean | undefined;
+  clickThrough : boolean = true;
+  visible : boolean = false;
 
-  statusText : string;
+  statusText : string = '';
 
   constructor(private translate : TranslateService) { 
-    this.statusText = '';
-
     translate.get('DISCONNECTED.STATUS').subscribe((result : string) => {
       this.statusText = result;
     });
@@ -27,52 +27,40 @@ export class DisconnectedComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkConnectivity();
-    setInterval(
-      () => { this.checkConnectivity(); },
-      LauncherConfig.INTERVAL_CHECK_ONLINE_STATUS
-    );
+    setInterval(() => {
+      this.checkConnectivity()
+    }, 100);
   }
 
   private checkConnectivity() : void {
-    if (!window.navigator.onLine) {
-      this.setOnline(false);
-      return;
-    }
-
-    request.get({
-      url: LauncherConfig.BACKEND_HOST + '/reachable',
-      timeout: LauncherConfig.MAXIMUM_RESPONSE_TIME_ONLINE,
-      json: true,
-    }, (_error: any, _response: any, json: undefined) => 
-    {
-      if (_error) {
-        this.setOnline(false);
-        return;
-      }
-
-      if (json == undefined) {
-        this.setOnline(false);
-        return;
-      }
-
-      this.setOnline(true);
-    });
+    this.setOnline(ipcRenderer.sendSync('is-online'));
   }
 
   public setOnline(online : boolean) : void {
-    if (!this.online && online) 
+    if (this.online == undefined && online) 
+      this.onLoadOnline();
+    else if (!this.online && online) 
       this.onTurnOnline();
-    else if (this.online && !online)
+    else if (this.online == undefined && !online)
+      this.onLoadOffline();
+    else if (this.online && !online) 
       this.onTurnOffLine();
 
     this.online = online;
   }
 
+  private onLoadOnline() : void { } 
+
   private onTurnOnline() : void {
     this.hidePanelAfter(2000);
   }
 
+  private onLoadOffline() : void {
+    this.visible = true;
+  }
+
   private onTurnOffLine() : void {
+    this.visible = true;
     this.statusText = this.translate.instant('DISCONNECTED.STATUS-CHANGED');
     const element : any = document.querySelector('#disconnected-container');
     element.classList.remove('animated', 'fadeOut');

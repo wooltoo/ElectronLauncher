@@ -1,6 +1,7 @@
-import { app, BrowserWindow, screen } from 'electron';
+import { app, BrowserWindow, screen, ipcMain } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+import { ConnectionStatus } from './src/app/general/connectionstatus';
 const contextMenu = require('electron-context-menu');
 contextMenu(); // adds right click inspect in dev mode
 
@@ -12,6 +13,14 @@ const DownloadManager = require("electron-download-manager");
 DownloadManager.register();
 require('dotenv').config();
 
+/* CONNECTION STATUS START */
+
+let connection : ConnectionStatus = new ConnectionStatus();
+ipcMain.on('is-online', (event, arg) => {
+  event.returnValue = connection.isConnected();
+});
+
+/* CONNECTION STATUS END */
 let loadingScreen : BrowserWindow = null;
 const createLoadingScreen = () => {
   loadingScreen = new BrowserWindow(
