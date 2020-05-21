@@ -26,7 +26,6 @@ export class InfoComponent implements OnInit, NewsServiceCallback {
     newsEntryService.observe(this);
     this.setVideo(LauncherConfig.DEFAULT_YOUTUBE_VIDEO);
     this.checkForYoutubeVideo();
-    this.startCheckForYoutubeVideo();
   }
 
   ngOnInit(): void {
@@ -34,6 +33,8 @@ export class InfoComponent implements OnInit, NewsServiceCallback {
       () => { this.getEntries(); },
       LauncherConfig.INTERVAL_CHECK_FOR_NEWS
     );
+
+    this.startCheckForYoutubeVideo();
   }
 
   private setVideo(url : string) {
@@ -79,7 +80,7 @@ export class InfoComponent implements OnInit, NewsServiceCallback {
     }, (_error: any, _response: any, json: { [x: string]: string; } | undefined) => {
       if (json == undefined) 
         return;
-
+      
       this.setVideo(json['video']);
     });
   }
