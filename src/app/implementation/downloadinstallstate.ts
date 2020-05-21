@@ -1,7 +1,6 @@
 import { HomeComponent } from '../home/home.component';
 import { DownloadState } from '../general/downloadstate';
 import { DownloadInfoFormatter } from '../general/downloadinfoformatter';
-import { ZipInstaller } from '../general/zipinstaller';
 import { LocalStorageService } from 'ngx-webstorage';
 import { LauncherConfig } from '../general/launcherconfig';
 import { DownloadListService } from '../download-list.service';

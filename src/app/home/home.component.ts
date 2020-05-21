@@ -69,6 +69,10 @@ export class HomeComponent implements OnInit, DownloadListObserver {
       ));
 
     downloadListService.observe(this);
+
+    setInterval(() => {
+      console.log("STATE: " + this.state);
+    }, 100);
   }
 
   ngOnInit(): void {
