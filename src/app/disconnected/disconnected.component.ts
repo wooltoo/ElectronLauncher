@@ -57,10 +57,12 @@ export class DisconnectedComponent implements OnInit {
 
   private onLoadOffline() : void {
     this.visible = true;
+    this.clickThrough = false;
   }
 
   private onTurnOffLine() : void {
     this.visible = true;
+    this.clickThrough = false;
     this.statusText = this.translate.instant('DISCONNECTED.STATUS-CHANGED');
     const element : any = document.querySelector('#disconnected-container');
     element.classList.remove('animated', 'fadeOut');

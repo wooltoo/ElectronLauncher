@@ -10,7 +10,7 @@
     "TEXT-SELECT-PATH": "SELECT GAME PATH"
   },
   "DISCONNECTED": {
-    "STATUS": "CONNECTING",
+    "STATUS": "ATTEMPTING TO CONNECT",
     "STATUS-CHANGED": "ATTEMPTING TO CONNECT",
     "PROBLEMS-CONTACT": "Connection problems? Let us know!"
   },

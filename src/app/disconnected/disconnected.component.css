@@ -4,21 +4,23 @@
     left:0;
     width:1280px;
     height:720px;
-    background-color:#371d47;
+    background:url("assets/disconnected/background.png");
     z-index:5;
+    -webkit-app-region: drag;
 }
 
 #disconnected-primary-text {
     color:white;
     text-align:center;
     margin-top:300px;
-    font-size:2rem;
+    font-size:30px;
 }
 
 #disconnected-know-text {
-    color:grey;
+    color:rgb(161,161,161);
     text-align:center;
     margin-top:260px;
+    font-size:18px;
 }
 
 .disconnected-discord-icon {
@@ -41,8 +43,10 @@
 }
 
 #disconnected-discord {
-    color:yellow;
+    color:rgb(240,255,0);
     cursor: pointer;
+    font-size:16px;
+    -webkit-app-region: no-drag;
 }
 
 #disconnected-discord > p {
@@ -53,13 +57,15 @@
 }
 
 #disconnected-contact-container {
-    margin-left:540px;
+    margin-left:547.5px;
 }
 
 #disconnected-twitter {
-    color:yellow;
-    margin-left:40px;
+    color:rgb(240,255,0);
+    margin-left:25px;
     cursor: pointer;
+    font-size:16px;
+    -webkit-app-region: no-drag;
 }
 
 #disconnected-twitter > p {
@@ -75,6 +81,7 @@
 
 .click-through {
     pointer-events: none;
+    -webkit-app-region: no-drag;
 }
 
 .spinner {

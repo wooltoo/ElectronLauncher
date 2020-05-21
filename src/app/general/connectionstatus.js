@@ -12,7 +12,6 @@ var ConnectionStatus = /** @class */ (function () {
     }
     ConnectionStatus.prototype.checkConnectivity = function () {
         var _this = this;
-        console.log("CONNECTED: " + this.connected);
         request.get({
             url: launcherconfig_1.LauncherConfig.BACKEND_HOST + '/reachable',
             timeout: launcherconfig_1.LauncherConfig.MAXIMUM_RESPONSE_TIME_ONLINE,
