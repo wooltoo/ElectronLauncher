@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LauncherConfig } from '../general/launcherconfig';
 import { ipcRenderer } from 'electron';
+import { AnimateCSS } from '../general/animatecss';
 
-const request = require('request');
 const { shell } = require('electron')
 
 @Component({
@@ -14,8 +14,10 @@ const { shell } = require('electron')
 export class DisconnectedComponent implements OnInit {
 
   online : boolean | undefined;
-  clickThrough : boolean = true;
+
+  noSpace : boolean = false;
   visible : boolean = false;
+  draggable : boolean = false;
 
   statusText : string = '';
 
@@ -49,25 +51,31 @@ export class DisconnectedComponent implements OnInit {
     this.online = online;
   }
 
-  private onLoadOnline() : void { } 
+  private onLoadOnline() : void { 
+    this.visible = false;
+    this.noSpace = true;
+    this.draggable = false;
+  } 
 
   private onTurnOnline() : void {
-    this.hidePanelAfter(2000);
+    this.hidePanelAfter(3500);
   }
 
   private onLoadOffline() : void {
     this.visible = true;
-    this.clickThrough = false;
+    this.noSpace = false;
+    this.draggable = true;
   }
 
   private onTurnOffLine() : void {
     this.visible = true;
-    this.clickThrough = false;
+    this.noSpace = false;
+    this.draggable = true;
     this.statusText = this.translate.instant('DISCONNECTED.STATUS-CHANGED');
-    const element : any = document.querySelector('#disconnected-container');
-    element.classList.remove('animated', 'fadeOut');
-    element.classList.add('animated', 'fadeIn');
-    this.clickThrough = false;
+
+    AnimateCSS.animate('#disconnected-container', 'fadeIn').then((_message) => {
+      console.log("ANIMATED fadeIn!");
+    })
   }
 
   openWebsite(suburl : string) : void {
@@ -79,9 +87,17 @@ export class DisconnectedComponent implements OnInit {
       if (!this.online)
         return;
 
-      const element : any = document.querySelector('#disconnected-container');
-      element.classList.add('animated', 'fadeOut');
-      this.clickThrough = true;
+      this.draggable = false;
+
+      /*const element : any = document.querySelector('#disconnected-container');
+      element.classList.add('animated', 'fadeOut');*/
+      AnimateCSS.animate('#disconnected-container', 'fadeOut').then((_message) => {
+        console.log("ANIMATED fadeOut!");
+        this.visible = false;
+        this.noSpace = true;
+      })
     }, ms);
   }
+
+  
 }

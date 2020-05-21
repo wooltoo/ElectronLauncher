@@ -6,7 +6,15 @@
     height:720px;
     background:url("assets/disconnected/background.png");
     z-index:5;
+}
+
+.drag {
     -webkit-app-region: drag;
+}
+
+.no-space {
+    width: 0 !important;
+    height: 0 ! important;
 }
 
 #disconnected-primary-text {
@@ -77,11 +85,12 @@
 
 .hidden {
     display:none;
+    width:0;
+    height:0;
 }
 
 .click-through {
     pointer-events: none;
-    -webkit-app-region: no-drag;
 }
 
 .spinner {
