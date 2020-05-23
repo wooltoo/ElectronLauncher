@@ -4,7 +4,12 @@
     height:90px;
     margin-left:-10px;
     top:-9px;
+    transition: all .2s ease-in-out;
     /*scroll-snap-align: top;*/
+}
+
+.addon:hover {
+    background: url('assets/addons/addons-addon-background-HL.png') no-repeat;
 }
 
 .addon-aligned-container {
@@ -85,9 +90,27 @@ p > .addon-title {
 }
 
 .addon-button-downloaded {
+    transition: all .2s ease-in-out;
     background: url("assets/addons/addons-addon-download-button-dark.png") no-repeat;
 }
 
+.addon-button-downloaded:hover {
+    background: url("assets/addons/addons-addon-download-button-dark-HL.png") no-repeat;
+}
+
+.addon-button-downloaded:active {
+    background: url("assets/addons/addons-addon-download-button-dark-PD.png") no-repeat;
+}
+
 .addon-button-download {
+    transition: all .2s ease-in-out;
     background: url("assets/addons/addons-addon-download-button-light.png") no-repeat;
+}
+
+.addon-button-download:hover {
+    background: url("assets/addons/addons-addon-download-button-light-HL.png") no-repeat;
+}
+
+.addon-button-download:active {
+    background: url("assets/addons/addons-addon-download-button-light-PD.png") no-repeat;
 }

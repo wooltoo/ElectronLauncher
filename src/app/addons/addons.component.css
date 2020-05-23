@@ -21,6 +21,15 @@
     color: rgb(62,62,62);
     position:relative;
     left:-1px;
+    transition: all .2s ease-in-out;
+}
+
+#addons-search-field:hover {
+    background: url('assets/addons/addons-background-searchbar-HL.png') no-repeat;
+}
+
+#addons-search-field:active {
+    background: url('assets/addons/addons-background-searchbar-PD.png') no-repeat;
 }
 
 #addons-search-field:focus, #addons-search-field:active {
