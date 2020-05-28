@@ -114,3 +114,12 @@ p > .addon-title {
 .addon-button-download:active {
     background: url("assets/addons/addons-addon-download-button-light-PD.png") no-repeat;
 }
+
+.addon-button-inner {
+    margin:0;
+    animation: moving-back .3s forwards;
+}
+
+.addon-button-download:active > .addon-button-inner {
+    animation: moving .3s forwards;
+}
