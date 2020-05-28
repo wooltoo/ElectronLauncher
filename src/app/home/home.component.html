@@ -19,8 +19,14 @@
   <div class="container bottom-bar-container slideInLeft animated" [ngClass]="{'hidden' : showInfo == false}">
     <div class="row">
       <div class="col-4 no-padding">
-        <button id="start-button" type="button" class="btn btn-secondary btn-lg btn-block" (click)="OnPressStartButton()">
-          {{buttonText}}
+        <button id="start-button" 
+                type="button" 
+                class="btn btn-secondary btn-lg btn-block" 
+                (click)="OnPressStartButton()"
+                [ngClass]="{'start-button-ready': startButtonReadyCSS, 'start-button-unready': startButtonReadyCSS == false}">
+          <p id="start-button-inner"> 
+            {{buttonText}}
+          </p>
         </button>
       </div>
       

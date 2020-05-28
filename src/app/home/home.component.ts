@@ -34,6 +34,7 @@ export class HomeComponent implements OnInit, DownloadListObserver {
   public isUnzipping : boolean = false;
   public buttonText : string = '';
   
+  /* Visibility */
   public showPauseButton : boolean = true;
   public showPlayButton : boolean = true;
   public showInterruptButton : boolean = false;
@@ -44,6 +45,9 @@ export class HomeComponent implements OnInit, DownloadListObserver {
   public showSettings : boolean = false;
   public showAddons : boolean = false;
 
+  /* CSS Classes */
+  public startButtonReadyCSS : boolean = false;
+  
   constructor(
               public cd: ChangeDetectorRef,
               private downloadListService : DownloadListService,

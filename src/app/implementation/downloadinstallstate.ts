@@ -33,6 +33,7 @@ export class DownloadInstallState implements InstallState {
             this.homeComponent.hasFilesToDownload = false;
 
             this.translate.get('PRIMARY-BUTTON.TEXT-START').subscribe((result) => {
+                this.homeComponent.startButtonReadyCSS = true;
                 this.homeComponent.buttonText = result;
             });
         }
@@ -51,6 +52,7 @@ export class DownloadInstallState implements InstallState {
         this.homeComponent.showDownloadStats = true;
         this.homeComponent.showDownloadBar = true;
         this.homeComponent.buttonText = this.translate.instant('PRIMARY-BUTTON.TEXT-DOWNLOADING');
+        this.homeComponent.startButtonReadyCSS = false;
     }
 
     OnDownloadSpeedUpdate(downloadSpeed: any): void {
@@ -67,6 +69,7 @@ export class DownloadInstallState implements InstallState {
         this.homeComponent.showPauseButton = false;
         this.homeComponent.showPlayButton = true;
         this.homeComponent.buttonText = this.translate.instant('PRIMARY-BUTTON.TEXT-RESUME');
+        this.homeComponent.startButtonReadyCSS = false;
     }
 
     OnDownloadInterrupt(): void {
@@ -77,10 +80,12 @@ export class DownloadInstallState implements InstallState {
         this.homeComponent.showInterruptButton = false;
         this.homeComponent.showDownloadBar = false;
 
-        if (!ClientHelper.getInstance().hasClientInstalled()) 
+        if (!ClientHelper.getInstance().hasClientInstalled())  
             this.homeComponent.buttonText = this.translate.instant('PRIMARY-BUTTON.TEXT-INSTALL');
         else 
             this.homeComponent.buttonText = this.translate.instant('PRIMARY-BUTTON.TEXT-UPDATE');
+
+        this.homeComponent.startButtonReadyCSS = false;
     }
 
     OnDownloadResume(): void {
@@ -90,6 +95,7 @@ export class DownloadInstallState implements InstallState {
         this.homeComponent.showDownloadStats = true;
         this.homeComponent.showDownloadBar = true;
         this.homeComponent.buttonText = this.translate.instant('PRIMARY-BUTTON.TEXT-DOWNLOADING');
+        this.homeComponent.startButtonReadyCSS = false;
     }
 
     OnDownloadFileFinished(downloadFile: DownloadFile) {
@@ -111,6 +117,7 @@ export class DownloadInstallState implements InstallState {
         this.homeComponent.showInterruptButton = false;
         this.homeComponent.hasFilesToDownload = false;
         this.homeComponent.buttonText = this.translate.instant('PRIMARY-BUTTON.TEXT-START');
+        this.homeComponent.startButtonReadyCSS = true;
         this.homeComponent.progressBarWidth = 0;
         this.homeComponent.isInstalling = false;
         this.homeComponent.progress = "";
@@ -130,6 +137,7 @@ export class DownloadInstallState implements InstallState {
         } else {
             this.homeComponent.state = DownloadState.WAITING_FOR_DOWNLOAD;
             this.homeComponent.buttonText = this.translate.instant('PRIMARY-BUTTON.TEXT-UPDATE');
+            this.homeComponent.startButtonReadyCSS = false;
             this.homeComponent.hasFilesToDownload = true;
         }
     }
@@ -146,6 +154,7 @@ export class DownloadInstallState implements InstallState {
         this.homeComponent.showInterruptButton = false;
         this.homeComponent.showDownloadBar = true;
         this.homeComponent.buttonText = this.translate.instant('PRIMARY-BUTTON.TEXT-INSTALLING');
+        this.homeComponent.startButtonReadyCSS = false;
         this.homeComponent.downloadSpeed = "";
         this.homeComponent.progress = "0%";
         this.homeComponent.progressBarWidth = 0;
@@ -159,7 +168,7 @@ export class DownloadInstallState implements InstallState {
         this.homeComponent.isUnzipping = false;
     }
 
-    OnInstallProgressUpdate(downloadFile: DownloadFile, progress: number, currFile: number, fileCount: number): void {
+    OnInstallProgressUpdate(_downloadFile: DownloadFile, progress: number, _currFile: number, _fileCount: number): void {
         this.homeComponent.state = DownloadState.INSTALLING;
         this.homeComponent.isUnzipping = true;
         this.homeComponent.showPauseButton = false;
@@ -168,6 +177,7 @@ export class DownloadInstallState implements InstallState {
         this.homeComponent.showInterruptButton = false;
         this.homeComponent.showDownloadBar = true;
         this.homeComponent.buttonText = this.translate.instant('PRIMARY-BUTTON.TEXT-INSTALLING');
+        this.homeComponent.startButtonReadyCSS = false;
         this.homeComponent.downloadSpeed = "";
         this.homeComponent.progress = (progress * 100).toFixed(2).toString() + "%";
         this.homeComponent.progressBarWidth = (progress * 100);

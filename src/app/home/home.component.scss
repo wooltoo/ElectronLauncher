@@ -69,13 +69,49 @@ input, button, textarea, :focus {
 #start-button {
     position:relative;
     top:-6px;
-    background: url("assets/info/startgamebutton.png");
     max-width:328px;
     height:53px;
     border-radius: 0 !important;
     border-color: rgba(0,0,0,0);
+    background-color: rgba(0,0,0,0);
     outline:none;
+}
+
+#start-button-inner {
+    margin:0;
+    animation: moving-back .3s forwards;
+}
+
+#start-button:active > #start-button-inner {
+    animation: moving .3s forwards;
+}
+
+.start-button-ready {
+    background: url("assets/info/startgamebutton.png") no-repeat;
+    color:white;
+}
+
+.start-button-ready:hover {
+    background: url("assets/info/startgamebutton-HL.png") no-repeat;
+}
+
+.start-button-ready:active {
+    background: url("assets/info/startgamebutton-PD.png") no-repeat;
+}
+
+.start-button-unready {
     color: rgb(62,62,62);
+    background: url("assets/info/updategamebutton.png") no-repeat;
+}
+
+.start-button-unready:hover {
+    color: rgb(62,62,62);
+    background: url("assets/info/updategamebutton-HL.png") no-repeat;
+}
+
+.start-button-unready:active {
+    color: rgb(255,255,255);
+    background: url("assets/info/updategamebutton-PD.png") no-repeat;
 }
 
 .download-bar {
