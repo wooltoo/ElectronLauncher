@@ -67,6 +67,8 @@ input, button, textarea, :focus {
 }
 
 #start-button {
+    position:relative;
+    top:-6px;
     background: url("assets/info/startgamebutton.png");
     max-width:328px;
     height:53px;

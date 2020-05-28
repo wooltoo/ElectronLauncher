@@ -1,23 +1,29 @@
 const request = require('request');
-import { LauncherConfig } from '../general/launcherconfig';
 
 // Should only be running in the main process of electron.
 export class ConnectionStatus
 {
     connected : boolean = false;
 
+        // How often the launcher should check if it's online or offline (MS).
+    // Should be higher than MAXIMUM_RESPONSE_TIME.
+    static INTERVAL_CHECK_ONLINE_STATUS = 2000;
+
+    // Maximum response time to be counted as online in (MS).
+    static MAXIMUM_RESPONSE_TIME_ONLINE = 1500;
+
     constructor() {
         this.checkConnectivity();
         setInterval(
           () => { this.checkConnectivity(); },
-          LauncherConfig.INTERVAL_CHECK_ONLINE_STATUS
+         ConnectionStatus.INTERVAL_CHECK_ONLINE_STATUS
         );
     } 
 
     private checkConnectivity() : void {
         request.get({
-            url: LauncherConfig.BACKEND_HOST + '/reachable',
-            timeout: LauncherConfig.MAXIMUM_RESPONSE_TIME_ONLINE,
+            url: 'http://127.0.0.1:3000/reachable',
+            timeout: ConnectionStatus.MAXIMUM_RESPONSE_TIME_ONLINE,
             json: true,
         }, (_error: any, _response: any, json: undefined) => 
         {

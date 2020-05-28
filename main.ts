@@ -1,7 +1,7 @@
 import { app, BrowserWindow, screen, ipcMain } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
-import { ConnectionStatus } from './src/app/general/connectionstatus';
+import { ConnectionStatus } from './connectionstatus';
 const contextMenu = require('electron-context-menu');
 contextMenu(); // adds right click inspect in dev mode
 

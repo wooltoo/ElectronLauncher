@@ -9,6 +9,8 @@
 }
 
 .video-container {
+    position:relative;
+    top:-6px;
     padding: 0;
     height: 368px;
     width: 662px;

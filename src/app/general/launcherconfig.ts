@@ -8,6 +8,7 @@ export class LauncherConfig
 
     // The hostname with port to the backend.
     //static BACKEND_HOST : string = "http://116.203.225.226:3000";
+    // NOTE:!!! When changing this value, connectionstatus.ts must have it's updated!
     static BACKEND_HOST : string = "http://127.0.0.1:3000";
     
     // How often the launcher checks if a patch is missing locally (MS).
@@ -34,13 +35,6 @@ export class LauncherConfig
 
     // How often the launcher should investigate if a addon is installed (MS).
     static INTERVAL_INVESTIGATE_ADDON_STATUS = 1000;
-
-    // How often the launcher should check if it's online or offline (MS).
-    // Should be higher than MAXIMUM_RESPONSE_TIME.
-    static INTERVAL_CHECK_ONLINE_STATUS = 2000;
-
-    // Maximum response time to be counted as online in (MS).
-    static MAXIMUM_RESPONSE_TIME_ONLINE = 1500;
 
     // The name of the client remote resource.
     static CLIENT_RESOURCE_NAME : string = "client";
