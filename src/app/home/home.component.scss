@@ -80,39 +80,44 @@ input, button, textarea, :focus {
 #start-button-inner {
     margin:0;
     animation: moving-back .3s forwards;
+    pointer-events: none;
 }
 
-#start-button:active > #start-button-inner {
+
+.start-button-ready:active, > #start-button-inner {
     animation: moving .3s forwards;
 }
 
 .start-button-ready {
     background: url("assets/info/startgamebutton.png") no-repeat;
-    color:white;
+    color:white !important;
 }
 
 .start-button-ready:hover {
+    color:white !important;
     background: url("assets/info/startgamebutton-HL.png") no-repeat;
 }
 
 .start-button-ready:active {
+    color:white !important;
     background: url("assets/info/startgamebutton-PD.png") no-repeat;
 }
 
-.start-button-unready {
-    color: rgb(62,62,62);
+.start-button-unready, .start-button-unready:hover, .start-button-unready:active, .start-button-unready:focus {
+    color: rgb(62,62,62) !important;
     background: url("assets/info/updategamebutton.png") no-repeat;
 }
 
-.start-button-unready:hover {
+/*.start-button-unready:hover {
     color: rgb(62,62,62);
     background: url("assets/info/updategamebutton-HL.png") no-repeat;
-}
+}*/
 
-.start-button-unready:active {
+/*.start-button-unready:active > #start-button-inner {
+    color: rgb(62,62,62);
     color: rgb(255,255,255);
     background: url("assets/info/updategamebutton-PD.png") no-repeat;
-}
+}*/
 
 .download-bar {
     height:48px;

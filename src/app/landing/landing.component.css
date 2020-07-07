@@ -96,6 +96,11 @@
     animation: moving .3s forwards;
 }
 
+#inner-select-game-button {
+    text-overflow:ellipsis;
+    overflow:hidden;
+}
+
 #go-button:active > #inner-go-button {
     animation: moving .3s forwards;
 }

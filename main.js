@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var electron_1 = require("electron");
 var path = require("path");
 var url = require("url");
-var connectionstatus_1 = require("./src/app/general/connectionstatus");
+var connectionstatus_1 = require("./connectionstatus");
 var contextMenu = require('electron-context-menu');
 contextMenu(); // adds right click inspect in dev mode
 var win = null;
