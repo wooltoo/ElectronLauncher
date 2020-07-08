@@ -228,10 +228,22 @@
 }
 
 #settings-house {
+    background: url("assets/settings/settings-top-right-home.png") no-repeat;
     position:absolute;
     right:300px;
     top:250px;
+    height:16px;
+    width:16px;
     cursor:pointer;
+    transition: 0.3s ease-in-out;
+}
+
+#settings-house:hover {
+    background: url("assets/settings/settings-top-right-home-HL.png") no-repeat;
+}
+
+#settings-house:active {
+    background: url("assets/settings/settings-top-right-home.png") no-repeat;
 }
 
 .settings-dropdown-text-color {

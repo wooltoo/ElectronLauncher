@@ -10,6 +10,15 @@ export class FileRemover {
         });
     }
 
+    public static removeDir(dirPath : string) : void {
+        const fs = require('fs');
+
+        if (!fs.existsSync(dirPath))
+            return;
+
+        fs.rmdirSync(dirPath, { recursive: true });
+    }
+
     public static removeIfMD5Mismatch(filePath : string, MD5 : string) : void {
         const fs = require('fs');
 

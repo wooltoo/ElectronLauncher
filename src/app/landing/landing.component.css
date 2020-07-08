@@ -99,6 +99,7 @@
 #inner-select-game-button {
     text-overflow:ellipsis;
     overflow:hidden;
+    max-height:35px;
 }
 
 #go-button:active > #inner-go-button {

@@ -11,6 +11,7 @@ import { ComponentRegistryEntry, ComponentRegistry } from '../general/componentr
 import { SettingsComponent } from '../settings/settings.component';
 import { SettingsManager, Setting } from '../general/settingsmanager';
 import { RealmListChanger } from '../general/realmlistchanger';
+import { ClientCache } from '../general/clientcache';
 import { RealmService } from '../realm.service';
 import { DownloadSystem } from '../general/downloadsystem';
 import { DownloadListObserver } from '../general/downloadlistobserver';
@@ -99,12 +100,15 @@ export class HomeComponent implements OnInit, DownloadListObserver {
   }
 
   StartGame() : void {
-    let changer = new RealmListChanger();
-    changer.setRealmList(this.realmService.getRealms()[0].getRealmList());
-
     let dir : string | undefined | null = ClientHelper.getInstance().getClientDirectory()
     if (!dir)
       throw new Error('Could not start Wow.exe because the game client directory could not be located');
+
+    let changer = new RealmListChanger();
+    changer.setRealmList(this.realmService.getRealms()[0].getRealmList());
+
+    let cache = new ClientCache();
+    cache.clean();
 
     let cmd = path.join(dir, 'Wow.exe');
     spawn(cmd, [], {detached: true});

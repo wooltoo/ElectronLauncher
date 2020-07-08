@@ -43,7 +43,7 @@ export class LauncherConfig
     static CLIENT_FILE_NAME : string = "client.zip";
 
     // Devices if landing screen should be forced upon startup.
-    static FORCE_LANDING_SCREEN : boolean = false;
+    static FORCE_LANDING_SCREEN : boolean = true;
 
     // Default Youtube video to be shown.
     static DEFAULT_YOUTUBE_VIDEO : string = "https://www.youtube.com/embed/IBHL_-biMrQ";
