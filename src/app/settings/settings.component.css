@@ -132,7 +132,7 @@
     width:304px;
     height:30px;
     border:0 !important;
-    color:rgb(122, 68, 168);
+    color:#2c1c47;
     padding:0;
     transition: all .2s ease-in-out;
 }
@@ -154,7 +154,7 @@
     width:179px;
     height:30px;
     border:0 !important;
-    color:rgb(122, 68, 168);
+    color:#9e53de;
     margin-left:15px;
     padding:0;
     transition: all .2s ease-in-out;
@@ -231,6 +231,7 @@
     position:absolute;
     right:300px;
     top:250px;
+    cursor:pointer;
 }
 
 .settings-dropdown-text-color {
