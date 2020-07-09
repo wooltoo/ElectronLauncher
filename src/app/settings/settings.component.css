@@ -236,6 +236,7 @@
     width:16px;
     cursor:pointer;
     transition: 0.3s ease-in-out;
+    animation: moving-back .3s forwards;
 }
 
 #settings-house:hover {
@@ -244,6 +245,7 @@
 
 #settings-house:active {
     background: url("assets/settings/settings-top-right-home.png") no-repeat;
+    animation: moving .3s forwards;
 }
 
 .settings-dropdown-text-color {
