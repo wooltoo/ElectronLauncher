@@ -62,6 +62,11 @@
 .social-button {
     -webkit-app-region: no-drag;
     height:49px;
+    animation: moving-back .3s forwards;
+}
+
+.social-button:active {
+    animation: moving .3s forwards;
 }
 
 .app-navbar-btn-active {
@@ -101,17 +106,6 @@
 
 .logo {
     margin-right:2%;
-}
-
-.social-container > li > img:hover {
-    color: white !important;
-    transition: color 0.3s linear;
-}
-
-.social-container > li > img {
-    margin-right: 8%;
-    color: rgb(74, 44, 108);
-    -webkit-app-region: no-drag;
 }
 
 #leftNavbar {
@@ -177,6 +171,10 @@
     background: url("assets/icons/youtube-icon-HL.png") no-repeat;
 }
 
+#youtube-icon:active {
+    background: url("assets/icons/youtube-icon.png") no-repeat;
+}
+
 #discord-icon {
     background: url("assets/icons/discord-icon.png") no-repeat;
     width:22px;
@@ -186,6 +184,10 @@
 
 #discord-icon:hover {
     background: url("assets/icons/discord-icon-HL.png") no-repeat;
+}
+
+#discord-icon:active {
+    background: url("assets/icons/discord-icon.png") no-repeat;
 }
 
 #twitter-icon {
@@ -199,6 +201,10 @@
     background: url("assets/icons/twitter-icon-HL.png") no-repeat;
 }
 
+#twitter-icon:active {
+    background: url("assets/icons/twitter-icon.png") no-repeat;
+}
+
 #facebook-icon {
     background: url("assets/icons/facebook-icon.png") no-repeat;
     width:17px;
@@ -208,4 +214,8 @@
 
 #facebook-icon:hover {
     background: url("assets/icons/facebook-icon-HL.png") no-repeat;
+}
+
+#facebook-icon:active {
+    background: url("assets/icons/facebook-icon.png") no-repeat;
 }
