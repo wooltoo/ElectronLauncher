@@ -12,18 +12,24 @@
         </div>
         <div class="addon-button-container">
             <button *ngIf='downloaded' class="btn my-2 my-sm-0 navbar-button addon-button-download-base addon-button-downloaded" type="submit" (click)="OnPressDownloadButton()">
-                <p class="addon-button-inner">
-                    {{'ADDONS.BUTTON-DOWNLOADED' | translate}}
-                </p>
+                <div class="addon-button-inner-wrapper">
+                    <p class="addon-button-inner">
+                        {{'ADDONS.BUTTON-DOWNLOADED' | translate}}
+                    </p>
+                </div>
             </button>
 
             <button *ngIf='!downloaded' class="btn my-2 my-sm-0 navbar-button addon-button-download-base addon-button-download" type="submit" (click)="OnPressDownloadButton()">
-                <p *ngIf='downloading' class="addon-button-inner">
-                    {{'ADDONS.BUTTON-DOWNLOADING' | translate}}
-                </p>
-                <p *ngIf='!downloading' class="addon-button-inner">
-                    {{'ADDONS.BUTTON-DOWNLOAD' | translate}}
-                </p>
+                <div *ngIf='downloading' class="addon-button-inner-wrapper">
+                    <p class="addon-button-inner">
+                        {{'ADDONS.BUTTON-DOWNLOADING' | translate}}
+                    </p>
+                </div>
+                <div *ngIf='!downloading' class="addon-button-inner-wrapper">
+                    <p class="addon-button-inner">
+                        {{'ADDONS.BUTTON-DOWNLOAD' | translate}}
+                    </p>
+                </div>
             </button>
         </div>
     </div>
