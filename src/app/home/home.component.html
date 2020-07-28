@@ -44,10 +44,6 @@
           <p id="download-speed">{{downloadSpeed}}</p>
         </div>
 
-        <div *ngIf="showInterruptButton">
-          <i id="download-exit-button" class="far fa-window-close" (click)="OnPressCancelDownload()"></i>
-        </div>
-
         <div *ngIf="showPauseButton; else elseBlock">
           <i id="download-pause-button" class="fas fa-pause" (click)="OnPressPauseDownload()"></i>
         </div>
@@ -56,6 +52,8 @@
             <i id="download-pause-button" class="fas fa-play" (click)="OnPressResumeDownload()"></i>
           </div>
         </ng-template>
+
+        <i id="download-exit-button" class="far fa-window-close" (click)="OnPressCancelDownload()"></i>
       </div>
     </div>
   </div>
