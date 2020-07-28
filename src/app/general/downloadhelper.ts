@@ -131,6 +131,7 @@ export class DownloadHelper implements DownloadListObserver
 
     private extractionComplete() : void {
         this.downloadFile = null;
+        this.downloadItem = null;
         this.downloadNext();
     }
 
@@ -148,8 +149,9 @@ export class DownloadHelper implements DownloadListObserver
     }
 
     public pause() : void {
-        if (!this.downloadItem)
+        if (!this.downloadItem) {
             return;
+        }
 
         this.downloadItem.pause();
 
@@ -169,6 +171,8 @@ export class DownloadHelper implements DownloadListObserver
 
     private onProgress(progress: { speedBytes: any; progress: any; }, item: DownloadItem | null | undefined) : void
     {
+        this.downloadItem = item;
+
         if (this.installState) {
             this.installState.OnDownloadSpeedUpdate(progress.speedBytes);
             this.installState.OnDownloadProgressUpdate(progress.progress);
@@ -181,6 +185,7 @@ export class DownloadHelper implements DownloadListObserver
     }
     private onFinished() : void {    
         this.downloading = false;
+
         if (this.installState)
             this.installState.OnDownloadFinished();
     }
