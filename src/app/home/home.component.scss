@@ -121,6 +121,9 @@ input, button, textarea, :focus {
 }*/
 
 .download-bar {
+    position:relative;
+    top:-3px;
+    left:-3px;
     height:48px;
     margin-left:0%;
     width:62.5%;
@@ -138,9 +141,9 @@ input, button, textarea, :focus {
 }
 
 #download-progress-wrapper {
-    position:absolute;
-    top:7px;
-    left:980px;
+    position: relative;
+    top:-35px;
+    left:591px;
     width:55px;
 }
 
@@ -153,9 +156,9 @@ input, button, textarea, :focus {
 }
 
 #download-speed-wrapper {
-    position:absolute;
-    top:25px;
-    left:982.5px;
+    position:relative;
+    top:-55px;
+    left:593.5px;
     width:55px;
 }
 
@@ -167,16 +170,16 @@ input, button, textarea, :focus {
 }
 
 #download-pause-button {
-    position: absolute;
-    right:90px;
-    top:20px;
+    position: relative;
+    top:-122px;
+    left:655px;
     color:rgb(124, 67, 175);
 }
 
 #download-exit-button {
-    position:absolute;
-    right:65px;
-    top:20px;
+    position:relative;
+    top:-98px;
+    left:682.5px;
     color: rgb(124, 67, 175);
 }
 

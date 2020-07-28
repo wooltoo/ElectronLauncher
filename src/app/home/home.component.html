@@ -31,21 +31,8 @@
       </div>
       
       <div *ngIf="showDownloadBar" class="download-bar fadeIn animated">
-
         <div class="progress" id="progress-dl">
-          <div class="progress-bar bg-success" role="progressbar" [style.width.%]="progressBarWidth" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-          
-          <div *ngIf="showPauseButton; else elseBlock">
-            <i id="download-pause-button" class="fas fa-pause" (click)="OnPressPauseDownload()"></i>
-          </div>
-          <ng-template #elseBlock>
-            <div *ngIf="showPlayButton">
-              <i id="download-pause-button" class="fas fa-play" (click)="OnPressResumeDownload()"></i>
-            </div>
-          </ng-template>
-          
-          <div *ngIf="showInterruptButton">
-            <i id="download-exit-button" class="far fa-window-close" (click)="OnPressCancelDownload()"></i>
+          <div class="progress-bar bg-success" role="progressbar" [style.width.%]="progressBarWidth" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
           </div>
         </div>
 
@@ -56,6 +43,19 @@
         <div id="download-speed-wrapper">
           <p id="download-speed">{{downloadSpeed}}</p>
         </div>
+
+        <div *ngIf="showInterruptButton">
+          <i id="download-exit-button" class="far fa-window-close" (click)="OnPressCancelDownload()"></i>
+        </div>
+
+        <div *ngIf="showPauseButton; else elseBlock">
+          <i id="download-pause-button" class="fas fa-pause" (click)="OnPressPauseDownload()"></i>
+        </div>
+        <ng-template #elseBlock>
+          <div *ngIf="showPlayButton">
+            <i id="download-pause-button" class="fas fa-play" (click)="OnPressResumeDownload()"></i>
+          </div>
+        </ng-template>
       </div>
     </div>
   </div>
