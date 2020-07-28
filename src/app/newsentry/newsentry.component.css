@@ -48,3 +48,11 @@
     display:inline-block;
     width:80%;
 }
+
+.selectable-text {
+    user-select: text;
+}
+
+.unselectable-text {
+    user-select: none;
+}
