@@ -170,15 +170,15 @@ input, button, textarea, :focus {
 }
 
 #download-pause-button {
-    position: relative;
-    top:-98px;
+    position: absolute;
+    top:16px;
     left:655px;
     color:rgb(124, 67, 175);
 }
 
 #download-exit-button {
-    position:relative;
-    top:-122px;
+    position:absolute;
+    top:16px;
     left:682.5px;
     color: rgb(124, 67, 175);
 }
