@@ -29,19 +29,24 @@ export class AddonComponent implements OnInit {
   }
 
   public OnPressDownloadButton() {
-    if (this.downloaded || this.addon.isInstalled()) 
+    console.log("#1");
+    if (this.downloaded || this.downloading || this.addon.isInstalled()) 
       return false;
 
+    console.log("#2");
     this.downloading = true;
     DownloadFileUtil.fetchDownloadFile(
       this.addon.getDownloadFileId(), 
-     
       (downloadfile : DownloadFile | null) => {
-        if (downloadfile) 
+        console.log("#3");
+        if (downloadfile) {
           this.onFetchDownloadFileSuccess(downloadfile) 
+          console.log("#4");
+        } 
       },
       
       () => {
+        console.log("#5 - error");
          this.onFetchDownloadFileError()
       }
     );
@@ -61,6 +66,7 @@ export class AddonComponent implements OnInit {
 
   private onFetchDownloadFileSuccess(downloadFile : DownloadFile) : void {
     let downloadSystem : DownloadSystem = DownloadSystem.getInstance();
+    console.log("ADDON FETCH DOWNLOAD FILE SUCCESS");
     downloadSystem.queue([downloadFile]);
   }
 

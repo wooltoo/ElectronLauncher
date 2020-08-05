@@ -34,7 +34,6 @@ export class NewsEntryService {
       let hasBeenModified = false;
       let beforeCount = this.getNews().length;
 
-      this.news = [];
       body.forEach(obj => {
         if (!this.news.hasOwnProperty(obj['id'])) {
           this.news[obj['id']] = new NewsEntry(obj['id'], obj['title'], obj['date'], obj['text']);
@@ -44,9 +43,9 @@ export class NewsEntryService {
         }
       });
 
-      let addedNewAddon = beforeCount !== this.getNews().length;
+      let addedNewEntry = beforeCount !== this.getNews().length;
 
-      if (addedNewAddon || hasBeenModified) {
+      if (addedNewEntry || hasBeenModified) {
         this.notifyNews();
       }
     });
