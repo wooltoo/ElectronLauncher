@@ -107,30 +107,57 @@ export class SettingsComponent implements OnInit {
 
   OnPressChangeGameLocation() : void {
     let selectedDir = this.SelectGameDirectory();
+
     if (selectedDir != null && selectedDir != undefined) {
       if (!ClientHelper.hasClientInDirectory(selectedDir)) {
-        let modal : ModalEntryDouble = new ModalEntryDouble(
-          Modals.SETTINGS_COULD_NOT_FIND_CLIENT,
-          this.translate.instant('MODALS.SETTINGS-COULD-NOT-FIND-CLIENT.TITLE'),
-          this.translate.instant('MODALS.SETTINGS-COULD-NOT-FIND-CLIENT.TEXT'),
-          this.translate.instant('MODALS.SETTINGS-COULD-NOT-FIND-CLIENT.BUTTON-POSITIVE'),
-          this.translate.instant('MODALS.SETTINGS-COULD-NOT-FIND-CLIENT.BUTTON-NEGATIVE'),
-          () => {
-            if (selectedDir)
-              this.directoryPath = selectedDir;
-            
-            ClientHelper.getInstance().clearClientDirectory();
-            ClientHelper.getInstance().setRequestedClientDirectory(this.directoryPath);
-            DownloadSystem.getInstance().queueClient();
-            this.hasSaved = true;
-          },
-          () => {}
-        ); 
-
-       let modalComponent : ModalComponent = <ModalComponent> ComponentRegistry.getInstance().get(ComponentRegistryEntry.MODAL_COMPONENT);
-        modalComponent.enqueue(modal);
+        this.changeGameLocationEmpty(selectedDir);
+      } else {
+        this.changeGameLocationNotEmpty(selectedDir);
       } 
     }
+  }
+
+  changeGameLocationNotEmpty(selectedDir : string) : void {
+    let modal : ModalEntryDouble = new ModalEntryDouble(
+      Modals.SETTINGS_COULD_NOT_FIND_CLIENT,
+      this.translate.instant('MODALS.SETTINGS-TARGET-CLIENT-DIRECTORY-NOT-EMPTY.TITLE'),
+      this.translate.instant('MODALS.SETTINGS-TARGET-CLIENT-DIRECTORY-NOT-EMPTY.TEXT'),
+      this.translate.instant('MODALS.SETTINGS-TARGET-CLIENT-DIRECTORY-NOT-EMPTY.BUTTON-POSITIVE'),
+      this.translate.instant('MODALS.SETTINGS-TARGET-CLIENT-DIRECTORY-NOT-EMPTY.BUTTON-NEGATIVE'),
+      () => {
+        this.directoryPath = selectedDir;
+        ClientHelper.getInstance().setClientDirectory(this.directoryPath)
+      },
+      () => {}
+    ); 
+
+    let modalComponent : ModalComponent = <ModalComponent> ComponentRegistry.getInstance().get(ComponentRegistryEntry.MODAL_COMPONENT);
+    modalComponent.enqueue(modal);
+  }
+
+  changeGameLocationEmpty(selectedDir : string) : void {
+    let modal : ModalEntryDouble = new ModalEntryDouble(
+      Modals.SETTINGS_COULD_NOT_FIND_CLIENT,
+      this.translate.instant('MODALS.SETTINGS-COULD-NOT-FIND-CLIENT.TITLE'),
+      this.translate.instant('MODALS.SETTINGS-COULD-NOT-FIND-CLIENT.TEXT'),
+      this.translate.instant('MODALS.SETTINGS-COULD-NOT-FIND-CLIENT.BUTTON-POSITIVE'),
+      this.translate.instant('MODALS.SETTINGS-COULD-NOT-FIND-CLIENT.BUTTON-NEGATIVE'),
+      () => {
+        console.log("#1");
+        if (selectedDir)
+          this.directoryPath = selectedDir;
+        
+        console.log("#2");
+        ClientHelper.getInstance().clearClientDirectory();
+        ClientHelper.getInstance().setRequestedClientDirectory(this.directoryPath);
+        DownloadSystem.getInstance().queueClient();
+        this.hasSaved = true;
+      },
+      () => {}
+    ); 
+
+    let modalComponent : ModalComponent = <ModalComponent> ComponentRegistry.getInstance().get(ComponentRegistryEntry.MODAL_COMPONENT);
+    modalComponent.enqueue(modal);
   }
 
   Update() : void {

@@ -28,7 +28,7 @@
     "ng:serve": "ng serve",
     "ng:serve:web": "ng serve -c web -o",
     "electron:serve-tsc": "tsc -p tsconfig-serve.json",
-    "electron:serve": "wait-on http-get://localhost:4200/ && npm run electron:serve-tsc && electron . --serve",
+    "electron:serve": "wait-on http-get://localhost:4200/ && npm run electron:serve-tsc && electron . --serve --remote-debugging-port=9222",
     "electron:local": "npm run build:prod && electron .",
     "electron:linux": "npm run build:prod && electron-builder build --linux",
     "electron:windows": "npm run build:prod && electron-builder build --windows",
@@ -94,18 +94,19 @@
   "dependencies": {
     "@fortawesome/angular-fontawesome": "^0.6.1",
     "@types/jquery": "^3.3.38",
+    "axios": "^0.19.2",
     "decompress-zip": "^0.2.2",
     "dotenv": "^8.2.0",
     "electron-context-menu": "^1.0.0",
     "electron-dl": "^3.0.0",
     "electron-download-manager": "^2.1.2",
+    "got": "^11.5.1",
     "jquery": "^3.5.1",
     "md5-file": "^5.0.0",
     "ngx-infinite-scroll": "^9.0.0",
     "ngx-webstorage": "^5.0.0",
     "node-disk-info": "^1.0.4",
     "node-stream-zip": "^1.11.1",
-    "request": "^2.88.2",
-    "requestretry": "^4.1.0"
+    "request": "^2.88.2"
   }
 }

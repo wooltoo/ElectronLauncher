@@ -76,6 +76,12 @@
       "BUTTON-NEGATIVE": "CANCEL",
       "BUTTON-POSITIVE": "CONFIRM"
     },
+    "SETTINGS-TARGET-CLIENT-DIRECTORY-NOT-EMPTY": {
+      "TITLE": "Directory is not empty",
+      "TEXT": "The target directory is not empty. This could potentially affect your experience. Would you like to continue?",
+      "BUTTON-NEGATIVE": "CANCEL",
+      "BUTTON-POSITIVE": "CONFIRM"
+    },
     "LANDING-COULD-NOT-FIND-CLIENT": {
       "TITLE": "Could not find client",
       "TEXT": "The launcher could not detect a client in your selected directory. Please choose another directory or press download.",
