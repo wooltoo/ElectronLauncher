@@ -55,11 +55,11 @@ function createWindow(): BrowserWindow {
   // Create the browser window.
   win = new BrowserWindow({
     //width: 1280,
-    width: 1800,
+    width: 1280,
     height: 720,
     minWidth: 582,
     minHeight: 112.5,
-    resizable: true,
+    resizable: false,
     frame: false,
     webPreferences: {
       nodeIntegration: true,
@@ -84,7 +84,7 @@ function createWindow(): BrowserWindow {
   }
 
   if (serve) {
-    win.webContents.openDevTools();
+    //win.webContents.openDevTools();
   }
 
   win.on('closed', () => {
