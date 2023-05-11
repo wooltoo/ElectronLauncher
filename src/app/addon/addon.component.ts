@@ -33,20 +33,16 @@ export class AddonComponent implements OnInit {
     if (this.downloaded || this.downloading || this.addon.isInstalled()) 
       return false;
 
-    console.log("#2");
     this.downloading = true;
     DownloadFileUtil.fetchDownloadFile(
       this.addon.getDownloadFileId(), 
       (downloadfile : DownloadFile | null) => {
-        console.log("#3");
         if (downloadfile) {
           this.onFetchDownloadFileSuccess(downloadfile) 
-          console.log("#4");
         } 
       },
       
       () => {
-        console.log("#5 - error");
          this.onFetchDownloadFileError()
       }
     );

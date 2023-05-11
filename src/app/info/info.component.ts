@@ -74,7 +74,7 @@ export class InfoComponent implements OnInit, NewsServiceCallback {
   }
 
   private checkForYoutubeVideo() {
-    request.get({
+    /*request.get({
       url: LauncherConfig.BACKEND_HOST + '/youtube-video',
       json: true
     }, (_error: any, _response: any, json: { [x: string]: string; } | undefined) => {
@@ -82,7 +82,7 @@ export class InfoComponent implements OnInit, NewsServiceCallback {
         return;
       
       this.setVideo(json['video']);
-    });
+    });*/
   }
 
   private startCheckForYoutubeVideo() {

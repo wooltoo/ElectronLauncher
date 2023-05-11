@@ -27,6 +27,8 @@ export class SettingsManager {
 
     public setLocalSt(localStI : LocalStorageService) : void {
         this.localSt = localStI;
+        // Clears loca storage, so e.g. game directory settings.
+        this.localSt.clear();
         this.loadSettings();
         this.setDefaults();
     }
