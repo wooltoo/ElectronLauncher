@@ -45,15 +45,16 @@ function createWindow() {
     // Create the browser window.
     win = new electron_1.BrowserWindow({
         //width: 1280,
-        width: 1800,
+        width: 1280,
         height: 720,
         minWidth: 582,
         minHeight: 112.5,
-        resizable: true,
+        resizable: false,
         frame: false,
         webPreferences: {
             nodeIntegration: true,
             nodeIntegrationInWorker: true,
+            webSecurity: false,
             allowRunningInsecureContent: (serve) ? true : false,
         },
         show: false
@@ -72,7 +73,7 @@ function createWindow() {
         }));
     }
     if (serve) {
-        win.webContents.openDevTools();
+        //win.webContents.openDevTools();
     }
     win.on('closed', function () {
         win = null;
