@@ -1,0 +1,17 @@
+[{
+  "_id": {
+    "$oid": "5ea4457adc47df441475978d"
+  },
+  "id": 1,
+  "name": "Tales 1",
+  "status": "OFFLINE",
+  "realmlist": "logon.talesoftime.com"
+},{
+  "_id": {
+    "$oid": "5ea4458edc47df441475978e"
+  },
+  "id": 2,
+  "name": "Tales 2",
+  "status": "ONLINE",
+  "realmlist": "logon.talesoftime.com"
+}]

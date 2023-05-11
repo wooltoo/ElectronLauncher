@@ -1,0 +1,25 @@
+[{
+  "_id": {
+    "$oid": "5ea4347edc47df441475978a"
+  },
+  "id": 1,
+  "title": "TALES OF TIMES",
+  "date": "AUGUST 29, 2020",
+  "text": "Suspendisse et rhoncus itgula. Aliquam ac ultrices eros. Cconsequat felis iaculis, feugiat diam. Mauris consectetur sodales est condimentum convallis."
+},{
+  "_id": {
+    "$oid": "5ea4349fdc47df441475978b"
+  },
+  "id": 2,
+  "title": "TALES OF TIMES",
+  "date": "SEPTEMBER 1, 2020",
+  "text": "Aliquam ac ultrices eros. Fusce a lacus porta, consequat felis iaculis, feugiat diam. Mauris consectetur sodales est condimentum convallis."
+},{
+  "_id": {
+    "$oid": "5ea434a6dc47df441475978c"
+  },
+  "id": 3,
+  "title": "TALES OF TIMES",
+  "date": "SEPTEMBER 14, 2020",
+  "text": "Suspendisse et rhoncus ligula. Aliquam ac ultrices eros. Fusce a lacus porta, consequat felis iaculis, feugiat diam. Mauris consectetur sodales est condimentum convallis."
+}]

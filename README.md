@@ -1,4 +1,4 @@
-# World of Warcraft Launcher
+# Cross-platform Game Launcher
 
 ![](./media/loading.png)
 

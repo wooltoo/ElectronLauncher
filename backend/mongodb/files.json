@@ -1,0 +1,144 @@
+[{
+  "_id": {
+    "$oid": "5ea48608882fa45560f4ecf4"
+  },
+  "id": 1,
+  "type": "patch",
+  "name": "patch-1.zip",
+  "md5-checksum": "662de75bf47431cba8f60d9a560afc56",
+  "resource": "http://waloria.com/files/launcher/patch-1.zip",
+  "file-name": "patch-1.zip",
+  "extract": false,
+  "target": "Data/<locale>",
+  "file-size": 3642000
+},{
+  "_id": {
+    "$oid": "5ea5c3ab882fa45560f4ecf8"
+  },
+  "id": 4,
+  "type": "patch",
+  "name": "patch-2.zip",
+  "md5-checksum": "d4f794b90e523e1f5e489ea7e7c9721c",
+  "resource": "http://waloria.com/files/launcher/patch-2.zip",
+  "file-name": "patch-2.zip",
+  "extract": false,
+  "target": "Data/<locale>",
+  "file-size": 3642000
+},{
+  "_id": {
+    "$oid": "5ea4860c882fa45560f4ecf5"
+  },
+  "id": 2,
+  "type": "patch",
+  "name": "patch-P.zip",
+  "md5-checksum": "347ba06228683e2fe197e6cc54bc6da6",
+  "resource": "http://waloria.com/files/launcher/patch-P.zip",
+  "file-name": "patch-P.zip",
+  "extract": false,
+  "target": "Data/<locale>",
+  "file-size": 3642000
+},{
+  "_id": {
+    "$oid": "5ea48925882fa45560f4ecf6"
+  },
+  "id": 3,
+  "type": "client",
+  "name": "client",
+  "md5-checksum": "",
+  "resource": "http://waloria.com/files/launcher/client.zip",
+  "file-name": "client.zip",
+  "extract": true,
+  "target": "",
+  "file-size": 159383552
+},{
+  "_id": {
+    "$oid": "5eb6f9219c7fa3399c76ff67"
+  },
+  "id": 5,
+  "type": "resource",
+  "name": "WoWExe",
+  "md5-checksum": "1b8b04d69296a08dd69e97022119db1d",
+  "resource": "http://waloria.com/files/launcher/Wow.exe",
+  "file-name": "Wow.exe",
+  "extract": false,
+  "target": "",
+  "file-size": 4550000
+},{
+  "_id": {
+    "$oid": "5ebd413e10a8993eb8df0f4f"
+  },
+  "id": 6,
+  "type": "addon",
+  "name": "tot-bagnon",
+  "md5-checksum": "",
+  "resource": "http://waloria.com/files/launcher/tot-bagnon.zip",
+  "file-name": "tot-bagnon.zip",
+  "extract": true,
+  "target": "Interface/AddOns",
+  "file-size": 3642000
+},{
+  "_id": {
+    "$oid": "5ebe5c3192242e339451ea8a"
+  },
+  "id": 7,
+  "type": "addon",
+  "name": "tot-another-addon",
+  "md5-checksum": "",
+  "resource": "http://waloria.com/files/launcher/tot-another-addon.zip",
+  "file-name": "tot-another-addon.zip",
+  "extract": true,
+  "target": "Interface/AddOns",
+  "file-size": 3642000
+},{
+  "_id": {
+    "$oid": "5ebe5c4992242e339451ea8b"
+  },
+  "id": 8,
+  "type": "addon",
+  "name": "tot-bartender",
+  "md5-checksum": "",
+  "resource": "http://waloria.com/files/launcher/tot-bartender.zip",
+  "file-name": "tot-bartender.zip",
+  "extract": true,
+  "target": "Interface/AddOns",
+  "file-size": 3642000
+},{
+  "_id": {
+    "$oid": "5ebe5c7592242e339451ea8c"
+  },
+  "id": 9,
+  "type": "addon",
+  "name": "tot-gladius",
+  "md5-checksum": "",
+  "resource": "http://waloria.com/files/launcher/tot-gladius.zip",
+  "file-name": "tot-gladius.zip",
+  "extract": true,
+  "target": "Interface/AddOns",
+  "file-size": 3642000
+},{
+  "_id": {
+    "$oid": "5ebe5c9292242e339451ea8d"
+  },
+  "id": 10,
+  "type": "addon",
+  "name": "tot-omnicc",
+  "md5-checksum": "",
+  "resource": "http://waloria.com/files/launcher/tot-omnicc.zip",
+  "file-name": "tot-omnicc.zip",
+  "extract": true,
+  "target": "Interface/AddOns",
+  "file-size": 3642000
+},{
+  "_id": {
+    "$oid": "5ebe5ca592242e339451ea8e"
+  },
+  "id": 11,
+  "type": "addon",
+  "name": "tot-recount",
+  "md5-checksum": "",
+  "resource": "http://waloria.com/files/launcher/tot-recount.zip",
+  "file-name": "tot-recount.zip",
+  "extract": true,
+  "target": "Interface/AddOns",
+  "file-size": 3642000
+}]

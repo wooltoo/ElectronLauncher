@@ -1,0 +1,61 @@
+[{
+  "_id": {
+    "$oid": "5ebc28006f2aca24c412e23e"
+  },
+  "id": 1,
+  "name": "Bartender",
+  "description": "Bartender is a full ActionBar replacement mod. It provides you with all the features needed to fully customize most aspects of your action and related bars.",
+  "icon-resource": "http://waloria.com/files/launcher/Bartender-icon.png",
+  "folder-name": "tot-bartender",
+  "download-file": 8
+},{
+  "_id": {
+    "$oid": "5ebc28196f2aca24c412e23f"
+  },
+  "id": 2,
+  "name": "Bagnon",
+  "description": "Bagnon is a highly customizable bag replacement addon designed to help the player find items as quickly and as easily as possible.",
+  "icon-resource": "http://waloria.com/files/launcher/bagnon-icon.png",
+  "folder-name": "tot-bagnon",
+  "download-file": 6
+},{
+  "_id": {
+    "$oid": "5ebc28346f2aca24c412e240"
+  },
+  "id": 3,
+  "name": "Recount",
+  "description": "Recount is a damage meter Addon that views activity in the combat log, and uses that information to provide tables and graphs showing the damage and healing distribution of a group or raid.",
+  "icon-resource": "http://waloria.com/files/launcher/recount-icon.png",
+  "folder-name": "tot-recount",
+  "download-file": 11
+},{
+  "_id": {
+    "$oid": "5ebc28536f2aca24c412e241"
+  },
+  "id": 4,
+  "name": "Gladius",
+  "description": "Gladius adds enemy unit frames to arenas for easier targeting and focusing. It is highly configurable and you can disable most features of this addon.",
+  "icon-resource": "http://waloria.com/files/launcher/gladius-icon.png",
+  "folder-name": "tot-gladius",
+  "download-file": 9
+},{
+  "_id": {
+    "$oid": "5ebc36136f2aca24c412e242"
+  },
+  "id": 5,
+  "name": "OmniCC",
+  "description": "OmniCC is an addon that adds text to items, spell and abilities that are on cooldown to indicate when they will be ready to use. In other words: it turns all the standard analogue cooldowns into digital ones.",
+  "icon-resource": "http://waloria.com/files/launcher/omnicc-icon.png",
+  "folder-name": "tot-omnicc",
+  "download-file": 10
+},{
+  "_id": {
+    "$oid": "5ebc48a26f2aca24c412e243"
+  },
+  "id": 6,
+  "name": "Another Addon",
+  "description": "Bagnon is a highly customizable bag replacement addon designed to help the player find items as quickly and as easily as possible.",
+  "icon-resource": "http://waloria.com/files/launcher/bagnon-icon.png",
+  "folder-name": "tot-another-addon",
+  "download-file": 7
+}]
